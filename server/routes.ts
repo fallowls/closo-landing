@@ -146,7 +146,7 @@ const upload = multer({
   }
 });
 
-const DASHBOARD_PASSWORD = process.env.DASHBOARD_PASSWORD || 'admin123';
+const DASHBOARD_PASSWORD = process.env.DASHBOARD_PASSWORD || '1234';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Ansh@0309';
 
 function sanitizeFilePath(filePath: string, baseDir: string = 'uploads'): string {
