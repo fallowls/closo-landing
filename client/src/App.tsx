@@ -8,6 +8,7 @@ import { isAuthenticated } from "@/lib/auth";
 import Landing from "@/pages/landing";
 import Dashboard from "@/pages/dashboard";
 import AdminDashboard from "@/pages/admin-dashboard";
+import ActivityLogs from "@/pages/admin/ActivityLogs";
 import CampaignView from "@/pages/campaign-view";
 import BackupImport from "@/pages/BackupImport";
 import DemoBooking from "@/pages/demo-booking";
@@ -58,6 +59,9 @@ function Router() {
       </Route>
       <Route path="/admin">
         <ProtectedRoute component={AdminDashboard} />
+      </Route>
+      <Route path="/admin/activity-logs">
+        <ProtectedRoute component={ActivityLogs} />
       </Route>
       <Route path="/campaign/:id">
         <ProtectedRoute component={CampaignView} />

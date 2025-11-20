@@ -412,6 +412,54 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
+  // Admin activity logs endpoint
+  app.get('/api/admin/activity-logs', (req, res) => {
+    if (req.session.userRole !== 'admin') {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+
+    const sampleActivities = [
+      {
+        id: 1,
+        userId: 'user@example.com',
+        userRole: 'user',
+        activityType: 'login',
+        action: 'User logged in',
+        resourceType: null,
+        resourceId: null,
+        details: {},
+        ipAddress: req.ip,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 2,
+        userId: 'user@example.com',
+        userRole: 'user',
+        activityType: 'view',
+        action: 'Viewed campaign',
+        resourceType: 'campaign',
+        resourceId: '1',
+        details: { campaignName: 'Sample Campaign' },
+        ipAddress: req.ip,
+        createdAt: new Date(Date.now() - 3600000).toISOString()
+      },
+      {
+        id: 3,
+        userId: 'admin@example.com',
+        userRole: 'admin',
+        activityType: 'upload',
+        action: 'Uploaded new campaign',
+        resourceType: 'campaign',
+        resourceId: '2',
+        details: { fileName: 'contacts.csv' },
+        ipAddress: req.ip,
+        createdAt: new Date(Date.now() - 7200000).toISOString()
+      }
+    ];
+
+    res.json(sampleActivities);
+  });
+
   // CSV preview endpoint for field mapping
   app.post('/api/campaigns/preview', upload.single('csv'), async (req, res) => {
     try {

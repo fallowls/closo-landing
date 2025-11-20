@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
-import { setAuthenticated } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,10 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { 
   Upload, 
   Pencil, 
-  Trash2, 
-  LogOut, 
-  Shield, 
-  Download,
+  Trash2,
   Eye,
   Plus,
   FileText,
@@ -24,6 +20,7 @@ import {
   Database
 } from "lucide-react";
 import { Link } from "wouter";
+import AdminLayout from "./admin/AdminLayout";
 
 interface Campaign {
   id: number;
@@ -34,7 +31,6 @@ interface Campaign {
 }
 
 export default function AdminDashboard() {
-  const [, setLocation] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [editDialog, setEditDialog] = useState<{ open: boolean; campaign?: Campaign }>({ open: false });
@@ -51,22 +47,6 @@ export default function AdminDashboard() {
       const response = await apiRequest('GET', '/api/campaigns');
       return response.json();
     }
-  });
-
-  // Logout mutation
-  const logoutMutation = useMutation({
-    mutationFn: async () => {
-      const response = await apiRequest('POST', '/api/auth/logout');
-      return response.json();
-    },
-    onSuccess: () => {
-      setAuthenticated(false);
-      toast({
-        title: "Logged out",
-        description: "You have been successfully logged out.",
-      });
-      setLocation("/");
-    },
   });
 
   // Delete mutation
@@ -148,10 +128,6 @@ export default function AdminDashboard() {
     },
   });
 
-  const handleLogout = () => {
-    logoutMutation.mutate();
-  };
-
   const handleEdit = (campaign: Campaign) => {
     setEditDialog({ open: true, campaign });
     setEditName(campaign.name);
@@ -190,44 +166,13 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
-      {/* Header */}
-      <div className="bg-white border-b border-slate-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
-                <Shield className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-slate-900">Admin Dashboard</h1>
-                <p className="text-sm text-slate-500">Manage campaigns and data</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <Link href="/dashboard">
-                <Button variant="outline" size="sm">
-                  <Eye className="w-4 h-4 mr-2" />
-                  View Dashboard
-                </Button>
-              </Link>
-              <Button 
-                variant="destructive" 
-                size="sm"
-                onClick={handleLogout}
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </Button>
-            </div>
-          </div>
+    <AdminLayout>
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900">Dashboard Overview</h1>
+          <p className="text-slate-600 mt-1">Manage campaigns and monitor system activity</p>
         </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium text-slate-600">Total Campaigns</CardTitle>
@@ -367,9 +312,9 @@ export default function AdminDashboard() {
             )}
           </CardContent>
         </Card>
-      </div>
 
-      {/* Edit Dialog */}
+        {/* Dialogs */}
+        {/* Edit Dialog */}
       <Dialog open={editDialog.open} onOpenChange={(open) => setEditDialog({ open })}>
         <DialogContent>
           <DialogHeader>
@@ -485,5 +430,6 @@ export default function AdminDashboard() {
         </DialogContent>
       </Dialog>
     </div>
+    </AdminLayout>
   );
 }
