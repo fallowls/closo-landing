@@ -18,6 +18,8 @@ import SystemLogs from "@/pages/admin/SystemLogs";
 import APIUsage from "@/pages/admin/APIUsage";
 import SecurityEvents from "@/pages/admin/SecurityEvents";
 import Settings from "@/pages/admin/Settings";
+import Users from "@/pages/admin/Users";
+import UserChat from "@/pages/admin/UserChat";
 import CampaignView from "@/pages/campaign-view";
 import BackupImport from "@/pages/BackupImport";
 import DemoBooking from "@/pages/demo-booking";
@@ -148,6 +150,12 @@ function Router() {
       </Route>
       <Route path="/admin/settings">
         <AdminRoute component={Settings} />
+      </Route>
+      <Route path="/admin/users">
+        <AdminRoute component={Users} />
+      </Route>
+      <Route path="/admin/users/:userId/chat">
+        <AdminRoute component={UserChat} />
       </Route>
       <Route path="/campaign/:id">
         <ProtectedRoute component={CampaignView} />

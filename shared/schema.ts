@@ -394,6 +394,34 @@ export const securityEvents = pgTable("security_events", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const adminUserConversations = pgTable("admin_user_conversations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => crmUsers.id).notNull(),
+  title: text("title"),
+  lastMessageAt: timestamp("last_message_at").defaultNow().notNull(),
+  unreadCount: integer("unread_count").default(0).notNull(),
+  adminUnreadCount: integer("admin_unread_count").default(0).notNull(),
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const adminUserMessages = pgTable("admin_user_messages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  conversationId: varchar("conversation_id").references(() => adminUserConversations.id).notNull(),
+  senderType: text("sender_type").notNull(),
+  senderId: varchar("sender_id"),
+  messageType: text("message_type").default('text').notNull(),
+  content: text("content").notNull(),
+  attachmentUrl: text("attachment_url"),
+  attachmentName: text("attachment_name"),
+  attachmentSize: integer("attachment_size"),
+  isRead: boolean("is_read").default(false).notNull(),
+  readAt: timestamp("read_at"),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -520,6 +548,18 @@ export const insertSecurityEventSchema = createInsertSchema(securityEvents).omit
   createdAt: true,
 });
 
+export const insertAdminUserConversationSchema = createInsertSchema(adminUserConversations).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  lastMessageAt: true,
+});
+
+export const insertAdminUserMessageSchema = createInsertSchema(adminUserMessages).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type CrmUser = typeof crmUsers.$inferSelect;
@@ -568,3 +608,7 @@ export type ApiUsageLog = typeof apiUsageLogs.$inferSelect;
 export type InsertApiUsageLog = z.infer<typeof insertApiUsageLogSchema>;
 export type SecurityEvent = typeof securityEvents.$inferSelect;
 export type InsertSecurityEvent = z.infer<typeof insertSecurityEventSchema>;
+export type AdminUserConversation = typeof adminUserConversations.$inferSelect;
+export type InsertAdminUserConversation = z.infer<typeof insertAdminUserConversationSchema>;
+export type AdminUserMessage = typeof adminUserMessages.$inferSelect;
+export type InsertAdminUserMessage = z.infer<typeof insertAdminUserMessageSchema>;

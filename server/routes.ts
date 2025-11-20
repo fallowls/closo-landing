@@ -4,6 +4,9 @@ import { WebSocketServer, WebSocket } from "ws";
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
+import { db } from "./db";
+import * as schema from "@shared/schema";
+import { eq, and, sql } from "drizzle-orm";
 import { storage } from "./storage";
 import { encrypt, decrypt, decryptNote, decryptFilePath } from "./utils/encryption";
 import { deriveTimezone } from "./utils/timezone";
@@ -988,6 +991,173 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin-User Chat API Routes
+  
+  // Get all CRM users with conversation info
+  app.get('/api/admin/users', requireAdmin, async (req, res) => {
+    try {
+      const users = await db.select({
+        id: schema.crmUsers.id,
+        username: schema.crmUsers.username,
+        createdAt: schema.crmUsers.createdAt,
+      }).from(schema.crmUsers);
+
+      // Get conversation info for each user
+      const usersWithConversations = await Promise.all(
+        users.map(async (user) => {
+          const conversation = await db.select({
+            id: schema.adminUserConversations.id,
+            adminUnreadCount: schema.adminUserConversations.adminUnreadCount,
+          })
+          .from(schema.adminUserConversations)
+          .where(eq(schema.adminUserConversations.userId, user.id))
+          .limit(1);
+
+          return {
+            ...user,
+            conversationId: conversation[0]?.id || null,
+            unreadCount: conversation[0]?.adminUnreadCount || 0,
+          };
+        })
+      );
+
+      res.json(usersWithConversations);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      res.status(500).json({ message: 'Failed to fetch users' });
+    }
+  });
+
+  // Get or create conversation for a specific user
+  app.get('/api/admin/conversations/:userId', requireAdmin, async (req, res) => {
+    try {
+      const { userId } = req.params;
+
+      // Check if conversation exists
+      let conversation = await db.select()
+        .from(schema.adminUserConversations)
+        .where(eq(schema.adminUserConversations.userId, userId))
+        .limit(1);
+
+      // Create conversation if it doesn't exist
+      if (conversation.length === 0) {
+        const user = await db.select()
+          .from(schema.crmUsers)
+          .where(eq(schema.crmUsers.id, userId))
+          .limit(1);
+
+        if (user.length === 0) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+
+        conversation = await db.insert(schema.adminUserConversations)
+          .values({
+            userId,
+            title: `Chat with ${user[0].username}`,
+            isActive: true,
+          })
+          .returning();
+      }
+
+      res.json(conversation[0]);
+    } catch (error) {
+      console.error('Error getting conversation:', error);
+      res.status(500).json({ message: 'Failed to get conversation' });
+    }
+  });
+
+  // Get messages in a conversation
+  app.get('/api/admin/conversations/:conversationId/messages', requireAdmin, async (req, res) => {
+    try {
+      const { conversationId } = req.params;
+
+      const messages = await db.select()
+        .from(schema.adminUserMessages)
+        .where(eq(schema.adminUserMessages.conversationId, conversationId))
+        .orderBy(schema.adminUserMessages.createdAt);
+
+      res.json(messages);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+      res.status(500).json({ message: 'Failed to fetch messages' });
+    }
+  });
+
+  // Send a message in a conversation
+  app.post('/api/admin/conversations/:conversationId/messages', requireAdmin, async (req, res) => {
+    try {
+      const { conversationId } = req.params;
+      const { content, messageType = 'text', attachmentUrl, attachmentName, attachmentSize } = req.body;
+
+      if (!content) {
+        return res.status(400).json({ message: 'Message content is required' });
+      }
+
+      // Create message
+      const message = await db.insert(schema.adminUserMessages)
+        .values({
+          conversationId,
+          senderType: 'admin',
+          senderId: req.session.userId || 'admin',
+          messageType,
+          content,
+          attachmentUrl,
+          attachmentName,
+          attachmentSize,
+          isRead: false,
+        })
+        .returning();
+
+      // Update conversation's last message timestamp and user unread count
+      await db.update(schema.adminUserConversations)
+        .set({
+          lastMessageAt: new Date(),
+          unreadCount: sql`${schema.adminUserConversations.unreadCount} + 1`,
+          updatedAt: new Date(),
+        })
+        .where(eq(schema.adminUserConversations.id, conversationId));
+
+      res.json(message[0]);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      res.status(500).json({ message: 'Failed to send message' });
+    }
+  });
+
+  // Mark messages as read (for admin)
+  app.patch('/api/admin/conversations/:conversationId/mark-read', requireAdmin, async (req, res) => {
+    try {
+      const { conversationId } = req.params;
+
+      // Mark all user messages as read
+      await db.update(schema.adminUserMessages)
+        .set({
+          isRead: true,
+          readAt: new Date(),
+        })
+        .where(
+          and(
+            eq(schema.adminUserMessages.conversationId, conversationId),
+            eq(schema.adminUserMessages.senderType, 'user'),
+            eq(schema.adminUserMessages.isRead, false)
+          )
+        );
+
+      // Reset admin unread count
+      await db.update(schema.adminUserConversations)
+        .set({
+          adminUnreadCount: 0,
+          updatedAt: new Date(),
+        })
+        .where(eq(schema.adminUserConversations.id, conversationId));
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error marking messages as read:', error);
+      res.status(500).json({ message: 'Failed to mark messages as read' });
+    }
+  });
+
   // CSV preview endpoint for field mapping
   app.post('/api/campaigns/preview', upload.single('csv'), async (req, res) => {
     try {
@@ -1416,6 +1586,179 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Document download error:', error);
       res.status(500).json({ message: 'Failed to download document' });
+    }
+  });
+
+  // User-Side Chat API Routes (Campaign Community)
+  
+  // Get user's own conversation with admin
+  app.get('/api/user/conversation', async (req, res) => {
+    try {
+      if (!req.session.userId) {
+        return res.status(401).json({ message: 'Not authenticated' });
+      }
+
+      const userId = req.session.userId;
+
+      // Check if conversation exists
+      let conversation = await db.select()
+        .from(schema.adminUserConversations)
+        .where(eq(schema.adminUserConversations.userId, userId))
+        .limit(1);
+
+      // Create conversation if it doesn't exist
+      if (conversation.length === 0) {
+        conversation = await db.insert(schema.adminUserConversations)
+          .values({
+            userId,
+            title: 'Campaign Community Chat',
+            isActive: true,
+          })
+          .returning();
+      }
+
+      res.json(conversation[0]);
+    } catch (error) {
+      console.error('Error getting user conversation:', error);
+      res.status(500).json({ message: 'Failed to get conversation' });
+    }
+  });
+
+  // Get messages in user's conversation
+  app.get('/api/user/messages', async (req, res) => {
+    try {
+      if (!req.session.userId) {
+        return res.status(401).json({ message: 'Not authenticated' });
+      }
+
+      const userId = req.session.userId;
+
+      // Get user's conversation
+      const conversation = await db.select()
+        .from(schema.adminUserConversations)
+        .where(eq(schema.adminUserConversations.userId, userId))
+        .limit(1);
+
+      if (conversation.length === 0) {
+        return res.json([]);
+      }
+
+      // Get messages
+      const messages = await db.select()
+        .from(schema.adminUserMessages)
+        .where(eq(schema.adminUserMessages.conversationId, conversation[0].id))
+        .orderBy(schema.adminUserMessages.createdAt);
+
+      res.json(messages);
+    } catch (error) {
+      console.error('Error fetching user messages:', error);
+      res.status(500).json({ message: 'Failed to fetch messages' });
+    }
+  });
+
+  // Send a message from user
+  app.post('/api/user/messages', async (req, res) => {
+    try {
+      if (!req.session.userId) {
+        return res.status(401).json({ message: 'Not authenticated' });
+      }
+
+      const { content } = req.body;
+      const userId = req.session.userId;
+
+      if (!content) {
+        return res.status(400).json({ message: 'Message content is required' });
+      }
+
+      // Get or create user's conversation
+      let conversation = await db.select()
+        .from(schema.adminUserConversations)
+        .where(eq(schema.adminUserConversations.userId, userId))
+        .limit(1);
+
+      if (conversation.length === 0) {
+        conversation = await db.insert(schema.adminUserConversations)
+          .values({
+            userId,
+            title: 'Campaign Community Chat',
+            isActive: true,
+          })
+          .returning();
+      }
+
+      // Create message
+      const message = await db.insert(schema.adminUserMessages)
+        .values({
+          conversationId: conversation[0].id,
+          senderType: 'user',
+          senderId: userId,
+          messageType: 'text',
+          content,
+          isRead: false,
+        })
+        .returning();
+
+      // Update conversation's last message timestamp and admin unread count
+      await db.update(schema.adminUserConversations)
+        .set({
+          lastMessageAt: new Date(),
+          adminUnreadCount: sql`${schema.adminUserConversations.adminUnreadCount} + 1`,
+          updatedAt: new Date(),
+        })
+        .where(eq(schema.adminUserConversations.id, conversation[0].id));
+
+      res.json(message[0]);
+    } catch (error) {
+      console.error('Error sending user message:', error);
+      res.status(500).json({ message: 'Failed to send message' });
+    }
+  });
+
+  // Mark admin messages as read (for user)
+  app.patch('/api/user/messages/mark-read', async (req, res) => {
+    try {
+      if (!req.session.userId) {
+        return res.status(401).json({ message: 'Not authenticated' });
+      }
+
+      const userId = req.session.userId;
+
+      // Get user's conversation
+      const conversation = await db.select()
+        .from(schema.adminUserConversations)
+        .where(eq(schema.adminUserConversations.userId, userId))
+        .limit(1);
+
+      if (conversation.length === 0) {
+        return res.json({ success: true });
+      }
+
+      // Mark all admin messages as read
+      await db.update(schema.adminUserMessages)
+        .set({
+          isRead: true,
+          readAt: new Date(),
+        })
+        .where(
+          and(
+            eq(schema.adminUserMessages.conversationId, conversation[0].id),
+            eq(schema.adminUserMessages.senderType, 'admin'),
+            eq(schema.adminUserMessages.isRead, false)
+          )
+        );
+
+      // Reset user unread count
+      await db.update(schema.adminUserConversations)
+        .set({
+          unreadCount: 0,
+          updatedAt: new Date(),
+        })
+        .where(eq(schema.adminUserConversations.id, conversation[0].id));
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error marking messages as read:', error);
+      res.status(500).json({ message: 'Failed to mark messages as read' });
     }
   });
 
