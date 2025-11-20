@@ -291,6 +291,109 @@ export const apiKeys = pgTable("api_keys", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const userActivityLogs = pgTable("user_activity_logs", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id"),
+  userRole: text("user_role"),
+  activityType: text("activity_type").notNull(),
+  action: text("action").notNull(),
+  resourceType: text("resource_type"),
+  resourceId: text("resource_id"),
+  details: jsonb("details"),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const loginHistory = pgTable("login_history", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id"),
+  userRole: text("user_role").notNull(),
+  success: boolean("success").notNull(),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  failureReason: text("failure_reason"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const activeSessions = pgTable("active_sessions", {
+  id: serial("id").primaryKey(),
+  sessionId: text("session_id").notNull().unique(),
+  userId: text("user_id"),
+  userRole: text("user_role").notNull(),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  lastActivity: timestamp("last_activity").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+});
+
+export const campaignViews = pgTable("campaign_views", {
+  id: serial("id").primaryKey(),
+  campaignId: integer("campaign_id").notNull(),
+  userId: text("user_id"),
+  viewDuration: integer("view_duration"),
+  contactsViewed: integer("contacts_viewed"),
+  actionsPerformed: jsonb("actions_performed"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const contactInteractions = pgTable("contact_interactions", {
+  id: serial("id").primaryKey(),
+  contactId: integer("contact_id").notNull(),
+  userId: text("user_id"),
+  interactionType: text("interaction_type").notNull(),
+  details: jsonb("details"),
+  campaignId: integer("campaign_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const searchQueries = pgTable("search_queries", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id"),
+  query: text("query").notNull(),
+  filters: jsonb("filters"),
+  resultsCount: integer("results_count"),
+  campaignId: integer("campaign_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const fileOperations = pgTable("file_operations", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id"),
+  operationType: text("operation_type").notNull(),
+  filename: text("filename").notNull(),
+  fileSize: integer("file_size"),
+  campaignId: integer("campaign_id"),
+  success: boolean("success").notNull(),
+  errorMessage: text("error_message"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const apiUsageLogs = pgTable("api_usage_logs", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id"),
+  endpoint: text("endpoint").notNull(),
+  method: text("method").notNull(),
+  statusCode: integer("status_code").notNull(),
+  responseTime: integer("response_time"),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const securityEvents = pgTable("security_events", {
+  id: serial("id").primaryKey(),
+  eventType: text("event_type").notNull(),
+  severity: text("severity").notNull(),
+  userId: text("user_id"),
+  ipAddress: text("ip_address"),
+  details: jsonb("details"),
+  resolved: boolean("resolved").default(false),
+  resolvedAt: timestamp("resolved_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
