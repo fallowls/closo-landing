@@ -1,0 +1,200 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(30, 20%, 97%);
+  --foreground: hsl(240, 20%, 15%);
+  --muted: hsl(30, 15%, 94%);
+  --muted-foreground: hsl(240, 8%, 50%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(240, 20%, 15%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(240, 20%, 15%);
+  --border: hsl(30, 15%, 90%);
+  --input: hsl(30, 15%, 92%);
+  --primary: hsl(262, 83%, 58%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(30, 15%, 93%);
+  --secondary-foreground: hsl(240, 20%, 20%);
+  --accent: hsl(262, 70%, 96%);
+  --accent-foreground: hsl(262, 90%, 40%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(262, 83%, 58%);
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: hsl(230, 20%, 4%);
+  --foreground: hsl(220, 30%, 96%);
+  --muted: hsl(230, 15%, 12%);
+  --muted-foreground: hsl(230, 10%, 65%);
+  --popover: hsl(230, 18%, 6%);
+  --popover-foreground: hsl(220, 30%, 96%);
+  --card: hsl(230, 18%, 6%);
+  --card-foreground: hsl(220, 30%, 96%);
+  --border: hsl(230, 15%, 15%);
+  --input: hsl(230, 15%, 15%);
+  --primary: hsl(227, 95%, 70%);
+  --primary-foreground: hsl(230, 30%, 8%);
+  --secondary: hsl(230, 15%, 12%);
+  --secondary-foreground: hsl(220, 30%, 88%);
+  --accent: hsl(230, 15%, 12%);
+  --accent-foreground: hsl(220, 30%, 88%);
+  --destructive: hsl(0, 65%, 55%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(227, 95%, 70%);
+  --radius: 0.75rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+/* Custom gradient background pattern */
+.bg-grid-slate-100 {
+  background-image: 
+    linear-gradient(to right, theme('colors.slate.100') 1px, transparent 1px),
+    linear-gradient(to bottom, theme('colors.slate.100') 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* High-tech futuristic styles */
+.neon-glow {
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+  transition: box-shadow 0.3s ease;
+}
+
+.neon-glow:hover {
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+}
+
+.circuit-lines {
+  background-image: 
+    linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.floating-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
+  }
+}
+
+.tech-gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.cyber-grid {
+  background-image: 
+    linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.holographic {
+  background: linear-gradient(45deg, 
+    #00f5ff 0%, 
+    #3b82f6 25%, 
+    #8b5cf6 50%, 
+    #ec4899 75%, 
+    #00f5ff 100%);
+  background-size: 400% 400%;
+  animation: holographic 4s ease infinite;
+}
+
+@keyframes holographic {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.text-glow {
+  text-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+}
+
+/* Fixed chat card positioning */
+.fixed-chat-card {
+  position: relative;
+  max-height: 600px;
+  min-height: 600px;
+}
+
+/* Custom scrollbar styles for better chat experience */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db #f9fafb;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #f9fafb;
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Enhanced scroll area styling */
+[data-radix-scroll-area-viewport] {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+}
+
+[data-radix-scroll-area-viewport]::-webkit-scrollbar {
+  width: 8px;
+}
+
+[data-radix-scroll-area-viewport]::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[data-radix-scroll-area-viewport]::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+[data-radix-scroll-area-viewport]::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+.scrollbar-thumb-green-300::-webkit-scrollbar-thumb {
+  background: #86efac;
+}
+
+.scrollbar-track-green-100::-webkit-scrollbar-track {
+  background: #dcfce7;
+}

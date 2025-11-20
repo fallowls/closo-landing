@@ -1,0 +1,68 @@
+This is a data migration task. I need to:
+
+First, search the codebase for this placeholder key to confirm it's being used
+Add the old key as a LEGACY_ENCRYPTION_KEYS environment variable so the app can decrypt old data
+Create a migration script to re-encrypt all old data with the new key
+Let me search for this placeholder key in the codebase first.
+
+I understand - your old data is encrypted with the placeholder key "default-key-32-chars-long-here!" and you need to migrate it to the new encryption key. Let me help you set this up properly.
+
+
+Searched for "Find all occurrences of "default-key-32-chars-long-here!" placeholder encryption key in the codebase"
+
+Decided on legacy key support (6 seconds)
+Perfect! I can see the encryption system already supports legacy keys. Here's how to fix this:
+
+Step 1: Add the old encryption key as a legacy key
+
+You need to add the old key to your environment variables so it can decrypt old data:
+
+
+Executed echo "LEGACY_ENCRYPTION_KEYS=default-key-32-chars-long-here!"
+
+Decided on migration strategy
+Now I'll create a migration script to re-encrypt all your old data with the new key. First, let me check what encrypted data exists:
+
+
+Opened server/storage.ts
+
+Re-encrypted database fields
+Now I'll create a migration script to re-encrypt all your data. Based on the schema, the encrypted fields are:
+
+Campaigns: encryptedData
+Notes: encryptedContent
+Documents: encryptedPath
+
+Checked workflow logs for errors
+Perfect! The migration script is ready. Now here's the complete solution:
+
+Step-by-Step Instructions:
+1. Add both encryption keys to your environment:
+For Development (in Replit workspace):
+Add these to your Secrets in the Tools panel:
+
+ENCRYPTION_KEY = f892742cc1738affe8040984096d2dc39b75d46dfaf07173a14b8ece6427a89a
+LEGACY_ENCRYPTION_KEYS = default-key-32-chars-long-here!
+For Production (in your deployment):
+Go to your deployment settings and add these secrets:
+
+ENCRYPTION_KEY = f892742cc1738affe8040984096d2dc39b75d46dfaf07173a14b8ece6427a89a
+LEGACY_ENCRYPTION_KEYS = default-key-32-chars-long-here!
+2. Run the migration script:
+Once you've added both keys to your environment, run:
+
+tsx scripts/migrate-encryption.ts
+This will:
+
+✓ Decrypt all data using the old key
+✓ Re-encrypt everything with the new key
+✓ Update the database with re-encrypted data
+✓ Show you a summary of what was migrated
+3. After successful migration:
+Once everything is working and verified, you can:
+
+Remove LEGACY_ENCRYPTION_KEYS from both development and production
+Keep only ENCRYPTION_KEY with the new secure key
+The migration script is safe - it will skip any data that's already using the new key and report any failures without breaking your database.
+
+Would you like me to help you run the migration now?

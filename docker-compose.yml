@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: campaign-app
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - DATABASE_URL=${DATABASE_URL}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - DASHBOARD_PASSWORD=${DASHBOARD_PASSWORD}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+      - FILE_STORAGE=${FILE_STORAGE:-local}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_S3_BUCKET=${AWS_S3_BUCKET}
+      - BREVO_API_KEY=${BREVO_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./uploads:/app/uploads
+    depends_on:
+      - postgres
+    networks:
+      - campaign-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 40s
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: campaign-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-campaign_db}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - campaign-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  nginx:
+    image: nginx:alpine
+    container_name: campaign-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - app
+    networks:
+      - campaign-network
+
+volumes:
+  postgres-data:
+    driver: local
+
+networks:
+  campaign-network:
+    driver: bridge

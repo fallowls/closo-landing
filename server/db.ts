@@ -1,0 +1,249 @@
+import { Pool } from 'pg';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import * as schema from "@shared/schema";
+
+// Function to clean and prepare database URL
+function cleanDatabaseUrl(url: string): string {
+  // Remove channel_binding parameter which is not supported by node-postgres
+  if (url.includes('channel_binding=')) {
+    url = url.replace(/[?&]channel_binding=[^&]*/g, '');
+    // Clean up any remaining ? or & at the end
+    url = url.replace(/[?&]$/, '');
+  }
+  return url.trim();
+}
+
+// Function to get database URL with proper fallback
+function getDatabaseUrl(): string {
+  // Try environment variables in priority order - DATABASE_URL first as it's the standard Replit variable
+  const databaseUrl = process.env.DATABASE_URL;
+  const neonUrl = process.env.NEON_DATABASE_URL;
+  const neonWithBranch = process.env.NEON_DATABASE_URL_WITH_BRANCH;
+  
+  // Use the first valid URL found
+  if (databaseUrl && databaseUrl.trim()) {
+    console.log('Using DATABASE_URL');
+    return cleanDatabaseUrl(databaseUrl);
+  }
+  
+  if (neonUrl && neonUrl.trim()) {
+    console.log('Using NEON_DATABASE_URL');
+    return cleanDatabaseUrl(neonUrl);
+  }
+  
+  if (neonWithBranch && neonWithBranch.trim()) {
+    console.log('Using NEON_DATABASE_URL_WITH_BRANCH');
+    return cleanDatabaseUrl(neonWithBranch);
+  }
+  
+  // If no database URL is found, try to construct one from individual postgres env vars
+  const pgHost = process.env.PGHOST;
+  const pgDatabase = process.env.PGDATABASE;
+  const pgUser = process.env.PGUSER;
+  const pgPort = process.env.PGPORT || '5432';
+  const pgPassword = process.env.PGPASSWORD || '';
+  
+  if (pgHost && pgHost.trim() && pgDatabase && pgDatabase.trim() && pgUser && pgUser.trim()) {
+    const constructedUrl = `postgresql://${pgUser}:${pgPassword}@${pgHost}:${pgPort}/${pgDatabase}?sslmode=require`;
+    console.log('Constructed database URL from individual PostgreSQL environment variables');
+    return constructedUrl;
+  }
+
+  // If we still don't have a URL, throw an error
+  console.error("Database URL not found. Please ensure DATABASE_URL environment variable is set.");
+  throw new Error(
+    "Database URL must be set. Did you forget to provision a database?",
+  );
+}
+
+// Function to get read-only database URL for Duggu chatbot
+function getReadOnlyDatabaseUrl(): string {
+  // Use the external Neon database specifically for Duggu chatbot contacts
+  let dugguConnectionUrl = process.env.DUGGU_DATABASE_CONNECTION_URL;
+  
+  if (dugguConnectionUrl) {
+    // Clean up the connection URL - remove any psql command prefixes
+    if (dugguConnectionUrl.includes("'postgresql://")) {
+      dugguConnectionUrl = dugguConnectionUrl.match(/'(postgresql:\/\/[^']+)'/)?.[1] || dugguConnectionUrl;
+    } else if (dugguConnectionUrl.includes('"postgresql://')) {
+      dugguConnectionUrl = dugguConnectionUrl.match(/"(postgresql:\/\/[^"]+)"/)?.[1] || dugguConnectionUrl;
+    }
+    
+    if (dugguConnectionUrl.startsWith('postgresql://') || dugguConnectionUrl.startsWith('postgres://')) {
+      console.log('Using external Neon database for Duggu chatbot contacts access');
+      return cleanDatabaseUrl(dugguConnectionUrl);
+    }
+  }
+  
+  // If the new connection URL is not available, check the old API key variable
+  const dugguApiKey = process.env.DUGGU_NEON_DATABASE_URL;
+  
+  if (dugguApiKey) {
+    if (dugguApiKey.startsWith('postgresql://') || dugguApiKey.startsWith('postgres://')) {
+      console.log('Using external Neon database for Duggu chatbot contacts access (from legacy variable)');
+      return cleanDatabaseUrl(dugguApiKey);
+    }
+    
+    console.log('DUGGU_NEON_DATABASE_URL appears to be an API key. Please provide the full database connection URL instead.');
+  }
+  
+  // For now, fallback to main database to keep the service running
+  console.log('Falling back to main database for Duggu chatbot until proper connection URL is provided');
+  return getDatabaseUrl();
+}
+
+// Lazy initialization of database URLs and pools
+let _databaseUrl: string | null = null;
+let _readOnlyDatabaseUrl: string | null = null;
+let _pool: Pool | null = null;
+let _readOnlyPool: Pool | null = null;
+let _db: ReturnType<typeof drizzle> | null = null;
+let _readOnlyDb: ReturnType<typeof drizzle> | null = null;
+
+function initializeDatabaseUrl(): string {
+  if (!_databaseUrl) {
+    _databaseUrl = getDatabaseUrl();
+  }
+  return _databaseUrl;
+}
+
+function initializeReadOnlyDatabaseUrl(): string {
+  if (!_readOnlyDatabaseUrl) {
+    _readOnlyDatabaseUrl = getReadOnlyDatabaseUrl();
+  }
+  return _readOnlyDatabaseUrl;
+}
+
+function getPool(): Pool {
+  if (!_pool) {
+    const databaseUrl = initializeDatabaseUrl();
+    _pool = new Pool({ 
+      connectionString: databaseUrl,
+      ssl: databaseUrl.includes('neon.tech') ? { rejectUnauthorized: false } : false,
+      max: 10,
+      min: 2,
+      idleTimeoutMillis: 60000,
+      connectionTimeoutMillis: 20000,
+      allowExitOnIdle: false,
+      query_timeout: 30000,
+      statement_timeout: 30000,
+    });
+    
+    _pool.on('error', (err) => {
+      console.error('Main database pool error:', err);
+    });
+  }
+  return _pool;
+}
+
+function getReadOnlyPool(): Pool {
+  if (!_readOnlyPool) {
+    const readOnlyDatabaseUrl = initializeReadOnlyDatabaseUrl();
+    _readOnlyPool = new Pool({
+      connectionString: readOnlyDatabaseUrl,
+      ssl: readOnlyDatabaseUrl.includes('neon.tech') ? { rejectUnauthorized: false } : false,
+      max: 5,
+      min: 1,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 15000,
+      allowExitOnIdle: false,
+      query_timeout: 15000,
+      statement_timeout: 15000,
+    });
+    
+    _readOnlyPool.on('error', (err) => {
+      console.error('Read-only database pool error:', err);
+    });
+  }
+  return _readOnlyPool;
+}
+
+// Main database pool for write operations
+export const pool = new Proxy({} as Pool, {
+  get(target, prop) {
+    return Reflect.get(getPool(), prop);
+  }
+});
+
+// Read-only database pool specifically for Duggu chatbot searches
+export const readOnlyPool = new Proxy({} as Pool, {
+  get(target, prop) {
+    return Reflect.get(getReadOnlyPool(), prop);
+  }
+});
+
+// Main database instance
+export const db = new Proxy({} as ReturnType<typeof drizzle>, {
+  get(target, prop) {
+    if (!_db) {
+      _db = drizzle(getPool(), { schema });
+    }
+    return Reflect.get(_db, prop);
+  }
+});
+
+// Read-only database instance for Duggu chatbot
+export const readOnlyDb = new Proxy({} as ReturnType<typeof drizzle>, {
+  get(target, prop) {
+    if (!_readOnlyDb) {
+      _readOnlyDb = drizzle(getReadOnlyPool(), { schema });
+    }
+    return Reflect.get(_readOnlyDb, prop);
+  }
+});
+
+// Test connection on startup with retry logic
+async function testConnection(retries = 3) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const mainPool = getPool();
+      const client = await mainPool.connect();
+      await client.query('SELECT 1');
+      client.release();
+      console.log('Main database connection established successfully');
+      return;
+    } catch (error) {
+      console.error(`Main database connection attempt ${i + 1}/${retries} failed:`, error instanceof Error ? error.message : String(error));
+      if (i === retries - 1) {
+        console.error('All main database connection attempts failed. Continuing without database...');
+        return; // Don't throw error, allow app to start
+      }
+      // Wait before retry
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    }
+  }
+}
+
+// Test read-only connection for Duggu chatbot
+async function testReadOnlyConnection(retries = 3) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const roPool = getReadOnlyPool();
+      const client = await roPool.connect();
+      await client.query('SELECT 1');
+      client.release();
+      console.log('Read-only database connection for Duggu chatbot established successfully');
+      return;
+    } catch (error) {
+      console.error(`Read-only database connection attempt ${i + 1}/${retries} failed:`, error instanceof Error ? error.message : String(error));
+      if (i === retries - 1) {
+        console.error('All read-only database connection attempts failed. Duggu chatbot will continue without database access...');
+        return; // Don't throw error, allow app to start
+      }
+      // Wait before retry
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    }
+  }
+}
+
+// Initialize connections with graceful failure
+Promise.all([
+  testConnection().catch(() => {
+    console.log('Main database connection failed but application will continue to start');
+  }),
+  testReadOnlyConnection().catch(() => {
+    console.log('Read-only database connection failed but Duggu chatbot will continue to start');
+  })
+]).then(() => {
+  console.log('Database initialization completed');
+});

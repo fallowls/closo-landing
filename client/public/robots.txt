@@ -1,0 +1,39 @@
+# robots.txt for FallOwl - Twilio Dialer & Parallel Dialing Platform
+
+User-agent: *
+Allow: /
+
+# Important pages for indexing
+Allow: /features
+Allow: /twilio-setup
+Allow: /about
+Allow: /blog
+Allow: /demo
+Allow: /api-docs
+
+# Sitemaps
+Sitemap: https://fallowl.com/sitemap.xml
+
+# Crawl-delay for being respectful
+Crawl-delay: 1
+
+# Block access to admin and protected areas
+Disallow: /dashboard
+Disallow: /campaign/
+Disallow: /backup-import
+Disallow: /nl-query
+Disallow: /advanced-search
+Disallow: /password
+
+# Block access to API endpoints
+Disallow: /api/
+
+# Allow crawling of static assets
+Allow: /favicon.png
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.gif
+Allow: /*.svg
