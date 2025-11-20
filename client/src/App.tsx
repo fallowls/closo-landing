@@ -1,3 +1,4 @@
+import React from "react";
 import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -39,6 +40,59 @@ function ProtectedRoute({ component: Component }: { component: React.ComponentTy
   return <Component />;
 }
 
+// Admin Route component - requires admin role
+function AdminRoute({ component: Component }: { component: React.ComponentType }) {
+  const [, setLocation] = useLocation();
+  const [isChecking, setIsChecking] = React.useState(true);
+  const [isAdmin, setIsAdmin] = React.useState(false);
+  
+  React.useEffect(() => {
+    const checkAdminStatus = async () => {
+      if (!isAuthenticated()) {
+        setLocation("/");
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/auth/status', {
+          credentials: 'include'
+        });
+        const data = await response.json();
+        
+        if (data.authenticated && data.role === 'admin') {
+          setIsAdmin(true);
+        } else {
+          setLocation("/dashboard");
+        }
+      } catch (error) {
+        console.error('Failed to check admin status:', error);
+        setLocation("/");
+      } finally {
+        setIsChecking(false);
+      }
+    };
+
+    checkAdminStatus();
+  }, [setLocation]);
+
+  if (isChecking) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+          <p className="mt-4 text-slate-600">Verifying access...</p>
+        </div>
+      </div>
+    );
+  }
+  
+  if (!isAdmin) {
+    return null;
+  }
+  
+  return <Component />;
+}
+
 function Router() {
   return (
     <Switch>
@@ -58,10 +112,10 @@ function Router() {
         <ProtectedRoute component={Dashboard} />
       </Route>
       <Route path="/admin">
-        <ProtectedRoute component={AdminDashboard} />
+        <AdminRoute component={AdminDashboard} />
       </Route>
       <Route path="/admin/activity-logs">
-        <ProtectedRoute component={ActivityLogs} />
+        <AdminRoute component={ActivityLogs} />
       </Route>
       <Route path="/campaign/:id">
         <ProtectedRoute component={CampaignView} />

@@ -412,52 +412,64 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
-  // Admin activity logs endpoint
-  app.get('/api/admin/activity-logs', (req, res) => {
-    if (req.session.userRole !== 'admin') {
-      return res.status(403).json({ message: 'Access denied' });
+  // Admin authorization middleware
+  const requireAdmin = (req: any, res: any, next: any) => {
+    if (!req.session.authenticated) {
+      return res.status(401).json({ message: 'Authentication required' });
     }
+    if (req.session.userRole !== 'admin') {
+      return res.status(403).json({ message: 'Admin access required' });
+    }
+    next();
+  };
 
-    const sampleActivities = [
-      {
-        id: 1,
-        userId: 'user@example.com',
-        userRole: 'user',
-        activityType: 'login',
-        action: 'User logged in',
-        resourceType: null,
-        resourceId: null,
-        details: {},
-        ipAddress: req.ip,
-        createdAt: new Date().toISOString()
-      },
-      {
-        id: 2,
-        userId: 'user@example.com',
-        userRole: 'user',
-        activityType: 'view',
-        action: 'Viewed campaign',
-        resourceType: 'campaign',
-        resourceId: '1',
-        details: { campaignName: 'Sample Campaign' },
-        ipAddress: req.ip,
-        createdAt: new Date(Date.now() - 3600000).toISOString()
-      },
-      {
-        id: 3,
-        userId: 'admin@example.com',
-        userRole: 'admin',
-        activityType: 'upload',
-        action: 'Uploaded new campaign',
-        resourceType: 'campaign',
-        resourceId: '2',
-        details: { fileName: 'contacts.csv' },
-        ipAddress: req.ip,
-        createdAt: new Date(Date.now() - 7200000).toISOString()
-      }
-    ];
+  // Admin activity logs endpoint
+  app.get('/api/admin/activity-logs', requireAdmin, async (req, res) => {
+    try {
+      const sampleActivities = [
+        {
+          id: 1,
+          userId: 'user@example.com',
+          userRole: 'user',
+          activityType: 'login',
+          action: 'User logged in',
+          resourceType: null,
+          resourceId: null,
+          details: {},
+          ipAddress: req.ip,
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: 2,
+          userId: 'user@example.com',
+          userRole: 'user',
+          activityType: 'view',
+          action: 'Viewed campaign',
+          resourceType: 'campaign',
+          resourceId: '1',
+          details: { campaignName: 'Sample Campaign' },
+          ipAddress: req.ip,
+          createdAt: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+          id: 3,
+          userId: 'admin@example.com',
+          userRole: 'admin',
+          activityType: 'upload',
+          action: 'Uploaded new campaign',
+          resourceType: 'campaign',
+          resourceId: '2',
+          details: { fileName: 'contacts.csv' },
+          ipAddress: req.ip,
+          createdAt: new Date(Date.now() - 7200000).toISOString()
+        }
+      ];
 
-    res.json(sampleActivities);
+      res.json(sampleActivities);
+    } catch (error) {
+      console.error('Error fetching activity logs:', error);
+      res.status(500).json({ message: 'Failed to fetch activity logs' });
+    }
   });
 
   // CSV preview endpoint for field mapping
