@@ -34,13 +34,12 @@ export function EnterpriseFooter() {
   const [clickCount, setClickCount] = useState(0);
   const [showPasswordField, setShowPasswordField] = useState(false);
   const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState<'dashboard' | 'admin'>('dashboard');
   const { toast } = useToast();
   const [, setLocation] = useLocation();
 
   const authMutation = useMutation({
-    mutationFn: async ({ password, userType }: { password: string; userType: string }) => {
-      const response = await apiRequest("POST", "/api/auth", { password, userType });
+    mutationFn: async ({ password }: { password: string }) => {
+      const response = await apiRequest("POST", "/api/auth", { password });
       return response.json();
     },
     onSuccess: (data: any) => {
@@ -86,7 +85,7 @@ export function EnterpriseFooter() {
   const handleAdminLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (password.trim()) {
-      authMutation.mutate({ password, userType });
+      authMutation.mutate({ password });
     }
   };
 
@@ -399,17 +398,9 @@ export function EnterpriseFooter() {
               <div className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 animate-in fade-in slide-in-from-bottom">
                 <Shield className="w-4 h-4 text-slate-400" />
                 <form onSubmit={handleAdminLogin} className="flex items-center space-x-2">
-                  <select
-                    value={userType}
-                    onChange={(e) => setUserType(e.target.value as 'dashboard' | 'admin')}
-                    className="h-8 px-2 text-xs bg-slate-700 border border-slate-600 rounded text-white focus:outline-none focus:border-slate-500"
-                  >
-                    <option value="dashboard">Dashboard</option>
-                    <option value="admin">Admin</option>
-                  </select>
                   <Input 
                     type="password"
-                    placeholder={userType === 'admin' ? 'Admin password' : 'Dashboard password'} 
+                    placeholder="Enter password" 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-36 h-8 text-xs bg-slate-700 border-slate-600 text-white placeholder-slate-400"

@@ -357,7 +357,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Authentication route supporting both dashboard and admin
   app.post('/api/auth', async (req, res) => {
     try {
-      const { password, userType = 'dashboard' } = req.body;
+      const { password } = req.body;
       
       if (!password) {
         return res.status(400).json({ message: 'Password is required' });
@@ -366,10 +366,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let isValid = false;
       let role = '';
       
-      if (userType === 'admin' && password === ADMIN_PASSWORD) {
+      if (password === ADMIN_PASSWORD) {
         isValid = true;
         role = 'admin';
-      } else if (userType === 'dashboard' && password === DASHBOARD_PASSWORD) {
+      } else if (password === DASHBOARD_PASSWORD) {
         isValid = true;
         role = 'user';
       }
