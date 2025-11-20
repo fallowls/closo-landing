@@ -474,6 +474,52 @@ export const insertCrmUserSchema = createInsertSchema(crmUsers).omit({
   createdAt: true,
 });
 
+export const insertUserActivityLogSchema = createInsertSchema(userActivityLogs).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertLoginHistorySchema = createInsertSchema(loginHistory).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertActiveSessionSchema = createInsertSchema(activeSessions).omit({
+  id: true,
+  createdAt: true,
+  lastActivity: true,
+});
+
+export const insertCampaignViewSchema = createInsertSchema(campaignViews).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertContactInteractionSchema = createInsertSchema(contactInteractions).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertSearchQuerySchema = createInsertSchema(searchQueries).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertFileOperationSchema = createInsertSchema(fileOperations).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertApiUsageLogSchema = createInsertSchema(apiUsageLogs).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertSecurityEventSchema = createInsertSchema(securityEvents).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type CrmUser = typeof crmUsers.$inferSelect;
@@ -504,3 +550,21 @@ export type ChatMessage = typeof chatMessages.$inferSelect;
 export type InsertChatMessage = z.infer<typeof insertChatMessageSchema>;
 export type ApiKey = typeof apiKeys.$inferSelect;
 export type InsertApiKey = z.infer<typeof insertApiKeySchema>;
+export type UserActivityLog = typeof userActivityLogs.$inferSelect;
+export type InsertUserActivityLog = z.infer<typeof insertUserActivityLogSchema>;
+export type LoginHistory = typeof loginHistory.$inferSelect;
+export type InsertLoginHistory = z.infer<typeof insertLoginHistorySchema>;
+export type ActiveSession = typeof activeSessions.$inferSelect;
+export type InsertActiveSession = z.infer<typeof insertActiveSessionSchema>;
+export type CampaignView = typeof campaignViews.$inferSelect;
+export type InsertCampaignView = z.infer<typeof insertCampaignViewSchema>;
+export type ContactInteraction = typeof contactInteractions.$inferSelect;
+export type InsertContactInteraction = z.infer<typeof insertContactInteractionSchema>;
+export type SearchQuery = typeof searchQueries.$inferSelect;
+export type InsertSearchQuery = z.infer<typeof insertSearchQuerySchema>;
+export type FileOperation = typeof fileOperations.$inferSelect;
+export type InsertFileOperation = z.infer<typeof insertFileOperationSchema>;
+export type ApiUsageLog = typeof apiUsageLogs.$inferSelect;
+export type InsertApiUsageLog = z.infer<typeof insertApiUsageLogSchema>;
+export type SecurityEvent = typeof securityEvents.$inferSelect;
+export type InsertSecurityEvent = z.infer<typeof insertSecurityEventSchema>;
