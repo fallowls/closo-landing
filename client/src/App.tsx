@@ -20,6 +20,19 @@ import SecurityEvents from "@/pages/admin/SecurityEvents";
 import Settings from "@/pages/admin/Settings";
 import Users from "@/pages/admin/Users";
 import UserChat from "@/pages/admin/UserChat";
+import Analytics from "@/pages/admin/Analytics";
+import CampaignViews from "@/pages/admin/CampaignViews";
+import CallLogs from "@/pages/admin/CallLogs";
+import EmailTracking from "@/pages/admin/EmailTracking";
+import UploadHistory from "@/pages/admin/UploadHistory";
+import DownloadLogs from "@/pages/admin/DownloadLogs";
+import DatabaseStats from "@/pages/admin/DatabaseStats";
+import SearchQueries from "@/pages/admin/SearchQueries";
+import Performance from "@/pages/admin/Performance";
+import SecurityLogs from "@/pages/admin/SecurityLogs";
+import FailedLogins from "@/pages/admin/FailedLogins";
+import Alerts from "@/pages/admin/Alerts";
+import AuditTrail from "@/pages/admin/AuditTrail";
 import CampaignView from "@/pages/campaign-view";
 import BackupImport from "@/pages/BackupImport";
 import DemoBooking from "@/pages/demo-booking";
@@ -156,6 +169,45 @@ function Router() {
       </Route>
       <Route path="/admin/users/:userId/chat">
         <AdminRoute component={UserChat} />
+      </Route>
+      <Route path="/admin/analytics">
+        <AdminRoute component={Analytics} />
+      </Route>
+      <Route path="/admin/campaign-views">
+        <AdminRoute component={CampaignViews} />
+      </Route>
+      <Route path="/admin/call-logs">
+        <AdminRoute component={CallLogs} />
+      </Route>
+      <Route path="/admin/email-tracking">
+        <AdminRoute component={EmailTracking} />
+      </Route>
+      <Route path="/admin/upload-history">
+        <AdminRoute component={UploadHistory} />
+      </Route>
+      <Route path="/admin/download-logs">
+        <AdminRoute component={DownloadLogs} />
+      </Route>
+      <Route path="/admin/database-stats">
+        <AdminRoute component={DatabaseStats} />
+      </Route>
+      <Route path="/admin/search-queries">
+        <AdminRoute component={SearchQueries} />
+      </Route>
+      <Route path="/admin/performance">
+        <AdminRoute component={Performance} />
+      </Route>
+      <Route path="/admin/security-logs">
+        <AdminRoute component={SecurityLogs} />
+      </Route>
+      <Route path="/admin/failed-logins">
+        <AdminRoute component={FailedLogins} />
+      </Route>
+      <Route path="/admin/alerts">
+        <AdminRoute component={Alerts} />
+      </Route>
+      <Route path="/admin/audit-trail">
+        <AdminRoute component={AuditTrail} />
       </Route>
       <Route path="/campaign/:id">
         <ProtectedRoute component={CampaignView} />
