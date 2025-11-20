@@ -10,10 +10,12 @@ export const users = pgTable("users", {
 });
 
 export const crmUsers = pgTable("crm_users", {
-  id: serial("id").primaryKey(),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: text("email"),
+  passwordHash: text("password_hash"),
+  name: text("name"),
   createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const campaigns = pgTable("campaigns", {

@@ -101,6 +101,17 @@ export function AdminSidebar({ className }: SidebarProps) {
       ]
     },
     {
+      title: "Communication",
+      items: [
+        {
+          title: "User Chats",
+          href: "/admin/users",
+          icon: MessageSquare,
+          description: "Chat with users"
+        }
+      ]
+    },
+    {
       title: "Campaign Tracking",
       items: [
         {
