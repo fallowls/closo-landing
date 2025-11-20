@@ -10,6 +10,14 @@ import Landing from "@/pages/landing";
 import Dashboard from "@/pages/dashboard";
 import AdminDashboard from "@/pages/admin-dashboard";
 import ActivityLogs from "@/pages/admin/ActivityLogs";
+import Sessions from "@/pages/admin/Sessions";
+import LoginHistory from "@/pages/admin/LoginHistory";
+import CampaignAnalytics from "@/pages/admin/CampaignAnalytics";
+import ContactTracking from "@/pages/admin/ContactTracking";
+import SystemLogs from "@/pages/admin/SystemLogs";
+import APIUsage from "@/pages/admin/APIUsage";
+import SecurityEvents from "@/pages/admin/SecurityEvents";
+import Settings from "@/pages/admin/Settings";
 import CampaignView from "@/pages/campaign-view";
 import BackupImport from "@/pages/BackupImport";
 import DemoBooking from "@/pages/demo-booking";
@@ -116,6 +124,30 @@ function Router() {
       </Route>
       <Route path="/admin/activity-logs">
         <AdminRoute component={ActivityLogs} />
+      </Route>
+      <Route path="/admin/sessions">
+        <AdminRoute component={Sessions} />
+      </Route>
+      <Route path="/admin/login-history">
+        <AdminRoute component={LoginHistory} />
+      </Route>
+      <Route path="/admin/campaign-analytics">
+        <AdminRoute component={CampaignAnalytics} />
+      </Route>
+      <Route path="/admin/contact-tracking">
+        <AdminRoute component={ContactTracking} />
+      </Route>
+      <Route path="/admin/system-logs">
+        <AdminRoute component={SystemLogs} />
+      </Route>
+      <Route path="/admin/api-usage">
+        <AdminRoute component={APIUsage} />
+      </Route>
+      <Route path="/admin/security-events">
+        <AdminRoute component={SecurityEvents} />
+      </Route>
+      <Route path="/admin/settings">
+        <AdminRoute component={Settings} />
       </Route>
       <Route path="/campaign/:id">
         <ProtectedRoute component={CampaignView} />

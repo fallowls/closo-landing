@@ -472,6 +472,522 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin sessions endpoint
+  app.get('/api/admin/sessions', requireAdmin, async (req, res) => {
+    try {
+      const sampleSessions = [
+        {
+          id: 'sess_1234567890',
+          userId: 'admin@example.com',
+          userRole: 'admin',
+          ipAddress: '192.168.1.100',
+          userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+          device: 'Desktop',
+          browser: 'Chrome 120',
+          os: 'Windows 10',
+          lastActivity: new Date(Date.now() - 300000).toISOString(),
+          createdAt: new Date(Date.now() - 3600000).toISOString(),
+          expiresAt: new Date(Date.now() + 82800000).toISOString(),
+          isActive: true
+        },
+        {
+          id: 'sess_0987654321',
+          userId: 'user@example.com',
+          userRole: 'user',
+          ipAddress: '192.168.1.101',
+          userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+          device: 'Desktop',
+          browser: 'Safari 17',
+          os: 'macOS',
+          lastActivity: new Date(Date.now() - 600000).toISOString(),
+          createdAt: new Date(Date.now() - 7200000).toISOString(),
+          expiresAt: new Date(Date.now() + 79200000).toISOString(),
+          isActive: true
+        },
+        {
+          id: 'sess_5555555555',
+          userId: 'demo@example.com',
+          userRole: 'user',
+          ipAddress: '192.168.1.102',
+          userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)',
+          device: 'Mobile',
+          browser: 'Safari Mobile',
+          os: 'iOS 17',
+          lastActivity: new Date(Date.now() - 1800000).toISOString(),
+          createdAt: new Date(Date.now() - 5400000).toISOString(),
+          expiresAt: new Date(Date.now() + 81000000).toISOString(),
+          isActive: false
+        }
+      ];
+
+      res.json(sampleSessions);
+    } catch (error) {
+      console.error('Error fetching sessions:', error);
+      res.status(500).json({ message: 'Failed to fetch sessions' });
+    }
+  });
+
+  // Admin login history endpoint
+  app.get('/api/admin/login-history', requireAdmin, async (req, res) => {
+    try {
+      const sampleLoginHistory = [
+        {
+          id: 1,
+          userId: 'admin@example.com',
+          userRole: 'admin',
+          ipAddress: '192.168.1.100',
+          userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+          device: 'Desktop',
+          browser: 'Chrome 120',
+          location: 'New York, USA',
+          status: 'success',
+          failureReason: null,
+          timestamp: new Date(Date.now() - 1800000).toISOString()
+        },
+        {
+          id: 2,
+          userId: 'user@example.com',
+          userRole: 'user',
+          ipAddress: '192.168.1.101',
+          userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)',
+          device: 'Desktop',
+          browser: 'Safari 17',
+          location: 'San Francisco, USA',
+          status: 'success',
+          failureReason: null,
+          timestamp: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+          id: 3,
+          userId: 'test@example.com',
+          userRole: null,
+          ipAddress: '192.168.1.102',
+          userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+          device: 'Desktop',
+          browser: 'Firefox 121',
+          location: 'London, UK',
+          status: 'failed',
+          failureReason: 'Invalid credentials',
+          timestamp: new Date(Date.now() - 7200000).toISOString()
+        },
+        {
+          id: 4,
+          userId: 'blocked@example.com',
+          userRole: null,
+          ipAddress: '10.0.0.50',
+          userAgent: 'Mozilla/5.0 (X11; Linux x86_64)',
+          device: 'Desktop',
+          browser: 'Chrome 119',
+          location: 'Unknown',
+          status: 'blocked',
+          failureReason: 'Too many failed attempts',
+          timestamp: new Date(Date.now() - 10800000).toISOString()
+        },
+        {
+          id: 5,
+          userId: 'demo@example.com',
+          userRole: 'user',
+          ipAddress: '192.168.1.103',
+          userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0)',
+          device: 'Mobile',
+          browser: 'Safari Mobile',
+          location: 'Los Angeles, USA',
+          status: 'success',
+          failureReason: null,
+          timestamp: new Date(Date.now() - 14400000).toISOString()
+        }
+      ];
+
+      res.json(sampleLoginHistory);
+    } catch (error) {
+      console.error('Error fetching login history:', error);
+      res.status(500).json({ message: 'Failed to fetch login history' });
+    }
+  });
+
+  // Admin campaign analytics endpoint
+  app.get('/api/admin/campaign-analytics', requireAdmin, async (req, res) => {
+    try {
+      const sampleAnalytics = {
+        totalCampaigns: 45,
+        activeCampaigns: 12,
+        totalContacts: 15000,
+        totalCalls: 8500,
+        successRate: 68,
+        avgCallDuration: 145,
+        dailyStats: [
+          { date: '2024-11-14', calls: 450, success: 310, failed: 140 },
+          { date: '2024-11-15', calls: 520, success: 360, failed: 160 },
+          { date: '2024-11-16', calls: 480, success: 330, failed: 150 },
+          { date: '2024-11-17', calls: 590, success: 410, failed: 180 },
+          { date: '2024-11-18', calls: 610, success: 425, failed: 185 },
+          { date: '2024-11-19', calls: 550, success: 380, failed: 170 },
+          { date: '2024-11-20', calls: 620, success: 440, failed: 180 }
+        ],
+        statusDistribution: [
+          { name: 'Active', value: 12 },
+          { name: 'Completed', value: 25 },
+          { name: 'Paused', value: 5 },
+          { name: 'Scheduled', value: 3 }
+        ],
+        performanceByUser: [
+          { user: 'admin@example.com', campaigns: 15, contacts: 5000, calls: 3000 },
+          { user: 'user@example.com', campaigns: 20, contacts: 7000, calls: 4200 },
+          { user: 'demo@example.com', campaigns: 10, contacts: 3000, calls: 1300 }
+        ],
+        recentCampaigns: [
+          {
+            id: 1,
+            name: 'Q4 Sales Outreach',
+            status: 'active',
+            contacts: 1200,
+            callsMade: 850,
+            successRate: 72,
+            createdAt: new Date(Date.now() - 86400000).toISOString()
+          },
+          {
+            id: 2,
+            name: 'Customer Follow-up',
+            status: 'active',
+            contacts: 850,
+            callsMade: 600,
+            successRate: 68,
+            createdAt: new Date(Date.now() - 172800000).toISOString()
+          },
+          {
+            id: 3,
+            name: 'Lead Qualification',
+            status: 'completed',
+            contacts: 500,
+            callsMade: 500,
+            successRate: 65,
+            createdAt: new Date(Date.now() - 259200000).toISOString()
+          },
+          {
+            id: 4,
+            name: 'Renewal Reminders',
+            status: 'active',
+            contacts: 650,
+            callsMade: 420,
+            successRate: 75,
+            createdAt: new Date(Date.now() - 345600000).toISOString()
+          }
+        ]
+      };
+
+      res.json(sampleAnalytics);
+    } catch (error) {
+      console.error('Error fetching campaign analytics:', error);
+      res.status(500).json({ message: 'Failed to fetch campaign analytics' });
+    }
+  });
+
+  // Admin contact tracking endpoint
+  app.get('/api/admin/contact-tracking', requireAdmin, async (req, res) => {
+    try {
+      const sampleInteractions = [
+        {
+          id: 1,
+          contactName: 'John Smith',
+          contactEmail: 'john.smith@example.com',
+          contactMobile: '+1-555-0101',
+          campaignName: 'Q4 Sales Outreach',
+          interactionType: 'call',
+          status: 'success',
+          duration: 185,
+          notes: 'Interested in premium package, scheduled follow-up',
+          userId: 'user@example.com',
+          timestamp: new Date(Date.now() - 1800000).toISOString()
+        },
+        {
+          id: 2,
+          contactName: 'Sarah Johnson',
+          contactEmail: 'sarah.j@example.com',
+          contactMobile: '+1-555-0102',
+          campaignName: 'Customer Follow-up',
+          interactionType: 'email',
+          status: 'success',
+          duration: null,
+          notes: 'Sent product catalog and pricing information',
+          userId: 'admin@example.com',
+          timestamp: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+          id: 3,
+          contactName: 'Mike Davis',
+          contactEmail: 'mike.davis@example.com',
+          contactMobile: '+1-555-0103',
+          campaignName: 'Lead Qualification',
+          interactionType: 'call',
+          status: 'failed',
+          duration: 15,
+          notes: 'No answer, left voicemail',
+          userId: 'user@example.com',
+          timestamp: new Date(Date.now() - 7200000).toISOString()
+        },
+        {
+          id: 4,
+          contactName: 'Emily Brown',
+          contactEmail: 'emily.brown@example.com',
+          contactMobile: '+1-555-0104',
+          campaignName: 'Renewal Reminders',
+          interactionType: 'sms',
+          status: 'success',
+          duration: null,
+          notes: 'Reminder sent about upcoming subscription renewal',
+          userId: 'admin@example.com',
+          timestamp: new Date(Date.now() - 10800000).toISOString()
+        },
+        {
+          id: 5,
+          contactName: 'David Wilson',
+          contactEmail: 'david.w@example.com',
+          contactMobile: '+1-555-0105',
+          campaignName: 'Q4 Sales Outreach',
+          interactionType: 'call',
+          status: 'success',
+          duration: 220,
+          notes: 'Confirmed order, processing payment',
+          userId: 'user@example.com',
+          timestamp: new Date(Date.now() - 14400000).toISOString()
+        }
+      ];
+
+      res.json(sampleInteractions);
+    } catch (error) {
+      console.error('Error fetching contact tracking:', error);
+      res.status(500).json({ message: 'Failed to fetch contact tracking' });
+    }
+  });
+
+  // Admin system logs endpoint
+  app.get('/api/admin/system-logs', requireAdmin, async (req, res) => {
+    try {
+      const sampleLogs = [
+        {
+          id: 1,
+          level: 'error',
+          category: 'Database',
+          message: 'Connection pool exhausted - consider increasing pool size',
+          details: { maxConnections: 10, activeConnections: 10 },
+          source: 'db/pool.ts',
+          timestamp: new Date(Date.now() - 900000).toISOString()
+        },
+        {
+          id: 2,
+          level: 'warn',
+          category: 'API',
+          message: 'Rate limit approaching for user admin@example.com',
+          details: { limit: 1000, current: 950, userId: 'admin@example.com' },
+          source: 'middleware/rateLimit.ts',
+          timestamp: new Date(Date.now() - 1800000).toISOString()
+        },
+        {
+          id: 3,
+          level: 'info',
+          category: 'Campaign',
+          message: 'Campaign "Q4 Sales Outreach" started successfully',
+          details: { campaignId: 1, contactCount: 1200 },
+          source: 'services/campaign.ts',
+          timestamp: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+          id: 4,
+          level: 'success',
+          category: 'Integration',
+          message: 'Twilio integration configured successfully',
+          details: { accountSid: 'AC...', phoneNumber: '+1-555-0100' },
+          source: 'integrations/twilio.ts',
+          timestamp: new Date(Date.now() - 7200000).toISOString()
+        },
+        {
+          id: 5,
+          level: 'error',
+          category: 'Authentication',
+          message: 'Failed login attempt from suspicious IP',
+          details: { ipAddress: '10.0.0.50', attempts: 5 },
+          source: 'auth/login.ts',
+          timestamp: new Date(Date.now() - 10800000).toISOString()
+        },
+        {
+          id: 6,
+          level: 'debug',
+          category: 'System',
+          message: 'Memory usage check completed',
+          details: { heapUsed: '120MB', heapTotal: '256MB' },
+          source: 'utils/monitoring.ts',
+          timestamp: new Date(Date.now() - 14400000).toISOString()
+        },
+        {
+          id: 7,
+          level: 'warn',
+          category: 'Storage',
+          message: 'S3 storage quota at 85% capacity',
+          details: { used: '8.5GB', total: '10GB' },
+          source: 'storage/s3.ts',
+          timestamp: new Date(Date.now() - 18000000).toISOString()
+        },
+        {
+          id: 8,
+          level: 'info',
+          category: 'Email',
+          message: 'Email batch sent successfully',
+          details: { recipientCount: 150, campaignId: 2 },
+          source: 'services/email.ts',
+          timestamp: new Date(Date.now() - 21600000).toISOString()
+        }
+      ];
+
+      res.json(sampleLogs);
+    } catch (error) {
+      console.error('Error fetching system logs:', error);
+      res.status(500).json({ message: 'Failed to fetch system logs' });
+    }
+  });
+
+  // Admin API usage endpoint
+  app.get('/api/admin/api-usage', requireAdmin, async (req, res) => {
+    try {
+      const sampleAPIUsage = {
+        totalRequests: 125000,
+        successfulRequests: 118500,
+        failedRequests: 6500,
+        avgResponseTime: 145,
+        requestsByEndpoint: [
+          { endpoint: '/api/campaigns', count: 35000 },
+          { endpoint: '/api/contacts', count: 28000 },
+          { endpoint: '/api/auth/login', count: 15000 },
+          { endpoint: '/api/calls', count: 22000 },
+          { endpoint: '/api/admin/*', count: 8500 }
+        ],
+        requestsOverTime: [
+          { time: '00:00', requests: 850, errors: 45 },
+          { time: '04:00', requests: 620, errors: 30 },
+          { time: '08:00', requests: 1200, errors: 65 },
+          { time: '12:00', requests: 1850, errors: 95 },
+          { time: '16:00', requests: 2100, errors: 110 },
+          { time: '20:00', requests: 1650, errors: 85 }
+        ],
+        recentRequests: [
+          {
+            id: 1,
+            endpoint: '/api/campaigns',
+            method: 'GET',
+            userId: 'user@example.com',
+            statusCode: 200,
+            responseTime: 125,
+            ipAddress: '192.168.1.101',
+            userAgent: 'Mozilla/5.0',
+            timestamp: new Date(Date.now() - 300000).toISOString()
+          },
+          {
+            id: 2,
+            endpoint: '/api/contacts',
+            method: 'POST',
+            userId: 'admin@example.com',
+            statusCode: 201,
+            responseTime: 185,
+            ipAddress: '192.168.1.100',
+            userAgent: 'Mozilla/5.0',
+            timestamp: new Date(Date.now() - 600000).toISOString()
+          },
+          {
+            id: 3,
+            endpoint: '/api/calls/start',
+            method: 'POST',
+            userId: 'user@example.com',
+            statusCode: 500,
+            responseTime: 2500,
+            ipAddress: '192.168.1.101',
+            userAgent: 'Mozilla/5.0',
+            timestamp: new Date(Date.now() - 900000).toISOString()
+          },
+          {
+            id: 4,
+            endpoint: '/api/admin/activity-logs',
+            method: 'GET',
+            userId: 'admin@example.com',
+            statusCode: 200,
+            responseTime: 95,
+            ipAddress: '192.168.1.100',
+            userAgent: 'Mozilla/5.0',
+            timestamp: new Date(Date.now() - 1200000).toISOString()
+          }
+        ]
+      };
+
+      res.json(sampleAPIUsage);
+    } catch (error) {
+      console.error('Error fetching API usage:', error);
+      res.status(500).json({ message: 'Failed to fetch API usage' });
+    }
+  });
+
+  // Admin security events endpoint
+  app.get('/api/admin/security-events', requireAdmin, async (req, res) => {
+    try {
+      const sampleSecurityEvents = [
+        {
+          id: 1,
+          eventType: 'brute_force',
+          severity: 'high',
+          description: 'Multiple failed login attempts detected from single IP',
+          userId: null,
+          ipAddress: '10.0.0.50',
+          location: 'Unknown',
+          action: 'IP temporarily blocked for 1 hour',
+          status: 'resolved',
+          details: { attempts: 15, timeWindow: '5 minutes' },
+          timestamp: new Date(Date.now() - 7200000).toISOString()
+        },
+        {
+          id: 2,
+          eventType: 'unauthorized_access',
+          severity: 'critical',
+          description: 'Attempt to access admin panel without proper credentials',
+          userId: 'test@example.com',
+          ipAddress: '192.168.1.150',
+          location: 'London, UK',
+          action: 'Account flagged for review',
+          status: 'investigating',
+          details: { endpoint: '/admin', attempts: 3 },
+          timestamp: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+          id: 3,
+          eventType: 'suspicious_activity',
+          severity: 'medium',
+          description: 'Unusual API request pattern detected',
+          userId: 'demo@example.com',
+          ipAddress: '192.168.1.103',
+          location: 'Los Angeles, USA',
+          action: 'Monitoring user activity',
+          status: 'active',
+          details: { requestCount: 500, timeWindow: '1 minute' },
+          timestamp: new Date(Date.now() - 1800000).toISOString()
+        },
+        {
+          id: 4,
+          eventType: 'policy_violation',
+          severity: 'low',
+          description: 'User exceeded daily API rate limit',
+          userId: 'user@example.com',
+          ipAddress: '192.168.1.101',
+          location: 'San Francisco, USA',
+          action: 'Rate limit applied',
+          status: 'resolved',
+          details: { limit: 1000, actual: 1150 },
+          timestamp: new Date(Date.now() - 10800000).toISOString()
+        }
+      ];
+
+      res.json(sampleSecurityEvents);
+    } catch (error) {
+      console.error('Error fetching security events:', error);
+      res.status(500).json({ message: 'Failed to fetch security events' });
+    }
+  });
+
   // CSV preview endpoint for field mapping
   app.post('/api/campaigns/preview', upload.single('csv'), async (req, res) => {
     try {
