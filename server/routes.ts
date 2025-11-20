@@ -147,6 +147,7 @@ const upload = multer({
 });
 
 const DASHBOARD_PASSWORD = process.env.DASHBOARD_PASSWORD || 'admin123';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Ansh@0309';
 
 function sanitizeFilePath(filePath: string, baseDir: string = 'uploads'): string {
   const normalizedPath = path.normalize(filePath).replace(/^(\.\.(\/|\\|$))+/, '');
@@ -353,23 +354,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.status(statusCode).json(health);
   });
   
-  // Authentication route
+  // Authentication route supporting both dashboard and admin
   app.post('/api/auth', async (req, res) => {
     try {
-      const { password } = req.body;
+      const { password, userType = 'dashboard' } = req.body;
       
       if (!password) {
         return res.status(400).json({ message: 'Password is required' });
       }
       
-      if (password === DASHBOARD_PASSWORD) {
+      let isValid = false;
+      let role = '';
+      
+      if (userType === 'admin' && password === ADMIN_PASSWORD) {
+        isValid = true;
+        role = 'admin';
+      } else if (userType === 'dashboard' && password === DASHBOARD_PASSWORD) {
+        isValid = true;
+        role = 'user';
+      }
+      
+      if (isValid) {
         req.session.authenticated = true;
+        req.session.userRole = role;
         req.session.save((err) => {
           if (err) {
             console.error('Session save error:', err);
             return res.status(500).json({ message: 'Authentication failed' });
           }
-          res.json({ success: true });
+          res.json({ success: true, role });
         });
       } else {
         res.status(401).json({ message: 'Invalid password' });
@@ -382,7 +395,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Check authentication status
   app.get('/api/auth/status', (req, res) => {
-    res.json({ authenticated: !!req.session.authenticated });
+    res.json({ 
+      authenticated: !!req.session.authenticated,
+      role: req.session.userRole || 'user'
+    });
   });
 
   // Logout route
@@ -582,6 +598,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Get campaign error:', error);
       res.status(500).json({ message: 'Failed to fetch campaign data' });
+    }
+  });
+
+  // Update campaign name
+  app.patch('/api/campaigns/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { name } = req.body;
+      
+      if (!name || !name.trim()) {
+        return res.status(400).json({ message: 'Campaign name is required' });
+      }
+      
+      const campaign = await storage.getCampaign(id);
+      
+      if (!campaign) {
+        return res.status(404).json({ message: 'Campaign not found' });
+      }
+
+      await storage.updateCampaign(id, { name: name.trim() });
+      
+      res.json({ message: 'Campaign updated successfully' });
+    } catch (error) {
+      console.error('Update campaign error:', error);
+      res.status(500).json({ message: 'Failed to update campaign' });
     }
   });
 

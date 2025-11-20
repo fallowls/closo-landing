@@ -7,6 +7,7 @@ import { BotpressChatbot } from "@/components/BotpressChatbot";
 import { isAuthenticated } from "@/lib/auth";
 import Landing from "@/pages/landing";
 import Dashboard from "@/pages/dashboard";
+import AdminDashboard from "@/pages/admin-dashboard";
 import CampaignView from "@/pages/campaign-view";
 import BackupImport from "@/pages/BackupImport";
 import DemoBooking from "@/pages/demo-booking";
@@ -54,6 +55,9 @@ function Router() {
       <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/dashboard">
         <ProtectedRoute component={Dashboard} />
+      </Route>
+      <Route path="/admin">
+        <ProtectedRoute component={AdminDashboard} />
       </Route>
       <Route path="/campaign/:id">
         <ProtectedRoute component={CampaignView} />
