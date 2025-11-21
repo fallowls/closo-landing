@@ -991,6 +991,670 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin analytics endpoint
+  app.get('/api/admin/analytics', requireAdmin, async (req, res) => {
+    try {
+      const totalUsers = await db.select({ count: sql<number>`count(*)` })
+        .from(schema.crmUsers);
+      
+      const sampleAnalytics = {
+        totalUsers: totalUsers[0]?.count || 0,
+        activeSessions: 3,
+        campaignViews: 245,
+        apiCalls: 1250
+      };
+
+      res.json(sampleAnalytics);
+    } catch (error) {
+      console.error('Error fetching analytics:', error);
+      res.status(500).json({ message: 'Failed to fetch analytics' });
+    }
+  });
+
+  // Admin audit trail endpoint
+  app.get('/api/admin/audit-trail', requireAdmin, async (req, res) => {
+    try {
+      const sampleAuditTrail = [
+        {
+          id: 1,
+          userId: 'admin@example.com',
+          userRole: 'admin',
+          action: 'create_campaign',
+          resourceType: 'campaign',
+          resourceId: '101',
+          changes: { name: 'Q4 2024 Campaign', status: 'active' },
+          ipAddress: '192.168.1.100',
+          createdAt: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+          id: 2,
+          userId: 'user@example.com',
+          userRole: 'user',
+          action: 'update_contact',
+          resourceType: 'contact',
+          resourceId: '5432',
+          changes: { email: 'updated@example.com', phone: '+1234567890' },
+          ipAddress: '192.168.1.101',
+          createdAt: new Date(Date.now() - 7200000).toISOString()
+        },
+        {
+          id: 3,
+          userId: 'admin@example.com',
+          userRole: 'admin',
+          action: 'delete_document',
+          resourceType: 'document',
+          resourceId: '789',
+          changes: { filename: 'old_report.pdf' },
+          ipAddress: '192.168.1.100',
+          createdAt: new Date(Date.now() - 10800000).toISOString()
+        },
+        {
+          id: 4,
+          userId: 'user@example.com',
+          userRole: 'user',
+          action: 'upload_csv',
+          resourceType: 'campaign',
+          resourceId: '102',
+          changes: { filename: 'contacts_batch_2.csv', rows: 500 },
+          ipAddress: '192.168.1.101',
+          createdAt: new Date(Date.now() - 14400000).toISOString()
+        }
+      ];
+
+      res.json(sampleAuditTrail);
+    } catch (error) {
+      console.error('Error fetching audit trail:', error);
+      res.status(500).json({ message: 'Failed to fetch audit trail' });
+    }
+  });
+
+  // Admin alerts endpoint
+  app.get('/api/admin/alerts', requireAdmin, async (req, res) => {
+    try {
+      const sampleAlerts = [
+        {
+          id: 1,
+          title: 'High API Usage Detected',
+          description: 'API calls exceeded 90% of daily quota',
+          severity: 'warning',
+          status: 'active',
+          createdAt: new Date(Date.now() - 1800000).toISOString()
+        },
+        {
+          id: 2,
+          title: 'Database Backup Completed',
+          description: 'Daily database backup completed successfully',
+          severity: 'info',
+          status: 'resolved',
+          createdAt: new Date(Date.now() - 86400000).toISOString(),
+          resolvedAt: new Date(Date.now() - 85000000).toISOString()
+        },
+        {
+          id: 3,
+          title: 'Failed Login Attempts',
+          description: 'Multiple failed login attempts from IP 10.0.0.50',
+          severity: 'critical',
+          status: 'active',
+          createdAt: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+          id: 4,
+          title: 'Low Disk Space',
+          description: 'Available disk space below 20%',
+          severity: 'warning',
+          status: 'active',
+          createdAt: new Date(Date.now() - 7200000).toISOString()
+        }
+      ];
+
+      res.json(sampleAlerts);
+    } catch (error) {
+      console.error('Error fetching alerts:', error);
+      res.status(500).json({ message: 'Failed to fetch alerts' });
+    }
+  });
+
+  // Admin search queries endpoint
+  app.get('/api/admin/search-queries', requireAdmin, async (req, res) => {
+    try {
+      const sampleSearchQueries = [
+        {
+          id: 1,
+          userId: 'user@example.com',
+          query: 'CEO technology companies',
+          resultsCount: 45,
+          executionTime: 125,
+          createdAt: new Date(Date.now() - 1800000).toISOString()
+        },
+        {
+          id: 2,
+          userId: 'demo@example.com',
+          query: 'VP Sales healthcare',
+          resultsCount: 32,
+          executionTime: 98,
+          createdAt: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+          id: 3,
+          userId: 'user@example.com',
+          query: 'Director Marketing',
+          resultsCount: 67,
+          executionTime: 156,
+          createdAt: new Date(Date.now() - 5400000).toISOString()
+        },
+        {
+          id: 4,
+          userId: 'user@example.com',
+          query: 'CEO technology companies',
+          resultsCount: 45,
+          executionTime: 112,
+          createdAt: new Date(Date.now() - 7200000).toISOString()
+        },
+        {
+          id: 5,
+          userId: 'demo@example.com',
+          query: 'CTO software',
+          resultsCount: 28,
+          executionTime: 89,
+          createdAt: new Date(Date.now() - 9000000).toISOString()
+        }
+      ];
+
+      res.json(sampleSearchQueries);
+    } catch (error) {
+      console.error('Error fetching search queries:', error);
+      res.status(500).json({ message: 'Failed to fetch search queries' });
+    }
+  });
+
+  // Admin download logs endpoint
+  app.get('/api/admin/download-logs', requireAdmin, async (req, res) => {
+    try {
+      const sampleDownloadLogs = [
+        {
+          id: 1,
+          userId: 'user@example.com',
+          filename: 'campaign_results_q4.csv',
+          fileSize: 2048576,
+          campaignId: 101,
+          exportType: 'CSV',
+          createdAt: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+          id: 2,
+          userId: 'demo@example.com',
+          filename: 'contact_list_export.csv',
+          fileSize: 1536000,
+          campaignId: 102,
+          exportType: 'CSV',
+          createdAt: new Date(Date.now() - 7200000).toISOString()
+        },
+        {
+          id: 3,
+          userId: 'user@example.com',
+          filename: 'analytics_report.pdf',
+          fileSize: 4096000,
+          campaignId: 103,
+          exportType: 'PDF',
+          createdAt: new Date(Date.now() - 10800000).toISOString()
+        },
+        {
+          id: 4,
+          userId: 'admin@example.com',
+          filename: 'full_database_export.csv',
+          fileSize: 10485760,
+          campaignId: 0,
+          exportType: 'CSV',
+          createdAt: new Date(Date.now() - 14400000).toISOString()
+        }
+      ];
+
+      res.json(sampleDownloadLogs);
+    } catch (error) {
+      console.error('Error fetching download logs:', error);
+      res.status(500).json({ message: 'Failed to fetch download logs' });
+    }
+  });
+
+  // Admin call logs endpoint
+  app.get('/api/admin/call-logs', requireAdmin, async (req, res) => {
+    try {
+      const sampleCallLogs = [
+        {
+          id: 1,
+          contactId: 1001,
+          userId: 'user@example.com',
+          callType: 'outgoing',
+          duration: 245,
+          status: 'completed',
+          notes: 'Discussed product demo',
+          createdAt: new Date(Date.now() - 1800000).toISOString()
+        },
+        {
+          id: 2,
+          contactId: 1002,
+          userId: 'demo@example.com',
+          callType: 'incoming',
+          duration: 180,
+          status: 'completed',
+          notes: 'Follow-up on proposal',
+          createdAt: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+          id: 3,
+          contactId: 1003,
+          userId: 'user@example.com',
+          callType: 'missed',
+          duration: 0,
+          status: 'missed',
+          notes: 'Callback scheduled',
+          createdAt: new Date(Date.now() - 5400000).toISOString()
+        },
+        {
+          id: 4,
+          contactId: 1004,
+          userId: 'user@example.com',
+          callType: 'outgoing',
+          duration: 320,
+          status: 'completed',
+          notes: 'Closing call - deal won',
+          createdAt: new Date(Date.now() - 7200000).toISOString()
+        },
+        {
+          id: 5,
+          contactId: 1005,
+          userId: 'demo@example.com',
+          callType: 'incoming',
+          duration: 150,
+          status: 'completed',
+          notes: 'Support inquiry',
+          createdAt: new Date(Date.now() - 9000000).toISOString()
+        }
+      ];
+
+      res.json(sampleCallLogs);
+    } catch (error) {
+      console.error('Error fetching call logs:', error);
+      res.status(500).json({ message: 'Failed to fetch call logs' });
+    }
+  });
+
+  // Admin email tracking endpoint
+  app.get('/api/admin/email-tracking', requireAdmin, async (req, res) => {
+    try {
+      const sampleEmailTracking = [
+        {
+          id: 1,
+          contactId: 2001,
+          userId: 'user@example.com',
+          emailType: 'campaign',
+          subject: 'Q4 Product Launch Announcement',
+          status: 'clicked',
+          openedAt: new Date(Date.now() - 86400000).toISOString(),
+          clickedAt: new Date(Date.now() - 85000000).toISOString(),
+          createdAt: new Date(Date.now() - 172800000).toISOString()
+        },
+        {
+          id: 2,
+          contactId: 2002,
+          userId: 'demo@example.com',
+          emailType: 'newsletter',
+          subject: 'Weekly Industry Update',
+          status: 'opened',
+          openedAt: new Date(Date.now() - 3600000).toISOString(),
+          createdAt: new Date(Date.now() - 7200000).toISOString()
+        },
+        {
+          id: 3,
+          contactId: 2003,
+          userId: 'user@example.com',
+          emailType: 'follow-up',
+          subject: 'Following up on our conversation',
+          status: 'delivered',
+          createdAt: new Date(Date.now() - 10800000).toISOString()
+        },
+        {
+          id: 4,
+          contactId: 2004,
+          userId: 'user@example.com',
+          emailType: 'campaign',
+          subject: 'Special Offer - Limited Time',
+          status: 'bounced',
+          createdAt: new Date(Date.now() - 14400000).toISOString()
+        },
+        {
+          id: 5,
+          contactId: 2005,
+          userId: 'demo@example.com',
+          emailType: 'welcome',
+          subject: 'Welcome to Our Platform',
+          status: 'clicked',
+          openedAt: new Date(Date.now() - 18000000).toISOString(),
+          clickedAt: new Date(Date.now() - 17900000).toISOString(),
+          createdAt: new Date(Date.now() - 21600000).toISOString()
+        }
+      ];
+
+      res.json(sampleEmailTracking);
+    } catch (error) {
+      console.error('Error fetching email tracking:', error);
+      res.status(500).json({ message: 'Failed to fetch email tracking' });
+    }
+  });
+
+  // Admin upload history endpoint
+  app.get('/api/admin/upload-history', requireAdmin, async (req, res) => {
+    try {
+      const sampleUploadHistory = [
+        {
+          id: 1,
+          userId: 'user@example.com',
+          filename: 'contacts_batch_1.csv',
+          fileSize: 3145728,
+          campaignId: 101,
+          success: true,
+          errorMessage: '',
+          createdAt: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+          id: 2,
+          userId: 'demo@example.com',
+          filename: 'leads_q4_2024.csv',
+          fileSize: 2097152,
+          campaignId: 102,
+          success: true,
+          errorMessage: '',
+          createdAt: new Date(Date.now() - 7200000).toISOString()
+        },
+        {
+          id: 3,
+          userId: 'user@example.com',
+          filename: 'invalid_format.csv',
+          fileSize: 1024000,
+          campaignId: 103,
+          success: false,
+          errorMessage: 'Invalid CSV format: missing required columns',
+          createdAt: new Date(Date.now() - 10800000).toISOString()
+        },
+        {
+          id: 4,
+          userId: 'admin@example.com',
+          filename: 'enterprise_contacts.csv',
+          fileSize: 8388608,
+          campaignId: 104,
+          success: true,
+          errorMessage: '',
+          createdAt: new Date(Date.now() - 14400000).toISOString()
+        },
+        {
+          id: 5,
+          userId: 'user@example.com',
+          filename: 'prospects_list.csv',
+          fileSize: 1536000,
+          campaignId: 105,
+          success: true,
+          errorMessage: '',
+          createdAt: new Date(Date.now() - 18000000).toISOString()
+        }
+      ];
+
+      res.json(sampleUploadHistory);
+    } catch (error) {
+      console.error('Error fetching upload history:', error);
+      res.status(500).json({ message: 'Failed to fetch upload history' });
+    }
+  });
+
+  // Admin database stats endpoint
+  app.get('/api/admin/database-stats', requireAdmin, async (req, res) => {
+    try {
+      const contactsCount = await db.select({ count: sql<number>`count(*)` })
+        .from(schema.contacts);
+      
+      const campaignsCount = await db.select({ count: sql<number>`count(*)` })
+        .from(schema.campaigns);
+      
+      const notesCount = await db.select({ count: sql<number>`count(*)` })
+        .from(schema.notes);
+
+      const sampleDatabaseStats = {
+        totalRecords: (contactsCount[0]?.count || 0) + (campaignsCount[0]?.count || 0) + (notesCount[0]?.count || 0),
+        tableCount: 12,
+        databaseSize: '256 MB',
+        activeConnections: 5,
+        tables: [
+          { name: 'contacts', rowCount: contactsCount[0]?.count || 0 },
+          { name: 'campaigns', rowCount: campaignsCount[0]?.count || 0 },
+          { name: 'notes', rowCount: notesCount[0]?.count || 0 },
+          { name: 'documents', rowCount: 0 },
+          { name: 'crm_users', rowCount: 0 }
+        ]
+      };
+
+      res.json(sampleDatabaseStats);
+    } catch (error) {
+      console.error('Error fetching database stats:', error);
+      res.status(500).json({ message: 'Failed to fetch database stats' });
+    }
+  });
+
+  // Admin performance endpoint
+  app.get('/api/admin/performance', requireAdmin, async (req, res) => {
+    try {
+      const memoryUsage = process.memoryUsage();
+      const uptime = process.uptime();
+
+      const samplePerformance = {
+        avgResponseTime: '125ms',
+        cpuUsage: '45%',
+        memoryUsage: `${Math.round(memoryUsage.heapUsed / 1024 / 1024)} MB`,
+        activeRequests: 3,
+        uptime: Math.floor(uptime / 60) + ' minutes',
+        requestsPerMinute: 120
+      };
+
+      res.json(samplePerformance);
+    } catch (error) {
+      console.error('Error fetching performance:', error);
+      res.status(500).json({ message: 'Failed to fetch performance metrics' });
+    }
+  });
+
+  // Admin campaign views endpoint
+  app.get('/api/admin/campaign-views', requireAdmin, async (req, res) => {
+    try {
+      const sampleCampaignViews = [
+        {
+          id: 1,
+          campaignId: 101,
+          userId: 'user@example.com',
+          viewDuration: 420,
+          contactsViewed: 15,
+          actionsPerformed: { exports: 2, calls: 3, emails: 1 },
+          createdAt: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+          id: 2,
+          campaignId: 102,
+          userId: 'demo@example.com',
+          viewDuration: 180,
+          contactsViewed: 8,
+          actionsPerformed: { exports: 1, calls: 0, emails: 2 },
+          createdAt: new Date(Date.now() - 7200000).toISOString()
+        },
+        {
+          id: 3,
+          campaignId: 101,
+          userId: 'user@example.com',
+          viewDuration: 600,
+          contactsViewed: 25,
+          actionsPerformed: { exports: 3, calls: 5, emails: 4 },
+          createdAt: new Date(Date.now() - 10800000).toISOString()
+        },
+        {
+          id: 4,
+          campaignId: 103,
+          userId: 'admin@example.com',
+          viewDuration: 300,
+          contactsViewed: 12,
+          actionsPerformed: { exports: 1, calls: 2, emails: 1 },
+          createdAt: new Date(Date.now() - 14400000).toISOString()
+        },
+        {
+          id: 5,
+          campaignId: 102,
+          userId: 'demo@example.com',
+          viewDuration: 240,
+          contactsViewed: 10,
+          actionsPerformed: { exports: 0, calls: 1, emails: 3 },
+          createdAt: new Date(Date.now() - 18000000).toISOString()
+        }
+      ];
+
+      res.json(sampleCampaignViews);
+    } catch (error) {
+      console.error('Error fetching campaign views:', error);
+      res.status(500).json({ message: 'Failed to fetch campaign views' });
+    }
+  });
+
+  // Admin failed logins endpoint
+  app.get('/api/admin/failed-logins', requireAdmin, async (req, res) => {
+    try {
+      const sampleFailedLogins = [
+        {
+          id: 1,
+          userId: 'hacker@example.com',
+          ipAddress: '10.0.0.50',
+          userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36',
+          failureReason: 'Invalid password',
+          createdAt: new Date(Date.now() - 1800000).toISOString()
+        },
+        {
+          id: 2,
+          userId: 'test@example.com',
+          ipAddress: '10.0.0.50',
+          userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36',
+          failureReason: 'Invalid password',
+          createdAt: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+          id: 3,
+          userId: 'admin@wrong.com',
+          ipAddress: '192.168.1.150',
+          userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+          failureReason: 'Account not found',
+          createdAt: new Date(Date.now() - 5400000).toISOString()
+        },
+        {
+          id: 4,
+          userId: 'unknown@test.com',
+          ipAddress: '10.0.0.50',
+          userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36',
+          failureReason: 'Invalid password',
+          createdAt: new Date(Date.now() - 7200000).toISOString()
+        },
+        {
+          id: 5,
+          userId: 'locked@example.com',
+          ipAddress: '192.168.1.200',
+          userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)',
+          failureReason: 'Account locked',
+          createdAt: new Date(Date.now() - 9000000).toISOString()
+        },
+        {
+          id: 6,
+          userId: 'test@example.com',
+          ipAddress: '10.0.0.50',
+          userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36',
+          failureReason: 'Invalid password',
+          createdAt: new Date(Date.now() - 10800000).toISOString()
+        }
+      ];
+
+      res.json(sampleFailedLogins);
+    } catch (error) {
+      console.error('Error fetching failed logins:', error);
+      res.status(500).json({ message: 'Failed to fetch failed logins' });
+    }
+  });
+
+  // Admin security logs endpoint
+  app.get('/api/admin/security-logs', requireAdmin, async (req, res) => {
+    try {
+      const sampleSecurityLogs = [
+        {
+          id: 1,
+          userId: 'admin@example.com',
+          eventType: 'unauthorized_access',
+          severity: 'high',
+          description: 'Attempted access to restricted admin endpoint',
+          ipAddress: '192.168.1.150',
+          createdAt: new Date(Date.now() - 1800000).toISOString()
+        },
+        {
+          id: 2,
+          userId: 'system',
+          eventType: 'rate_limit_exceeded',
+          severity: 'medium',
+          description: 'API rate limit exceeded by 50%',
+          ipAddress: '10.0.0.75',
+          createdAt: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+          id: 3,
+          userId: 'user@example.com',
+          eventType: 'suspicious_activity',
+          severity: 'critical',
+          description: 'Multiple failed login attempts followed by successful login',
+          ipAddress: '10.0.0.50',
+          createdAt: new Date(Date.now() - 5400000).toISOString()
+        },
+        {
+          id: 4,
+          userId: 'system',
+          eventType: 'firewall_block',
+          severity: 'high',
+          description: 'Blocked suspicious IP attempting SQL injection',
+          ipAddress: '203.0.113.0',
+          createdAt: new Date(Date.now() - 7200000).toISOString()
+        },
+        {
+          id: 5,
+          userId: 'test@example.com',
+          eventType: 'permission_violation',
+          severity: 'medium',
+          description: 'Attempted to access unauthorized resource',
+          ipAddress: '192.168.1.101',
+          createdAt: new Date(Date.now() - 9000000).toISOString()
+        },
+        {
+          id: 6,
+          userId: 'system',
+          eventType: 'ddos_attempt',
+          severity: 'critical',
+          description: 'Detected distributed denial of service attack pattern',
+          ipAddress: '198.51.100.0',
+          createdAt: new Date(Date.now() - 10800000).toISOString()
+        },
+        {
+          id: 7,
+          userId: 'admin@example.com',
+          eventType: 'admin_action',
+          severity: 'low',
+          description: 'Admin performed bulk user deletion',
+          ipAddress: '192.168.1.100',
+          createdAt: new Date(Date.now() - 14400000).toISOString()
+        }
+      ];
+
+      res.json(sampleSecurityLogs);
+    } catch (error) {
+      console.error('Error fetching security logs:', error);
+      res.status(500).json({ message: 'Failed to fetch security logs' });
+    }
+  });
+
   // Admin-User Chat API Routes
   
   // Get all CRM users with conversation info
