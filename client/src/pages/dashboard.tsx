@@ -18,7 +18,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { clearAuth } from "@/lib/auth";
-import NotesDocuments from "@/components/notes-documents";
+import CampaignCommunity from "@/components/campaign-community";
 import CampaignList from "@/components/campaign-list";
 
 import PawMate from "@/components/pawmate-enhanced";
@@ -60,7 +60,7 @@ export default function Dashboard() {
   // Navigation items configuration
   const navigationItems = [
     { id: "files", label: "Campaigns", icon: FolderOpen },
-    { id: "notes", label: "Documents", icon: MessageSquare },
+    { id: "notes", label: "Community", icon: MessageSquare },
     { id: "pawmate", label: assistantName, icon: Dog }
   ];
   
@@ -248,7 +248,7 @@ export default function Dashboard() {
           <div className="mx-auto px-6 py-6 max-w-7xl">
             <div className="main-content-area">
               {activeTab === "files" && <CampaignList />}
-              {activeTab === "notes" && <NotesDocuments />}
+              {activeTab === "notes" && <CampaignCommunity />}
               {activeTab === "pawmate" && <PawMate />}
             </div>
           </div>

@@ -1,0 +1,299 @@
+import { useState, useRef, useEffect, useCallback } from "react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { MessageSquare, Send, User, Shield, Wifi } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+
+interface Message {
+  id: string;
+  conversationId: string;
+  senderType: 'user' | 'admin';
+  senderId: string;
+  messageType: 'text';
+  content: string;
+  isRead: boolean;
+  createdAt: string;
+  readAt?: string | null;
+}
+
+interface Conversation {
+  id: string;
+  userId: string;
+  title: string;
+  isActive: boolean;
+  unreadCount: number;
+  adminUnreadCount: number;
+  lastMessageAt?: string | null;
+  createdAt: string;
+  updatedAt?: string | null;
+}
+
+export default function CampaignCommunity() {
+  const [messageContent, setMessageContent] = useState("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const [isUserScrolling, setIsUserScrolling] = useState(false);
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  // Get or create conversation
+  const { data: conversation, isLoading: conversationLoading, error: conversationError } = useQuery<Conversation>({
+    queryKey: ['/api/user/conversation'],
+    retry: 2,
+  });
+
+  // Get messages
+  const { data: messages = [], isLoading: messagesLoading, error: messagesError } = useQuery<Message[]>({
+    queryKey: ['/api/user/messages'],
+    refetchInterval: 5000,
+    enabled: !!conversation && !conversationError,
+    retry: 2,
+  });
+
+  // Check if user is near bottom of scroll area
+  const isNearBottom = useCallback(() => {
+    if (!messagesContainerRef.current) return true;
+    const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
+    return scrollHeight - scrollTop - clientHeight < 100;
+  }, []);
+
+  // Handle scroll events
+  const handleScroll = useCallback(() => {
+    if (!messagesContainerRef.current) return;
+    
+    const nearBottom = isNearBottom();
+    setShouldAutoScroll(nearBottom);
+    
+    if (!isUserScrolling) {
+      setIsUserScrolling(true);
+      setTimeout(() => setIsUserScrolling(false), 1000);
+    }
+  }, [isNearBottom, isUserScrolling]);
+
+  // Auto-scroll to bottom when new messages arrive
+  useEffect(() => {
+    if (shouldAutoScroll && !isUserScrolling) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages, shouldAutoScroll, isUserScrolling]);
+
+  // Mark admin messages as read when viewing
+  useEffect(() => {
+    const unreadAdminMessages = messages.filter(
+      msg => msg.senderType === 'admin' && !msg.isRead
+    );
+
+    if (unreadAdminMessages.length > 0) {
+      apiRequest('PATCH', '/api/user/messages/mark-read', {})
+        .then(() => {
+          queryClient.invalidateQueries({ queryKey: ['/api/user/messages'] });
+          queryClient.invalidateQueries({ queryKey: ['/api/user/conversation'] });
+        })
+        .catch(err => console.error('Failed to mark messages as read:', err));
+    }
+  }, [messages, queryClient]);
+
+  // Send message mutation
+  const sendMessageMutation = useMutation({
+    mutationFn: async (content: string) => {
+      const response = await apiRequest('POST', '/api/user/messages', { content });
+      return response.json();
+    },
+    onSuccess: () => {
+      setMessageContent("");
+      queryClient.invalidateQueries({ queryKey: ['/api/user/messages'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/user/conversation'] });
+    },
+    onError: (error) => {
+      toast({
+        title: "Send Failed",
+        description: error.message || "Failed to send message",
+        variant: "destructive"
+      });
+    }
+  });
+
+  const handleSendMessage = () => {
+    if (conversationError) {
+      toast({
+        title: "Connection Error",
+        description: "Failed to connect to support chat. Please refresh the page.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (!messageContent.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a message before sending",
+        variant: "destructive"
+      });
+      return;
+    }
+    sendMessageMutation.mutate(messageContent);
+  };
+
+  const isLoading = conversationLoading || messagesLoading;
+  const hasError = conversationError || messagesError;
+
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    const isToday = date.toDateString() === today.toDateString();
+    const isYesterday = date.toDateString() === yesterday.toDateString();
+
+    if (isToday) {
+      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    } else if (isYesterday) {
+      return 'Yesterday ' + date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    } else {
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + 
+             ' ' + date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+  };
+
+  return (
+    <div className="flex flex-col h-[calc(100vh-160px)] bg-white rounded-lg border">
+      {/* Chat Header */}
+      <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-purple-50 to-blue-50 rounded-t-lg">
+        <div className="flex items-center space-x-3">
+          <Avatar className="h-10 w-10">
+            <AvatarFallback className="bg-gradient-to-br from-purple-600 to-blue-600 text-white">
+              <MessageSquare className="h-5 w-5" />
+            </AvatarFallback>
+          </Avatar>
+          <div>
+            <h3 className="font-semibold text-slate-900">Campaign Community</h3>
+            <p className="text-sm text-slate-600">
+              {isLoading ? (
+                "Loading..."
+              ) : (
+                <>
+                  Chat with support team
+                  {conversation && conversation.unreadCount > 0 && (
+                    <span className="ml-2 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">
+                      {conversation.unreadCount} new
+                    </span>
+                  )}
+                </>
+              )}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1 text-xs">
+            <Wifi className="h-3 w-3 text-green-500" />
+            <span className="text-green-600 font-medium">Online</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Messages Area */}
+      <div 
+        ref={messagesContainerRef}
+        className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50"
+        onScroll={handleScroll}
+      >
+        {messages.length === 0 ? (
+          <div className="flex flex-col items-center justify-center h-full text-center">
+            <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full flex items-center justify-center mb-4">
+              <MessageSquare className="h-8 w-8 text-purple-600" />
+            </div>
+            <h3 className="font-medium text-slate-900 mb-2">Start a conversation</h3>
+            <p className="text-slate-500 text-sm max-w-md">
+              Send a message to connect with our support team. We're here to help with your campaigns!
+            </p>
+          </div>
+        ) : (
+          messages.map((message) => (
+            <div
+              key={message.id}
+              className={`flex items-end space-x-2 ${
+                message.senderType === 'user' ? 'flex-row-reverse space-x-reverse' : 'flex-row'
+              }`}
+            >
+              <Avatar className="h-8 w-8 mb-1">
+                <AvatarFallback className={
+                  message.senderType === 'admin'
+                    ? "bg-gradient-to-br from-purple-600 to-blue-600 text-white"
+                    : "bg-blue-100 text-blue-600"
+                }>
+                  {message.senderType === 'admin' ? (
+                    <Shield className="h-4 w-4" />
+                  ) : (
+                    <User className="h-4 w-4" />
+                  )}
+                </AvatarFallback>
+              </Avatar>
+              <div
+                className={`flex flex-col max-w-[70%] ${
+                  message.senderType === 'user' ? 'items-end' : 'items-start'
+                }`}
+              >
+                <div
+                  className={`rounded-2xl px-4 py-2 ${
+                    message.senderType === 'user'
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white'
+                      : 'bg-white border border-slate-200 text-slate-900'
+                  }`}
+                >
+                  <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
+                </div>
+                <p className="text-xs text-slate-500 mt-1 px-1">
+                  {formatTime(message.createdAt)}
+                  {message.senderType === 'admin' && message.isRead && (
+                    <span className="ml-1 text-blue-500">• Read</span>
+                  )}
+                </p>
+              </div>
+            </div>
+          ))
+        )}
+        
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Message Input */}
+      <div className="border-t p-4 bg-white rounded-b-lg">
+        <div className="flex items-end space-x-2">
+          <div className="flex-1 relative">
+            <Textarea
+              placeholder={hasError ? "Error connecting..." : "Type your message..."}
+              value={messageContent}
+              onChange={(e) => setMessageContent(e.target.value)}
+              disabled={hasError || isLoading}
+              className="resize-none pr-12 min-h-[60px] max-h-32 border-slate-300 focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSendMessage();
+                }
+              }}
+            />
+            <Button
+              onClick={handleSendMessage}
+              disabled={!messageContent.trim() || sendMessageMutation.isPending || hasError || isLoading}
+              size="sm"
+              className="absolute right-2 bottom-2 h-8 w-8 p-0 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50"
+            >
+              {sendMessageMutation.isPending ? (
+                <div className="animate-spin h-3 w-3 border-2 border-white border-t-transparent rounded-full" />
+              ) : (
+                <Send className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
+        </div>
+        <p className="text-xs text-slate-500 mt-2">Press Enter to send, Shift+Enter for new line</p>
+      </div>
+    </div>
+  );
+}
