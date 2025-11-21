@@ -196,6 +196,21 @@ export default function CampaignCommunity() {
         </div>
       </div>
 
+      {/* Error Banner */}
+      {hasError && (
+        <div className="px-4 py-3 bg-red-50 border-b border-red-200">
+          <div className="flex items-center space-x-2 text-red-800">
+            <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+            </svg>
+            <div className="flex-1">
+              <p className="font-medium text-sm">Connection Error</p>
+              <p className="text-xs">Failed to connect to support chat. Please refresh the page and try again.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Messages Area */}
       <div 
         ref={messagesContainerRef}
@@ -207,9 +222,14 @@ export default function CampaignCommunity() {
             <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full flex items-center justify-center mb-4">
               <MessageSquare className="h-8 w-8 text-purple-600" />
             </div>
-            <h3 className="font-medium text-slate-900 mb-2">Start a conversation</h3>
+            <h3 className="font-medium text-slate-900 mb-2">
+              {hasError ? 'Unable to Load Chat' : 'Start a conversation'}
+            </h3>
             <p className="text-slate-500 text-sm max-w-md">
-              Send a message to connect with our support team. We're here to help with your campaigns!
+              {hasError 
+                ? 'There was an error loading the chat. Please refresh the page to try again.'
+                : 'Send a message to connect with our support team. We\'re here to help with your campaigns!'
+              }
             </p>
           </div>
         ) : (
@@ -266,13 +286,13 @@ export default function CampaignCommunity() {
         <div className="flex items-end space-x-2">
           <div className="flex-1 relative">
             <Textarea
-              placeholder={hasError ? "Error connecting..." : "Type your message..."}
+              placeholder={hasError ? "Chat unavailable" : !conversation ? "Connecting..." : "Type your message..."}
               value={messageContent}
               onChange={(e) => setMessageContent(e.target.value)}
-              disabled={hasError || isLoading}
+              disabled={hasError || !conversation || sendMessageMutation.isPending}
               className="resize-none pr-12 min-h-[60px] max-h-32 border-slate-300 focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50"
               onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
+                if (e.key === 'Enter' && !e.shiftKey && conversation && !hasError) {
                   e.preventDefault();
                   handleSendMessage();
                 }
@@ -280,7 +300,7 @@ export default function CampaignCommunity() {
             />
             <Button
               onClick={handleSendMessage}
-              disabled={!messageContent.trim() || sendMessageMutation.isPending || hasError || isLoading}
+              disabled={!conversation || !messageContent.trim() || sendMessageMutation.isPending || hasError}
               size="sm"
               className="absolute right-2 bottom-2 h-8 w-8 p-0 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50"
             >
