@@ -53,6 +53,22 @@ The application features a React frontend with a TypeScript Express.js backend.
 - Real-time Updates for note creation, updates, and deletion.
 - Advanced Search integrated into the AI chat interface with data visualization and quick action buttons, featuring improved fuzzy search precision for job titles.
 - Enhanced Contact Visualization with contact cards, interactive network canvas, and tabbed display modes for search results.
+- **Campaign Community**: Two-way communication channel between users and admin support team (November 2025)
+  - User interface at `/dashboard` with real-time message polling
+  - Admin interface at `/admin/users/:userId/chat` for responding to user messages
+  - Shared database schema (`adminUserConversations`, `adminUserMessages`)
+  - Auto-read receipts and unread count tracking
+  - Comprehensive error handling and loading states
+  - See `CAMPAIGN_COMMUNITY_TEST_PLAN.md` for testing instructions
+
+# Recent Changes (November 2025)
+
+- **Campaign Community Conversion**: Transformed from one-way notes/documents system to two-way chat
+  - Created new `CampaignCommunity` component replacing `NotesDocuments`
+  - Implemented REST API endpoints for user-admin messaging
+  - Uses 5-second polling for message updates (WebSocket support planned for future)
+  - Admin can view all user conversations and respond through dedicated chat interface
+  - Full error handling with prominent error banners and input gating
 
 # External Dependencies
 
