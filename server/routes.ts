@@ -196,6 +196,57 @@ function parseCSVLine(line: string): string[] {
   return result;
 }
 
+interface ActivityLogParams {
+  req: any;
+  activityType: string;
+  action: string;
+  resourceType?: string | null;
+  resourceId?: string | null;
+  details?: any;
+  userId?: string | null;
+  userRole?: string | null;
+}
+
+async function logActivity(params: ActivityLogParams): Promise<void> {
+  try {
+    const {
+      req,
+      activityType,
+      action,
+      resourceType = null,
+      resourceId = null,
+      details = {},
+      userId = null,
+      userRole = null
+    } = params;
+
+    const ipAddress = req.ip || req.connection?.remoteAddress || null;
+    const userAgent = req.get('user-agent') || null;
+    const sessionUserId = req.session?.userId || userId;
+    const sessionUserRole = req.session?.userRole || userRole;
+
+    await db.insert(schema.userActivityLogs).values({
+      userId: sessionUserId,
+      userRole: sessionUserRole,
+      activityType,
+      action,
+      resourceType,
+      resourceId,
+      details,
+      ipAddress,
+      userAgent
+    });
+
+    console.log(`Activity logged: ${activityType} - ${action}`, {
+      userId: sessionUserId,
+      resourceType,
+      resourceId
+    });
+  } catch (error) {
+    console.error('Failed to log activity:', error);
+  }
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
 
@@ -363,6 +414,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { password } = req.body;
       
       if (!password) {
+        await logActivity({
+          req,
+          activityType: 'auth',
+          action: 'Login attempt failed - no password provided',
+          details: { reason: 'Missing password' }
+        });
         return res.status(400).json({ message: 'Password is required' });
       }
       
@@ -380,18 +437,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (isValid) {
         req.session.authenticated = true;
         req.session.userRole = role;
-        req.session.save((err) => {
+        req.session.save(async (err) => {
           if (err) {
             console.error('Session save error:', err);
+            await logActivity({
+              req,
+              activityType: 'auth',
+              action: 'Login failed - session save error',
+              userRole: role,
+              details: { error: err.message }
+            });
             return res.status(500).json({ message: 'Authentication failed' });
           }
+          
+          await logActivity({
+            req,
+            activityType: 'login',
+            action: `User logged in successfully`,
+            userRole: role,
+            details: { role, timestamp: new Date().toISOString() }
+          });
+          
           res.json({ success: true, role });
         });
       } else {
+        await logActivity({
+          req,
+          activityType: 'auth',
+          action: 'Login attempt failed - invalid password',
+          details: { reason: 'Invalid credentials', timestamp: new Date().toISOString() }
+        });
         res.status(401).json({ message: 'Invalid password' });
       }
     } catch (error) {
       console.error('Auth error:', error);
+      await logActivity({
+        req,
+        activityType: 'auth',
+        action: 'Login attempt failed - server error',
+        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+      });
       res.status(500).json({ message: 'Authentication failed' });
     }
   });
@@ -405,7 +490,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Logout route
-  app.post('/api/auth/logout', (req, res) => {
+  app.post('/api/auth/logout', async (req, res) => {
+    const userRole = req.session?.userRole;
+    
+    await logActivity({
+      req,
+      activityType: 'logout',
+      action: 'User logged out',
+      userRole,
+      details: { timestamp: new Date().toISOString() }
+    });
+    
     req.session.destroy((err) => {
       if (err) {
         console.error('Logout error:', err);
@@ -429,46 +524,56 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Admin activity logs endpoint
   app.get('/api/admin/activity-logs', requireAdmin, async (req, res) => {
     try {
-      const sampleActivities = [
-        {
-          id: 1,
-          userId: 'user@example.com',
-          userRole: 'user',
-          activityType: 'login',
-          action: 'User logged in',
-          resourceType: null,
-          resourceId: null,
-          details: {},
-          ipAddress: req.ip,
-          createdAt: new Date().toISOString()
-        },
-        {
-          id: 2,
-          userId: 'user@example.com',
-          userRole: 'user',
-          activityType: 'view',
-          action: 'Viewed campaign',
-          resourceType: 'campaign',
-          resourceId: '1',
-          details: { campaignName: 'Sample Campaign' },
-          ipAddress: req.ip,
-          createdAt: new Date(Date.now() - 3600000).toISOString()
-        },
-        {
-          id: 3,
-          userId: 'admin@example.com',
-          userRole: 'admin',
-          activityType: 'upload',
-          action: 'Uploaded new campaign',
-          resourceType: 'campaign',
-          resourceId: '2',
-          details: { fileName: 'contacts.csv' },
-          ipAddress: req.ip,
-          createdAt: new Date(Date.now() - 7200000).toISOString()
-        }
-      ];
+      const {
+        limit = 100,
+        offset = 0,
+        activityType,
+        userRole,
+        startDate,
+        endDate,
+        exportAll = 'false'
+      } = req.query;
 
-      res.json(sampleActivities);
+      // Build where conditions
+      const conditions = [];
+      
+      if (activityType && activityType !== 'all') {
+        conditions.push(eq(schema.userActivityLogs.activityType, activityType as string));
+      }
+      
+      if (userRole && userRole !== 'all') {
+        conditions.push(eq(schema.userActivityLogs.userRole, userRole as string));
+      }
+      
+      if (startDate) {
+        conditions.push(sql`${schema.userActivityLogs.createdAt} >= ${new Date(startDate as string)}`);
+      }
+      
+      if (endDate) {
+        conditions.push(sql`${schema.userActivityLogs.createdAt} <= ${new Date(endDate as string)}`);
+      }
+
+      // Fetch activities from database
+      const activities = await db
+        .select()
+        .from(schema.userActivityLogs)
+        .where(conditions.length > 0 ? and(...conditions) : undefined)
+        .orderBy(sql`${schema.userActivityLogs.createdAt} DESC`)
+        .limit(exportAll === 'true' ? 10000 : parseInt(limit as string))
+        .offset(exportAll === 'true' ? 0 : parseInt(offset as string));
+
+      // Get total count for pagination with same filters
+      const [countResult] = await db
+        .select({ count: sql<number>`count(*)` })
+        .from(schema.userActivityLogs)
+        .where(conditions.length > 0 ? and(...conditions) : undefined);
+
+      res.json({
+        activities,
+        total: Number(countResult.count) || 0,
+        limit: parseInt(limit as string),
+        offset: parseInt(offset as string)
+      });
     } catch (error) {
       console.error('Error fetching activity logs:', error);
       res.status(500).json({ message: 'Failed to fetch activity logs' });
@@ -1930,6 +2035,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
         recordCount: dataRows.length
       });
 
+      // Log campaign upload activity
+      await logActivity({
+        req,
+        activityType: 'upload',
+        action: 'Campaign uploaded',
+        resourceType: 'campaign',
+        resourceId: campaign.id.toString(),
+        details: {
+          campaignName: campaign.name,
+          fileName: file.originalname,
+          recordCount: dataRows.length,
+          fileSize: file.size,
+          fieldCount: finalHeaders.length
+        }
+      });
+
       // Clean up uploaded file
       fs.unlinkSync(file.path);
 
@@ -1943,6 +2064,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       console.error('Campaign upload error:', error);
+      await logActivity({
+        req,
+        activityType: 'upload',
+        action: 'Campaign upload failed',
+        resourceType: 'campaign',
+        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+      });
       res.status(500).json({ message: 'Failed to process campaign upload' });
     }
   });
@@ -1986,6 +2114,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } catch (decryptError: any) {
         console.error(`Failed to decrypt campaign ${id}:`, decryptError.message);
         
+        // Log decryption error
+        await logActivity({
+          req,
+          activityType: 'view',
+          action: 'Campaign view failed - decryption error',
+          resourceType: 'campaign',
+          resourceId: id.toString(),
+          details: { campaignName: campaign.name, error: 'Decryption failed' }
+        });
+        
         // Return campaign info without data but indicate encryption issue
         return res.json({
           id: campaign.id,
@@ -1997,6 +2135,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
           encryptionError: true
         });
       }
+      
+      // Log successful campaign view
+      await logActivity({
+        req,
+        activityType: 'view',
+        action: 'Campaign viewed',
+        resourceType: 'campaign',
+        resourceId: id.toString(),
+        details: {
+          campaignName: campaign.name,
+          recordCount: campaign.recordCount
+        }
+      });
       
       res.json({
         id: campaign.id,
@@ -2027,7 +2178,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: 'Campaign not found' });
       }
 
+      const oldName = campaign.name;
       await storage.updateCampaign(id, { name: name.trim() });
+      
+      // Log campaign update
+      await logActivity({
+        req,
+        activityType: 'update',
+        action: 'Campaign renamed',
+        resourceType: 'campaign',
+        resourceId: id.toString(),
+        details: {
+          oldName,
+          newName: name.trim()
+        }
+      });
       
       res.json({ message: 'Campaign updated successfully' });
     } catch (error) {
@@ -2045,6 +2210,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!campaign) {
         return res.status(404).json({ message: 'Campaign not found' });
       }
+
+      // Log campaign deletion
+      await logActivity({
+        req,
+        activityType: 'delete',
+        action: 'Campaign deleted',
+        resourceType: 'campaign',
+        resourceId: id.toString(),
+        details: {
+          campaignName: campaign.name,
+          recordCount: campaign.recordCount
+        }
+      });
 
       await storage.deleteCampaign(id);
       
@@ -2730,6 +2908,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       results.total = results.contacts.length + results.campaigns.length + 
                      results.campaignData.reduce((sum, c) => sum + c.matches.length, 0);
 
+      // Log search activity
+      await logActivity({
+        req,
+        activityType: 'search',
+        action: 'Search performed',
+        details: {
+          query: searchQuery,
+          searchType,
+          resultsCount: results.total,
+          contactsFound: results.contacts.length,
+          campaignsFound: results.campaigns.length,
+          campaignDataFound: results.campaignData.length
+        }
+      });
+
       res.json(results);
     } catch (error) {
       console.error('Search error:', error);
@@ -2987,6 +3180,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const filename = customFileName 
         ? `${customFileName}_${timestamp}.csv`
         : `search_export_${timestamp}.csv`;
+
+      // Log export activity
+      await logActivity({
+        req,
+        activityType: 'export',
+        action: 'CSV export',
+        details: {
+          query: searchQuery,
+          searchType,
+          fileName: filename,
+          recordCount: exportData.length,
+          headers: headers.length
+        }
+      });
 
       res.setHeader('Content-Type', 'text/csv');
       res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
