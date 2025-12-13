@@ -424,6 +424,206 @@ export const adminUserMessages = pgTable("admin_user_messages", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// Enterprise Blog System Tables
+
+// Blog Authors
+export const blogAuthors = pgTable("blog_authors", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email"),
+  bio: text("bio"),
+  avatar: text("avatar"),
+  socialLinks: jsonb("social_links").default({}),
+  expertise: text("expertise").array().default([]),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Blog Categories
+export const blogCategories = pgTable("blog_categories", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+  slug: text("slug").notNull().unique(),
+  description: text("description"),
+  parentId: integer("parent_id"),
+  color: text("color").default("#6366f1"),
+  icon: text("icon"),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
+  sortOrder: integer("sort_order").default(0),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Blog Tags
+export const blogTags = pgTable("blog_tags", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+  slug: text("slug").notNull().unique(),
+  description: text("description"),
+  color: text("color").default("#10b981"),
+  postCount: integer("post_count").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Blog Posts with Enterprise SEO
+export const blogPosts = pgTable("blog_posts", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  excerpt: text("excerpt"),
+  content: text("content").notNull(),
+  contentHtml: text("content_html"),
+  featuredImage: text("featured_image"),
+  featuredImageAlt: text("featured_image_alt"),
+  authorId: integer("author_id").references(() => blogAuthors.id),
+  categoryId: integer("category_id").references(() => blogCategories.id),
+  status: text("status").default("draft").notNull(),
+  visibility: text("visibility").default("public"),
+  publishedAt: timestamp("published_at"),
+  scheduledAt: timestamp("scheduled_at"),
+  
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
+  metaKeywords: text("meta_keywords"),
+  canonicalUrl: text("canonical_url"),
+  ogTitle: text("og_title"),
+  ogDescription: text("og_description"),
+  ogImage: text("og_image"),
+  twitterTitle: text("twitter_title"),
+  twitterDescription: text("twitter_description"),
+  twitterImage: text("twitter_image"),
+  structuredData: jsonb("structured_data"),
+  
+  focusKeyword: text("focus_keyword"),
+  seoScore: integer("seo_score").default(0),
+  readabilityScore: integer("readability_score").default(0),
+  
+  wordCount: integer("word_count").default(0),
+  readingTime: integer("reading_time").default(0),
+  
+  allowComments: boolean("allow_comments").default(true),
+  isPinned: boolean("is_pinned").default(false),
+  isFeatured: boolean("is_featured").default(false),
+  
+  viewCount: integer("view_count").default(0),
+  shareCount: integer("share_count").default(0),
+  likeCount: integer("like_count").default(0),
+  commentCount: integer("comment_count").default(0),
+  
+  affiliateLinks: jsonb("affiliate_links").default([]),
+  adPlacements: jsonb("ad_placements").default([]),
+  monetizationSettings: jsonb("monetization_settings").default({}),
+  
+  relatedPosts: integer("related_posts").array().default([]),
+  internalLinks: jsonb("internal_links").default([]),
+  externalLinks: jsonb("external_links").default([]),
+  
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Blog Post Tags Junction Table
+export const blogPostTags = pgTable("blog_post_tags", {
+  id: serial("id").primaryKey(),
+  postId: integer("post_id").references(() => blogPosts.id).notNull(),
+  tagId: integer("tag_id").references(() => blogTags.id).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Blog Comments
+export const blogComments = pgTable("blog_comments", {
+  id: serial("id").primaryKey(),
+  postId: integer("post_id").references(() => blogPosts.id).notNull(),
+  parentId: integer("parent_id"),
+  authorName: text("author_name").notNull(),
+  authorEmail: text("author_email").notNull(),
+  authorWebsite: text("author_website"),
+  content: text("content").notNull(),
+  status: text("status").default("pending").notNull(),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  isSpam: boolean("is_spam").default(false),
+  spamScore: integer("spam_score").default(0),
+  likeCount: integer("like_count").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Blog Analytics
+export const blogAnalytics = pgTable("blog_analytics", {
+  id: serial("id").primaryKey(),
+  postId: integer("post_id").references(() => blogPosts.id),
+  eventType: text("event_type").notNull(),
+  source: text("source"),
+  medium: text("medium"),
+  campaign: text("campaign"),
+  referrer: text("referrer"),
+  userAgent: text("user_agent"),
+  ipAddress: text("ip_address"),
+  country: text("country"),
+  city: text("city"),
+  device: text("device"),
+  browser: text("browser"),
+  os: text("os"),
+  sessionId: text("session_id"),
+  timeOnPage: integer("time_on_page"),
+  scrollDepth: integer("scroll_depth"),
+  clickedLinks: jsonb("clicked_links").default([]),
+  affiliateClicks: jsonb("affiliate_clicks").default([]),
+  adImpressions: jsonb("ad_impressions").default([]),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Blog Subscribers
+export const blogSubscribers = pgTable("blog_subscribers", {
+  id: serial("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  name: text("name"),
+  status: text("status").default("active").notNull(),
+  source: text("source"),
+  subscribedAt: timestamp("subscribed_at").defaultNow().notNull(),
+  unsubscribedAt: timestamp("unsubscribed_at"),
+  confirmationToken: text("confirmation_token"),
+  confirmedAt: timestamp("confirmed_at"),
+  preferences: jsonb("preferences").default({}),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Blog Revenue Tracking
+export const blogRevenue = pgTable("blog_revenue", {
+  id: serial("id").primaryKey(),
+  postId: integer("post_id").references(() => blogPosts.id),
+  revenueType: text("revenue_type").notNull(),
+  source: text("source"),
+  amount: numeric("amount").notNull(),
+  currency: text("currency").default("USD"),
+  transactionId: text("transaction_id"),
+  affiliateId: text("affiliate_id"),
+  metadata: jsonb("metadata").default({}),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Blog Media Library
+export const blogMedia = pgTable("blog_media", {
+  id: serial("id").primaryKey(),
+  filename: text("filename").notNull(),
+  originalName: text("original_name").notNull(),
+  mimeType: text("mime_type").notNull(),
+  fileSize: integer("file_size").notNull(),
+  filePath: text("file_path").notNull(),
+  width: integer("width"),
+  height: integer("height"),
+  altText: text("alt_text"),
+  caption: text("caption"),
+  credit: text("credit"),
+  folderId: integer("folder_id"),
+  tags: text("tags").array().default([]),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -614,3 +814,80 @@ export type AdminUserConversation = typeof adminUserConversations.$inferSelect;
 export type InsertAdminUserConversation = z.infer<typeof insertAdminUserConversationSchema>;
 export type AdminUserMessage = typeof adminUserMessages.$inferSelect;
 export type InsertAdminUserMessage = z.infer<typeof insertAdminUserMessageSchema>;
+
+// Blog Insert Schemas
+export const insertBlogAuthorSchema = createInsertSchema(blogAuthors).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertBlogCategorySchema = createInsertSchema(blogCategories).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertBlogTagSchema = createInsertSchema(blogTags).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertBlogPostTagSchema = createInsertSchema(blogPostTags).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertBlogCommentSchema = createInsertSchema(blogComments).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertBlogAnalyticsSchema = createInsertSchema(blogAnalytics).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertBlogSubscriberSchema = createInsertSchema(blogSubscribers).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertBlogRevenueSchema = createInsertSchema(blogRevenue).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertBlogMediaSchema = createInsertSchema(blogMedia).omit({
+  id: true,
+  createdAt: true,
+});
+
+// Blog Types
+export type BlogAuthor = typeof blogAuthors.$inferSelect;
+export type InsertBlogAuthor = z.infer<typeof insertBlogAuthorSchema>;
+export type BlogCategory = typeof blogCategories.$inferSelect;
+export type InsertBlogCategory = z.infer<typeof insertBlogCategorySchema>;
+export type BlogTag = typeof blogTags.$inferSelect;
+export type InsertBlogTag = z.infer<typeof insertBlogTagSchema>;
+export type BlogPost = typeof blogPosts.$inferSelect;
+export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
+export type BlogPostTag = typeof blogPostTags.$inferSelect;
+export type InsertBlogPostTag = z.infer<typeof insertBlogPostTagSchema>;
+export type BlogComment = typeof blogComments.$inferSelect;
+export type InsertBlogComment = z.infer<typeof insertBlogCommentSchema>;
+export type BlogAnalytics = typeof blogAnalytics.$inferSelect;
+export type InsertBlogAnalytics = z.infer<typeof insertBlogAnalyticsSchema>;
+export type BlogSubscriber = typeof blogSubscribers.$inferSelect;
+export type InsertBlogSubscriber = z.infer<typeof insertBlogSubscriberSchema>;
+export type BlogRevenue = typeof blogRevenue.$inferSelect;
+export type InsertBlogRevenue = z.infer<typeof insertBlogRevenueSchema>;
+export type BlogMedia = typeof blogMedia.$inferSelect;
+export type InsertBlogMedia = z.infer<typeof insertBlogMediaSchema>;
