@@ -33,6 +33,10 @@ import SecurityLogs from "@/pages/admin/SecurityLogs";
 import FailedLogins from "@/pages/admin/FailedLogins";
 import Alerts from "@/pages/admin/Alerts";
 import AuditTrail from "@/pages/admin/AuditTrail";
+import BlogDashboard from "@/pages/admin/BlogDashboard";
+import BlogPostEditor from "@/pages/admin/BlogPostEditor";
+import BlogCategories from "@/pages/admin/BlogCategories";
+import BlogAnalytics from "@/pages/admin/BlogAnalytics";
 import CampaignView from "@/pages/campaign-view";
 import BackupImport from "@/pages/BackupImport";
 import DemoBooking from "@/pages/demo-booking";
@@ -208,6 +212,21 @@ function Router() {
       </Route>
       <Route path="/admin/audit-trail">
         <AdminRoute component={AuditTrail} />
+      </Route>
+      <Route path="/admin/blog">
+        <AdminRoute component={BlogDashboard} />
+      </Route>
+      <Route path="/admin/blog/posts/new">
+        <AdminRoute component={BlogPostEditor} />
+      </Route>
+      <Route path="/admin/blog/posts/:id">
+        <AdminRoute component={BlogPostEditor} />
+      </Route>
+      <Route path="/admin/blog/categories">
+        <AdminRoute component={BlogCategories} />
+      </Route>
+      <Route path="/admin/blog/analytics">
+        <AdminRoute component={BlogAnalytics} />
       </Route>
       <Route path="/campaign/:id">
         <ProtectedRoute component={CampaignView} />

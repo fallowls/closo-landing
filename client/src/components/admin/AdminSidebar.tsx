@@ -24,7 +24,11 @@ import {
   Lock,
   AlertCircle,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  PenSquare,
+  Tags,
+  FolderOpen,
+  LineChart
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -68,6 +72,35 @@ export function AdminSidebar({ className }: SidebarProps) {
           href: "/admin/analytics",
           icon: BarChart3,
           description: "Charts and metrics"
+        }
+      ]
+    },
+    {
+      title: "Content Management",
+      items: [
+        {
+          title: "Blog Dashboard",
+          href: "/admin/blog",
+          icon: FileText,
+          description: "Blog overview"
+        },
+        {
+          title: "New Post",
+          href: "/admin/blog/posts/new",
+          icon: PenSquare,
+          description: "Create new post"
+        },
+        {
+          title: "Categories & Tags",
+          href: "/admin/blog/categories",
+          icon: Tags,
+          description: "Manage taxonomy"
+        },
+        {
+          title: "Blog Analytics",
+          href: "/admin/blog/analytics",
+          icon: LineChart,
+          description: "Content performance"
         }
       ]
     },

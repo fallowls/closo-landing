@@ -4686,5 +4686,639 @@ You have access to campaign and contact databases with 263+ records. Your missio
     }
   });
 
+  // =============================================
+  // BLOG MANAGEMENT API ROUTES
+  // =============================================
+
+  // Get blog dashboard stats
+  app.get('/api/admin/blog/stats', requireAdmin, async (req, res) => {
+    try {
+      const [postsCount] = await db.select({ count: sql<number>`count(*)` }).from(schema.blogPosts);
+      const [publishedCount] = await db.select({ count: sql<number>`count(*)` }).from(schema.blogPosts).where(eq(schema.blogPosts.status, 'published'));
+      const [draftCount] = await db.select({ count: sql<number>`count(*)` }).from(schema.blogPosts).where(eq(schema.blogPosts.status, 'draft'));
+      const [scheduledCount] = await db.select({ count: sql<number>`count(*)` }).from(schema.blogPosts).where(eq(schema.blogPosts.status, 'scheduled'));
+      const [subscribersCount] = await db.select({ count: sql<number>`count(*)` }).from(schema.blogSubscribers);
+      const [totalViews] = await db.select({ sum: sql<number>`COALESCE(SUM(view_count), 0)` }).from(schema.blogPosts);
+      const [commentsCount] = await db.select({ count: sql<number>`count(*)` }).from(schema.blogComments);
+      const [totalRevenueResult] = await db.select({ sum: sql<number>`COALESCE(SUM(amount), 0)` }).from(schema.blogRevenue);
+      const [avgSeoResult] = await db.select({ avg: sql<number>`COALESCE(AVG(seo_score), 0)` }).from(schema.blogPosts);
+
+      const topPosts = await db
+        .select({
+          id: schema.blogPosts.id,
+          title: schema.blogPosts.title,
+          views: schema.blogPosts.viewCount,
+          shares: schema.blogPosts.shareCount,
+          comments: schema.blogPosts.commentCount
+        })
+        .from(schema.blogPosts)
+        .where(eq(schema.blogPosts.status, 'published'))
+        .orderBy(sql`${schema.blogPosts.viewCount} DESC`)
+        .limit(5);
+
+      const recentPosts = await db
+        .select({
+          id: schema.blogPosts.id,
+          title: schema.blogPosts.title,
+          slug: schema.blogPosts.slug,
+          status: schema.blogPosts.status,
+          views: schema.blogPosts.viewCount,
+          seoScore: schema.blogPosts.seoScore,
+          publishedAt: schema.blogPosts.publishedAt,
+          createdAt: schema.blogPosts.createdAt
+        })
+        .from(schema.blogPosts)
+        .orderBy(sql`${schema.blogPosts.createdAt} DESC`)
+        .limit(10);
+
+      const categoryDistribution = await db
+        .select({
+          name: schema.blogCategories.name,
+          count: sql<number>`count(${schema.blogPosts.id})`
+        })
+        .from(schema.blogCategories)
+        .leftJoin(schema.blogPosts, eq(schema.blogCategories.id, schema.blogPosts.categoryId))
+        .groupBy(schema.blogCategories.id, schema.blogCategories.name)
+        .orderBy(sql`count(${schema.blogPosts.id}) DESC`)
+        .limit(6);
+
+      const now = new Date();
+      const trafficData = [];
+      const revenueData = [];
+      for (let i = 6; i >= 0; i--) {
+        const date = new Date(now);
+        date.setDate(date.getDate() - i);
+        const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        trafficData.push({ date: dateStr, views: 0, visitors: 0 });
+        revenueData.push({ date: dateStr, affiliate: 0, ads: 0, sponsored: 0 });
+      }
+
+      res.json({
+        totalPosts: Number(postsCount.count) || 0,
+        publishedPosts: Number(publishedCount.count) || 0,
+        draftPosts: Number(draftCount.count) || 0,
+        scheduledPosts: Number(scheduledCount.count) || 0,
+        totalViews: Number(totalViews.sum) || 0,
+        totalComments: Number(commentsCount.count) || 0,
+        totalSubscribers: Number(subscribersCount.count) || 0,
+        totalRevenue: Number(totalRevenueResult.sum) || 0,
+        avgSeoScore: Math.round(Number(avgSeoResult.avg) || 0),
+        topPosts: topPosts.map(p => ({
+          id: p.id,
+          title: p.title,
+          views: p.views || 0,
+          shares: p.shares || 0,
+          comments: p.comments || 0
+        })),
+        trafficData,
+        revenueData,
+        categoryDistribution: categoryDistribution.map(c => ({
+          name: c.name,
+          count: Number(c.count) || 0
+        })),
+        recentPosts: recentPosts.map(p => ({
+          id: p.id,
+          title: p.title,
+          slug: p.slug,
+          status: p.status || 'draft',
+          views: p.views || 0,
+          seoScore: p.seoScore || 0,
+          publishedAt: p.publishedAt,
+          createdAt: p.createdAt
+        }))
+      });
+    } catch (error) {
+      console.error('Error fetching blog stats:', error);
+      res.status(500).json({ message: 'Failed to fetch blog stats' });
+    }
+  });
+
+  // Get all blog posts with pagination and filters
+  app.get('/api/admin/blog/posts', requireAdmin, async (req, res) => {
+    try {
+      const { limit = 20, offset = 0, status, categoryId, authorId, search } = req.query;
+      
+      const conditions = [];
+      if (status && status !== 'all') {
+        conditions.push(eq(schema.blogPosts.status, status as string));
+      }
+      if (categoryId) {
+        conditions.push(eq(schema.blogPosts.categoryId, parseInt(categoryId as string)));
+      }
+      if (authorId) {
+        conditions.push(eq(schema.blogPosts.authorId, parseInt(authorId as string)));
+      }
+      if (search) {
+        conditions.push(sql`(${schema.blogPosts.title} ILIKE ${'%' + search + '%'} OR ${schema.blogPosts.content} ILIKE ${'%' + search + '%'})`);
+      }
+
+      const posts = await db
+        .select()
+        .from(schema.blogPosts)
+        .where(conditions.length > 0 ? and(...conditions) : undefined)
+        .orderBy(sql`${schema.blogPosts.createdAt} DESC`)
+        .limit(parseInt(limit as string))
+        .offset(parseInt(offset as string));
+
+      const [countResult] = await db
+        .select({ count: sql<number>`count(*)` })
+        .from(schema.blogPosts)
+        .where(conditions.length > 0 ? and(...conditions) : undefined);
+
+      res.json({
+        posts,
+        total: Number(countResult.count) || 0,
+        limit: parseInt(limit as string),
+        offset: parseInt(offset as string)
+      });
+    } catch (error) {
+      console.error('Error fetching blog posts:', error);
+      res.status(500).json({ message: 'Failed to fetch blog posts' });
+    }
+  });
+
+  // Get single blog post by ID
+  app.get('/api/admin/blog/posts/:id', requireAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const [post] = await db
+        .select()
+        .from(schema.blogPosts)
+        .where(eq(schema.blogPosts.id, parseInt(id)));
+
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+
+      res.json(post);
+    } catch (error) {
+      console.error('Error fetching blog post:', error);
+      res.status(500).json({ message: 'Failed to fetch blog post' });
+    }
+  });
+
+  // Create new blog post
+  app.post('/api/admin/blog/posts', requireAdmin, async (req, res) => {
+    try {
+      const postData = req.body;
+      
+      const slug = postData.slug || postData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      
+      const [newPost] = await db
+        .insert(schema.blogPosts)
+        .values({
+          ...postData,
+          slug,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        })
+        .returning();
+
+      await logActivity({
+        req,
+        activityType: 'blog',
+        action: 'Created new blog post',
+        resourceType: 'blog_post',
+        resourceId: String(newPost.id),
+        details: { title: newPost.title, status: newPost.status }
+      });
+
+      res.json(newPost);
+    } catch (error) {
+      console.error('Error creating blog post:', error);
+      res.status(500).json({ message: 'Failed to create blog post' });
+    }
+  });
+
+  // Update blog post
+  app.put('/api/admin/blog/posts/:id', requireAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const postData = req.body;
+
+      const [updatedPost] = await db
+        .update(schema.blogPosts)
+        .set({
+          ...postData,
+          updatedAt: new Date()
+        })
+        .where(eq(schema.blogPosts.id, parseInt(id)))
+        .returning();
+
+      if (!updatedPost) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+
+      await logActivity({
+        req,
+        activityType: 'blog',
+        action: 'Updated blog post',
+        resourceType: 'blog_post',
+        resourceId: id,
+        details: { title: updatedPost.title, status: updatedPost.status }
+      });
+
+      res.json(updatedPost);
+    } catch (error) {
+      console.error('Error updating blog post:', error);
+      res.status(500).json({ message: 'Failed to update blog post' });
+    }
+  });
+
+  // Delete blog post
+  app.delete('/api/admin/blog/posts/:id', requireAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const [deleted] = await db
+        .delete(schema.blogPosts)
+        .where(eq(schema.blogPosts.id, parseInt(id)))
+        .returning();
+
+      if (!deleted) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+
+      await logActivity({
+        req,
+        activityType: 'blog',
+        action: 'Deleted blog post',
+        resourceType: 'blog_post',
+        resourceId: id,
+        details: { title: deleted.title }
+      });
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error deleting blog post:', error);
+      res.status(500).json({ message: 'Failed to delete blog post' });
+    }
+  });
+
+  // Get all blog categories
+  app.get('/api/admin/blog/categories', requireAdmin, async (req, res) => {
+    try {
+      const categories = await db.select().from(schema.blogCategories).orderBy(sql`${schema.blogCategories.name} ASC`);
+      res.json(categories);
+    } catch (error) {
+      console.error('Error fetching blog categories:', error);
+      res.status(500).json({ message: 'Failed to fetch categories' });
+    }
+  });
+
+  // Create blog category
+  app.post('/api/admin/blog/categories', requireAdmin, async (req, res) => {
+    try {
+      const { name, description, color, metaTitle, metaDescription, parentId } = req.body;
+      const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+      const [newCategory] = await db
+        .insert(schema.blogCategories)
+        .values({ name, slug, description, color, metaTitle, metaDescription, parentId })
+        .returning();
+
+      res.json(newCategory);
+    } catch (error) {
+      console.error('Error creating blog category:', error);
+      res.status(500).json({ message: 'Failed to create category' });
+    }
+  });
+
+  // Update blog category
+  app.put('/api/admin/blog/categories/:id', requireAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, description, color, metaTitle, metaDescription, parentId } = req.body;
+      const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+      const [updated] = await db
+        .update(schema.blogCategories)
+        .set({ name, slug, description, color, metaTitle, metaDescription, parentId, updatedAt: new Date() })
+        .where(eq(schema.blogCategories.id, parseInt(id)))
+        .returning();
+
+      res.json(updated);
+    } catch (error) {
+      console.error('Error updating blog category:', error);
+      res.status(500).json({ message: 'Failed to update category' });
+    }
+  });
+
+  // Delete blog category
+  app.delete('/api/admin/blog/categories/:id', requireAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await db.delete(schema.blogCategories).where(eq(schema.blogCategories.id, parseInt(id)));
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error deleting blog category:', error);
+      res.status(500).json({ message: 'Failed to delete category' });
+    }
+  });
+
+  // Get all blog tags
+  app.get('/api/admin/blog/tags', requireAdmin, async (req, res) => {
+    try {
+      const tags = await db.select().from(schema.blogTags).orderBy(sql`${schema.blogTags.name} ASC`);
+      res.json(tags);
+    } catch (error) {
+      console.error('Error fetching blog tags:', error);
+      res.status(500).json({ message: 'Failed to fetch tags' });
+    }
+  });
+
+  // Create blog tag
+  app.post('/api/admin/blog/tags', requireAdmin, async (req, res) => {
+    try {
+      const { name, description, color } = req.body;
+      const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+      const [newTag] = await db
+        .insert(schema.blogTags)
+        .values({ name, slug, description, color })
+        .returning();
+
+      res.json(newTag);
+    } catch (error) {
+      console.error('Error creating blog tag:', error);
+      res.status(500).json({ message: 'Failed to create tag' });
+    }
+  });
+
+  // Update blog tag
+  app.put('/api/admin/blog/tags/:id', requireAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, description, color } = req.body;
+      const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+      const [updated] = await db
+        .update(schema.blogTags)
+        .set({ name, slug, description, color, updatedAt: new Date() })
+        .where(eq(schema.blogTags.id, parseInt(id)))
+        .returning();
+
+      res.json(updated);
+    } catch (error) {
+      console.error('Error updating blog tag:', error);
+      res.status(500).json({ message: 'Failed to update tag' });
+    }
+  });
+
+  // Delete blog tag
+  app.delete('/api/admin/blog/tags/:id', requireAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await db.delete(schema.blogTags).where(eq(schema.blogTags.id, parseInt(id)));
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error deleting blog tag:', error);
+      res.status(500).json({ message: 'Failed to delete tag' });
+    }
+  });
+
+  // Get all blog authors
+  app.get('/api/admin/blog/authors', requireAdmin, async (req, res) => {
+    try {
+      const authors = await db.select().from(schema.blogAuthors).orderBy(sql`${schema.blogAuthors.name} ASC`);
+      res.json(authors);
+    } catch (error) {
+      console.error('Error fetching blog authors:', error);
+      res.status(500).json({ message: 'Failed to fetch authors' });
+    }
+  });
+
+  // Create blog author
+  app.post('/api/admin/blog/authors', requireAdmin, async (req, res) => {
+    try {
+      const { name, email, bio, avatar, socialLinks, expertise } = req.body;
+
+      const [newAuthor] = await db
+        .insert(schema.blogAuthors)
+        .values({ name, email, bio, avatar, socialLinks, expertise })
+        .returning();
+
+      res.json(newAuthor);
+    } catch (error) {
+      console.error('Error creating blog author:', error);
+      res.status(500).json({ message: 'Failed to create author' });
+    }
+  });
+
+  // Update blog author
+  app.put('/api/admin/blog/authors/:id', requireAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, email, bio, avatar, socialLinks, expertise, isActive } = req.body;
+
+      const [updated] = await db
+        .update(schema.blogAuthors)
+        .set({ name, email, bio, avatar, socialLinks, expertise, isActive, updatedAt: new Date() })
+        .where(eq(schema.blogAuthors.id, parseInt(id)))
+        .returning();
+
+      res.json(updated);
+    } catch (error) {
+      console.error('Error updating blog author:', error);
+      res.status(500).json({ message: 'Failed to update author' });
+    }
+  });
+
+  // Delete blog author
+  app.delete('/api/admin/blog/authors/:id', requireAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await db.delete(schema.blogAuthors).where(eq(schema.blogAuthors.id, parseInt(id)));
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error deleting blog author:', error);
+      res.status(500).json({ message: 'Failed to delete author' });
+    }
+  });
+
+  // Get blog analytics data
+  app.get('/api/admin/blog/analytics', requireAdmin, async (req, res) => {
+    try {
+      const { startDate, endDate, postId } = req.query;
+      
+      const conditions = [];
+      if (startDate) {
+        conditions.push(sql`${schema.blogAnalytics.createdAt} >= ${new Date(startDate as string)}`);
+      }
+      if (endDate) {
+        conditions.push(sql`${schema.blogAnalytics.createdAt} <= ${new Date(endDate as string)}`);
+      }
+      if (postId) {
+        conditions.push(eq(schema.blogAnalytics.postId, parseInt(postId as string)));
+      }
+
+      const analytics = await db
+        .select()
+        .from(schema.blogAnalytics)
+        .where(conditions.length > 0 ? and(...conditions) : undefined)
+        .orderBy(sql`${schema.blogAnalytics.createdAt} DESC`)
+        .limit(1000);
+
+      const [totals] = await db.select({
+        totalViews: sql<number>`COALESCE(SUM(${schema.blogAnalytics.pageViews}), 0)`,
+        totalUniqueVisitors: sql<number>`COALESCE(SUM(${schema.blogAnalytics.uniqueVisitors}), 0)`,
+        totalTimeOnPage: sql<number>`COALESCE(AVG(${schema.blogAnalytics.timeOnPage}), 0)`,
+        avgBounceRate: sql<number>`COALESCE(AVG(${schema.blogAnalytics.bounceRate}), 0)`
+      }).from(schema.blogAnalytics).where(conditions.length > 0 ? and(...conditions) : undefined);
+
+      res.json({
+        records: analytics,
+        summary: {
+          totalViews: Number(totals.totalViews) || 0,
+          totalUniqueVisitors: Number(totals.totalUniqueVisitors) || 0,
+          avgTimeOnPage: Number(totals.totalTimeOnPage) || 0,
+          avgBounceRate: Number(totals.avgBounceRate) || 0
+        }
+      });
+    } catch (error) {
+      console.error('Error fetching blog analytics:', error);
+      res.status(500).json({ message: 'Failed to fetch analytics' });
+    }
+  });
+
+  // Get blog revenue data
+  app.get('/api/admin/blog/revenue', requireAdmin, async (req, res) => {
+    try {
+      const { startDate, endDate } = req.query;
+      
+      const conditions = [];
+      if (startDate) {
+        conditions.push(sql`${schema.blogRevenue.createdAt} >= ${new Date(startDate as string)}`);
+      }
+      if (endDate) {
+        conditions.push(sql`${schema.blogRevenue.createdAt} <= ${new Date(endDate as string)}`);
+      }
+
+      const revenue = await db
+        .select()
+        .from(schema.blogRevenue)
+        .where(conditions.length > 0 ? and(...conditions) : undefined)
+        .orderBy(sql`${schema.blogRevenue.createdAt} DESC`);
+
+      const [totals] = await db.select({
+        totalRevenue: sql<number>`COALESCE(SUM(${schema.blogRevenue.amount}), 0)`
+      }).from(schema.blogRevenue).where(conditions.length > 0 ? and(...conditions) : undefined);
+
+      res.json({
+        records: revenue,
+        totalRevenue: Number(totals.totalRevenue) || 0
+      });
+    } catch (error) {
+      console.error('Error fetching blog revenue:', error);
+      res.status(500).json({ message: 'Failed to fetch revenue' });
+    }
+  });
+
+  // Get blog subscribers
+  app.get('/api/admin/blog/subscribers', requireAdmin, async (req, res) => {
+    try {
+      const { limit = 50, offset = 0, status } = req.query;
+      
+      const conditions = [];
+      if (status && status !== 'all') {
+        conditions.push(eq(schema.blogSubscribers.status, status as string));
+      }
+
+      const subscribers = await db
+        .select()
+        .from(schema.blogSubscribers)
+        .where(conditions.length > 0 ? and(...conditions) : undefined)
+        .orderBy(sql`${schema.blogSubscribers.subscribedAt} DESC`)
+        .limit(parseInt(limit as string))
+        .offset(parseInt(offset as string));
+
+      const [countResult] = await db
+        .select({ count: sql<number>`count(*)` })
+        .from(schema.blogSubscribers)
+        .where(conditions.length > 0 ? and(...conditions) : undefined);
+
+      res.json({
+        subscribers,
+        total: Number(countResult.count) || 0
+      });
+    } catch (error) {
+      console.error('Error fetching blog subscribers:', error);
+      res.status(500).json({ message: 'Failed to fetch subscribers' });
+    }
+  });
+
+  // Public blog API - Get published posts
+  app.get('/api/blog/posts', async (req, res) => {
+    try {
+      const { limit = 10, offset = 0, category, tag } = req.query;
+      
+      const conditions = [eq(schema.blogPosts.status, 'published')];
+      if (category) {
+        conditions.push(eq(schema.blogPosts.categoryId, parseInt(category as string)));
+      }
+
+      const posts = await db
+        .select()
+        .from(schema.blogPosts)
+        .where(and(...conditions))
+        .orderBy(sql`${schema.blogPosts.publishedAt} DESC`)
+        .limit(parseInt(limit as string))
+        .offset(parseInt(offset as string));
+
+      const [countResult] = await db
+        .select({ count: sql<number>`count(*)` })
+        .from(schema.blogPosts)
+        .where(and(...conditions));
+
+      res.json({
+        posts,
+        total: Number(countResult.count) || 0
+      });
+    } catch (error) {
+      console.error('Error fetching public blog posts:', error);
+      res.status(500).json({ message: 'Failed to fetch posts' });
+    }
+  });
+
+  // Public blog API - Get single post by slug
+  app.get('/api/blog/posts/:slug', async (req, res) => {
+    try {
+      const { slug } = req.params;
+      
+      const [post] = await db
+        .select()
+        .from(schema.blogPosts)
+        .where(and(
+          eq(schema.blogPosts.slug, slug),
+          eq(schema.blogPosts.status, 'published')
+        ));
+
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+
+      await db
+        .update(schema.blogPosts)
+        .set({ viewCount: sql`${schema.blogPosts.viewCount} + 1` })
+        .where(eq(schema.blogPosts.id, post.id));
+
+      res.json(post);
+    } catch (error) {
+      console.error('Error fetching blog post:', error);
+      res.status(500).json({ message: 'Failed to fetch post' });
+    }
+  });
+
+  // Public blog API - Get categories
+  app.get('/api/blog/categories', async (req, res) => {
+    try {
+      const categories = await db.select().from(schema.blogCategories).orderBy(sql`${schema.blogCategories.name} ASC`);
+      res.json(categories);
+    } catch (error) {
+      console.error('Error fetching blog categories:', error);
+      res.status(500).json({ message: 'Failed to fetch categories' });
+    }
+  });
+
   return httpServer;
 }
