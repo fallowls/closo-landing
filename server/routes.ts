@@ -2092,6 +2092,99 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Download all contacts from all campaigns combined
+  app.get('/api/campaigns/download-all', async (req, res) => {
+    try {
+      const campaigns = await storage.getCampaigns();
+      
+      if (campaigns.length === 0) {
+        return res.status(404).json({ message: 'No campaigns found' });
+      }
+
+      // Collect all unique headers across all campaigns
+      const allHeadersSet = new Set<string>();
+      const allCampaignData: Array<{ campaignId: number; campaignName: string; rows: any[] }> = [];
+
+      // Fetch and decrypt data from all campaigns
+      for (const campaign of campaigns) {
+        try {
+          const campaignData = await storage.getCampaignData(campaign.id);
+          
+          if (campaignData && campaignData.rows && Array.isArray(campaignData.rows)) {
+            // Add headers from this campaign to the set
+            const headers = campaignData.headers || Object.keys(campaignData.rows[0] || {});
+            headers.forEach((header: string) => allHeadersSet.add(header));
+            
+            allCampaignData.push({
+              campaignId: campaign.id,
+              campaignName: campaign.name,
+              rows: campaignData.rows
+            });
+          }
+        } catch (error) {
+          console.error(`Error fetching campaign ${campaign.id}:`, error);
+          // Continue with other campaigns even if one fails
+        }
+      }
+
+      if (allCampaignData.length === 0 || allCampaignData.every(c => c.rows.length === 0)) {
+        return res.status(404).json({ message: 'No contact data found in any campaign' });
+      }
+
+      // Create unified headers array with Campaign Name and Campaign ID at the beginning
+      const allHeaders = ['Campaign Name', 'Campaign ID', ...Array.from(allHeadersSet)];
+      
+      // Combine all rows with normalized structure
+      const combinedRows: any[][] = [];
+      
+      for (const campaign of allCampaignData) {
+        for (const row of campaign.rows) {
+          const normalizedRow = allHeaders.map(header => {
+            if (header === 'Campaign Name') return campaign.campaignName;
+            if (header === 'Campaign ID') return campaign.campaignId.toString();
+            return row[header] || '';
+          });
+          combinedRows.push(normalizedRow);
+        }
+      }
+
+      // Generate CSV
+      const { stringify } = await import('csv-stringify');
+      
+      const csvData = await new Promise<string>((resolve, reject) => {
+        const csvRows = [allHeaders, ...combinedRows];
+        stringify(csvRows, (err, output) => {
+          if (err) reject(err);
+          else resolve(output);
+        });
+      });
+
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-').substring(0, 19);
+      const filename = `all_campaigns_contacts_${timestamp}.csv`;
+
+      // Log the export activity
+      await logActivity({
+        req,
+        activityType: 'export',
+        action: 'Download all campaigns contacts',
+        resourceType: 'campaigns',
+        details: {
+          campaignCount: allCampaignData.length,
+          totalRecords: combinedRows.length,
+          filename
+        }
+      });
+
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.send(csvData);
+
+    } catch (error) {
+      console.error('Download all campaigns error:', error);
+      res.status(500).json({ message: 'Failed to download all campaign contacts' });
+    }
+  });
+
   // Get campaign data (decrypted)
   app.get('/api/campaigns/:id', async (req, res) => {
     try {

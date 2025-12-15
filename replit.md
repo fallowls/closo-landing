@@ -61,6 +61,14 @@ The application features a React frontend with a TypeScript Express.js backend.
   - Comprehensive error handling and loading states
   - See `CAMPAIGN_COMMUNITY_TEST_PLAN.md` for testing instructions
 
+# Recent Changes (December 2025)
+
+- **Download All Campaign Contacts**: Added new endpoint `/api/campaigns/download-all` to download contacts from all campaigns at once as a combined CSV file
+  - Combines data from all campaigns into a single CSV
+  - Includes Campaign Name and Campaign ID columns for each record
+  - Normalizes headers across campaigns with different column structures
+  - Logs export activity for audit purposes
+
 # Recent Changes (November 2025)
 
 - **Campaign Community Conversion**: Transformed from one-way notes/documents system to two-way chat
