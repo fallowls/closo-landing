@@ -7,7 +7,8 @@ import {
   Trash2, 
   Search, 
   File,
-  Upload
+  Upload,
+  Download
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -72,6 +73,47 @@ export default function CampaignList() {
     }
   };
 
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownloadAll = async () => {
+    try {
+      setIsDownloading(true);
+      const response = await fetch('/api/campaigns/download-all');
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to download');
+      }
+
+      const blob = await response.blob();
+      const contentDisposition = response.headers.get('Content-Disposition');
+      const filenameMatch = contentDisposition?.match(/filename="(.+)"/);
+      const filename = filenameMatch ? filenameMatch[1] : 'all_campaigns_contacts.csv';
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+      toast({
+        title: "Download Complete",
+        description: "All campaign contacts have been downloaded",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Download Failed",
+        description: error.message || "Failed to download contacts",
+        variant: "destructive"
+      });
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
 
 
   const formatDate = (dateString: string) => {
@@ -126,6 +168,15 @@ export default function CampaignList() {
             <span className="text-sm text-gray-500">
               {filteredCampaigns.length} campaigns
             </span>
+            <Button 
+              onClick={handleDownloadAll}
+              disabled={isDownloading || filteredCampaigns.length === 0}
+              variant="outline"
+              className="border-green-600 text-green-600 hover:bg-green-50"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              {isDownloading ? "Downloading..." : "Download All"}
+            </Button>
             <Button 
               onClick={() => setShowUpload(!showUpload)}
               className="bg-blue-600 hover:bg-blue-700"
