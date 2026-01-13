@@ -414,12 +414,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { password } = req.body;
       
       if (!password) {
-        await logActivity({
-          req,
-          activityType: 'auth',
-          action: 'Login attempt failed - no password provided',
-          details: { reason: 'Missing password' }
-        });
         return res.status(400).json({ message: 'Password is required' });
       }
       
@@ -435,48 +429,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       if (isValid) {
-        req.session.authenticated = true;
-        req.session.userRole = role;
-        req.session.save(async (err) => {
+        // Clear existing session data
+        req.session.regenerate((err) => {
           if (err) {
-            console.error('Session save error:', err);
-            await logActivity({
-              req,
-              activityType: 'auth',
-              action: 'Login failed - session save error',
-              userRole: role,
-              details: { error: err.message }
-            });
+            console.error('Session regeneration error:', err);
             return res.status(500).json({ message: 'Authentication failed' });
           }
+
+          req.session.authenticated = true;
+          req.session.userRole = role;
+          req.session.userId = role === 'admin' ? 'admin' : 'dashboard-user';
           
-          await logActivity({
-            req,
-            activityType: 'login',
-            action: `User logged in successfully`,
-            userRole: role,
-            details: { role, timestamp: new Date().toISOString() }
+          req.session.save((saveErr) => {
+            if (saveErr) {
+              console.error('Session save error:', saveErr);
+              return res.status(500).json({ message: 'Authentication failed' });
+            }
+            
+            res.json({ success: true, role });
           });
-          
-          res.json({ success: true, role });
         });
       } else {
-        await logActivity({
-          req,
-          activityType: 'auth',
-          action: 'Login attempt failed - invalid password',
-          details: { reason: 'Invalid credentials', timestamp: new Date().toISOString() }
-        });
         res.status(401).json({ message: 'Invalid password' });
       }
     } catch (error) {
       console.error('Auth error:', error);
-      await logActivity({
-        req,
-        activityType: 'auth',
-        action: 'Login attempt failed - server error',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
-      });
       res.status(500).json({ message: 'Authentication failed' });
     }
   });
@@ -485,7 +462,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/auth/status', (req, res) => {
     res.json({ 
       authenticated: !!req.session.authenticated,
-      role: req.session.userRole || 'user'
+      role: req.session.userRole || 'user',
+      userId: req.session.userId
     });
   });
 
@@ -2529,12 +2507,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get user's own conversation with admin
   app.get('/api/user/conversation', async (req, res) => {
     try {
-      if (!req.session.userId) {
+      // Robust userId detection
+      let userId = req.session.userId;
+      
+      if (!userId && req.session.authenticated) {
+        userId = req.session.userRole === 'admin' ? 'admin' : 'dashboard-user';
+        req.session.userId = userId;
+        await new Promise<void>(resolve => req.session.save(() => resolve()));
+      }
+      
+      if (!userId) {
+        console.log('Conversation fetch failed: Not authenticated', { 
+          sessionID: req.sessionID,
+          authenticated: req.session.authenticated,
+          userRole: req.session.userRole 
+        });
         return res.status(401).json({ message: 'Not authenticated' });
       }
-
-      const userId = req.session.userId;
-      const userRole = req.session.role;
 
       // Check if conversation exists - allow lookup by userId regardless of type
       let conversation = await db.select()
@@ -2563,11 +2552,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get messages in user's conversation
   app.get('/api/user/messages', async (req, res) => {
     try {
-      if (!req.session.userId) {
+      let userId = req.session.userId;
+      
+      if (!userId && req.session.authenticated) {
+        userId = req.session.userRole === 'admin' ? 'admin' : 'dashboard-user';
+        req.session.userId = userId;
+        await new Promise<void>(resolve => req.session.save(() => resolve()));
+      }
+      
+      if (!userId) {
         return res.status(401).json({ message: 'Not authenticated' });
       }
-
-      const userId = req.session.userId;
 
       // Get user's conversation
       const conversation = await db.select()
@@ -2595,12 +2590,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Send a message from user
   app.post('/api/user/messages', async (req, res) => {
     try {
-      if (!req.session.userId) {
+      let userId = req.session.userId;
+      
+      if (!userId && req.session.authenticated) {
+        userId = req.session.userRole === 'admin' ? 'admin' : 'dashboard-user';
+        req.session.userId = userId;
+        await new Promise<void>(resolve => req.session.save(() => resolve()));
+      }
+      
+      if (!userId) {
         return res.status(401).json({ message: 'Not authenticated' });
       }
 
       const { content } = req.body;
-      const userId = req.session.userId;
 
       if (!content) {
         return res.status(400).json({ message: 'Message content is required' });
@@ -2650,14 +2652,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Mark admin messages as read (for user)
+      // Mark admin messages as read (for user)
   app.patch('/api/user/messages/mark-read', async (req, res) => {
     try {
-      if (!req.session.userId) {
+      const userId = req.session.userId;
+      if (!userId) {
         return res.status(401).json({ message: 'Not authenticated' });
       }
-
-      const userId = req.session.userId;
 
       // Get user's conversation
       const conversation = await db.select()

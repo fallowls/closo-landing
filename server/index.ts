@@ -19,15 +19,20 @@ const SESSION_SECRET = process.env.SESSION_SECRET || (() => {
   return crypto.randomBytes(32).toString('hex');
 })();
 
+app.set('trust proxy', 1);
+
 app.use(session({
   secret: SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
+  resave: true,
+  saveUninitialized: true,
+  proxy: true,
+  name: 'campaign_session',
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
+    secure: true,
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000,
-    sameSite: 'strict'
+    sameSite: 'none',
+    path: '/' // Ensure cookie is available for all paths
   }
 }));
 
