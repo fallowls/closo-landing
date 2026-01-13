@@ -2534,18 +2534,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const userId = req.session.userId;
+      const userRole = req.session.role;
 
-      // Check if conversation exists
+      // Check if conversation exists - allow lookup by userId regardless of type
       let conversation = await db.select()
         .from(schema.adminUserConversations)
-        .where(eq(schema.adminUserConversations.userId, userId))
+        .where(eq(schema.adminUserConversations.userId, String(userId)))
         .limit(1);
 
       // Create conversation if it doesn't exist
       if (conversation.length === 0) {
         conversation = await db.insert(schema.adminUserConversations)
           .values({
-            userId,
+            userId: String(userId),
             title: 'Campaign Community Chat',
             isActive: true,
           })
@@ -2571,7 +2572,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get user's conversation
       const conversation = await db.select()
         .from(schema.adminUserConversations)
-        .where(eq(schema.adminUserConversations.userId, userId))
+        .where(eq(schema.adminUserConversations.userId, String(userId)))
         .limit(1);
 
       if (conversation.length === 0) {
@@ -2608,13 +2609,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get or create user's conversation
       let conversation = await db.select()
         .from(schema.adminUserConversations)
-        .where(eq(schema.adminUserConversations.userId, userId))
+        .where(eq(schema.adminUserConversations.userId, String(userId)))
         .limit(1);
 
       if (conversation.length === 0) {
         conversation = await db.insert(schema.adminUserConversations)
           .values({
-            userId,
+            userId: String(userId),
             title: 'Campaign Community Chat',
             isActive: true,
           })
@@ -2626,7 +2627,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         .values({
           conversationId: conversation[0].id,
           senderType: 'user',
-          senderId: userId,
+          senderId: String(userId),
           messageType: 'text',
           content,
           isRead: false,
@@ -2661,7 +2662,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get user's conversation
       const conversation = await db.select()
         .from(schema.adminUserConversations)
-        .where(eq(schema.adminUserConversations.userId, userId))
+        .where(eq(schema.adminUserConversations.userId, String(userId)))
         .limit(1);
 
       if (conversation.length === 0) {
