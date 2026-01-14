@@ -32,8 +32,7 @@ app.use(session({
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000,
     sameSite: 'none',
-    path: '/',
-    domain: process.env.REPL_SLUG ? `.${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co` : undefined
+    path: '/'
   }
 }));
 
