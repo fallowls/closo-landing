@@ -31,6 +31,7 @@ interface Message {
   content: string;
   attachmentUrl?: string;
   attachmentName?: string;
+  attachmentSize?: number;
   isRead: boolean;
   readAt?: string;
   createdAt: string;
@@ -53,8 +54,10 @@ export default function UserChat() {
   const queryClient = useQueryClient();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [messageContent, setMessageContent] = useState("");
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
+  const [isUploading, setIsUploading] = useState(false);
 
   // Get or create conversation
   const { data: conversation, isLoading: conversationLoading } = useQuery<Conversation>({
@@ -74,7 +77,7 @@ export default function UserChat() {
       return response.json();
     },
     enabled: !!conversation?.id,
-    refetchInterval: 3000, // Poll every 3 seconds for now
+    refetchInterval: 3000,
   });
 
   // Mark messages as read when conversation is opened
@@ -88,6 +91,40 @@ export default function UserChat() {
         .catch(console.error);
     }
   }, [conversation?.id, conversation?.adminUnreadCount, queryClient, userId]);
+
+  // Handle file upload
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !conversation?.id) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    setIsUploading(true);
+    try {
+      const response = await apiRequest('POST', `/api/admin/conversations/${conversation.id}/upload`, formData);
+      
+      toast({
+        title: "File Shared",
+        description: `Successfully shared ${file.name}`,
+      });
+      
+      queryClient.invalidateQueries({ queryKey: ['admin-messages', conversation.id] });
+    } catch (error: any) {
+      toast({
+        title: "Upload Failed",
+        description: error.message || "Failed to upload file",
+        variant: "destructive"
+      });
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
+  const handleDownload = (url: string) => {
+    window.open(url, '_blank');
+  };
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -255,7 +292,32 @@ export default function UserChat() {
                             ? 'bg-gradient-to-br from-purple-600 to-blue-600 text-white' 
                             : 'bg-white border border-slate-200 text-slate-900'
                         }`}>
-                          <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
+                          {message.attachmentUrl ? (
+                            <div className="flex flex-col space-y-2">
+                              <div className="flex items-center space-x-2">
+                                <div className={`p-2 rounded ${isAdmin ? 'bg-white/20' : 'bg-slate-100'}`}>
+                                  <Paperclip className="h-4 w-4" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-sm font-medium truncate">{message.attachmentName}</p>
+                                  <p className="text-xs opacity-70">
+                                    {message.attachmentSize ? (message.attachmentSize / 1024 / 1024).toFixed(2) + ' MB' : 'File'}
+                                  </p>
+                                </div>
+                              </div>
+                              <Button
+                                size="sm"
+                                variant={isAdmin ? "secondary" : "outline"}
+                                className="w-full text-xs h-7"
+                                onClick={() => handleDownload(message.attachmentUrl!)}
+                              >
+                                Download
+                              </Button>
+                              {message.content && <p className="text-sm mt-2">{message.content}</p>}
+                            </div>
+                          ) : (
+                            <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
+                          )}
                         </div>
                         <div className={`flex items-center gap-1 mt-1 ${isAdmin ? 'flex-row-reverse' : 'flex-row'}`}>
                           <span className="text-xs text-slate-500">
@@ -285,14 +347,25 @@ export default function UserChat() {
         <Card className="border-t border-slate-200 shadow-lg rounded-none">
           <CardContent className="p-4">
             <div className="flex items-end gap-2">
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileUpload}
+                className="hidden"
+              />
               <Button
                 type="button"
                 variant="ghost"
                 size="sm"
                 className="h-10 w-10 p-0 rounded-full"
-                disabled
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isUploading || !conversation?.id}
               >
-                <Paperclip className="h-5 w-5 text-slate-400" />
+                {isUploading ? (
+                  <div className="animate-spin h-5 w-5 border-2 border-purple-600 border-t-transparent rounded-full" />
+                ) : (
+                  <Paperclip className="h-5 w-5 text-slate-400" />
+                )}
               </Button>
               
               <div className="flex-1 relative">
