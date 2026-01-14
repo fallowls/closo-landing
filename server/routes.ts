@@ -440,7 +440,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           req.session.userRole = role;
           req.session.userId = role === 'admin' ? 'admin' : 'dashboard-user';
           
-          // Force save and set cookie header explicitly if needed
+          // Force save and wait for completion
           req.session.save((saveErr) => {
             if (saveErr) {
               console.error('Session save error:', saveErr);
@@ -451,6 +451,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
               id: req.sessionID,
               userId: req.session.userId,
               role: req.session.userRole
+            });
+            
+            // Set session-id cookie explicitly to ensure it's sent
+            res.cookie('campaign_session', req.sessionID, {
+              secure: true,
+              httpOnly: true,
+              maxAge: 24 * 60 * 60 * 1000,
+              sameSite: 'none',
+              path: '/'
             });
             
             res.json({ success: true, role });

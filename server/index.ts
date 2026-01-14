@@ -23,8 +23,8 @@ app.set('trust proxy', 1);
 
 app.use(session({
   secret: SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true,
+  resave: false, // Changed to false to prevent race conditions
+  saveUninitialized: false, // Changed to false for better security and stability
   proxy: true,
   name: 'campaign_session',
   cookie: {
