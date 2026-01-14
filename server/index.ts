@@ -32,7 +32,8 @@ app.use(session({
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000,
     sameSite: 'none',
-    path: '/' // Ensure cookie is available for all paths
+    path: '/',
+    domain: process.env.REPL_SLUG ? `.${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co` : undefined
   }
 }));
 

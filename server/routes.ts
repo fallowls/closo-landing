@@ -440,11 +440,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
           req.session.userRole = role;
           req.session.userId = role === 'admin' ? 'admin' : 'dashboard-user';
           
+          // Force save and set cookie header explicitly if needed
           req.session.save((saveErr) => {
             if (saveErr) {
               console.error('Session save error:', saveErr);
               return res.status(500).json({ message: 'Authentication failed' });
             }
+            
+            console.log('Session saved successfully:', {
+              id: req.sessionID,
+              userId: req.session.userId,
+              role: req.session.userRole
+            });
             
             res.json({ success: true, role });
           });
