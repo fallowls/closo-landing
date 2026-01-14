@@ -2805,6 +2805,139 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get all users for admin management
+  app.get('/api/admin/users', requireAdmin, async (req, res) => {
+    try {
+      // Find all users who have an active session or are in crmUsers
+      const allUsers = await db.select().from(schema.crmUsers);
+      
+      // Also check active sessions to find "dashboard-user" or other ephemeral users
+      const sessions = await db.select().from(schema.crmSessions);
+      const sessionUsers = sessions.map(s => {
+        try {
+          const sessData = s.sess as any;
+          // Look for either userId or passport.user.id depending on session structure
+          const uid = sessData.userId || (sessData.passport && sessData.passport.user && sessData.passport.user.id);
+          const role = sessData.userRole || (sessData.passport && sessData.passport.user && sessData.passport.user.role);
+          
+          if (!uid) return null;
+
+          return {
+            id: String(uid),
+            role: role,
+            username: uid === 'dashboard-user' ? 'Default Dashboard User' : String(uid)
+          };
+        } catch (e) {
+          return null;
+        }
+      }).filter(u => u && u.id && u.role !== 'admin');
+
+      // Create a unique list of users to show in chat
+      const uniqueUsers = new Map();
+      
+      // Add CRM users first
+      allUsers.forEach(u => uniqueUsers.set(u.id, {
+        id: u.id,
+        username: u.name || u.email || u.id,
+        createdAt: u.createdAt
+      }));
+      
+      // Add session users if they don't exist
+      sessionUsers.forEach(u => {
+        if (!uniqueUsers.has(u!.id)) {
+          uniqueUsers.set(u!.id, {
+            id: u!.id,
+            username: u!.username,
+            createdAt: new Date()
+          });
+        }
+      });
+
+      // If no users found at all, add the default dashboard user as a fallback
+      if (uniqueUsers.size === 0) {
+        uniqueUsers.set('dashboard-user', {
+          id: 'dashboard-user',
+          username: 'Default Dashboard User',
+          createdAt: new Date()
+        });
+      }
+      
+      const usersWithChatInfo = await Promise.all(Array.from(uniqueUsers.values()).map(async (user) => {
+        const [conversation] = await db.select()
+          .from(schema.adminUserConversations)
+          .where(eq(schema.adminUserConversations.userId, user.id))
+          .limit(1);
+          
+        return {
+          ...user,
+          conversationId: conversation?.id,
+          unreadCount: conversation?.adminUnreadCount || 0
+        };
+      }));
+      
+      res.json(usersWithChatInfo);
+    } catch (error) {
+      console.error('Error fetching admin users:', error);
+      res.status(500).json({ message: 'Failed to fetch users' });
+    }
+  });
+
+  // Get specific conversation for a user (Admin)
+  app.get('/api/admin/conversations/:userId', requireAdmin, async (req, res) => {
+    try {
+      const { userId } = req.params;
+      
+      let [conversation] = await db.select()
+        .from(schema.adminUserConversations)
+        .where(eq(schema.adminUserConversations.userId, userId))
+        .limit(1);
+
+      if (!conversation) {
+        // Find user to get a title
+        const [user] = await db.select().from(schema.crmUsers).where(eq(schema.crmUsers.id, userId)).limit(1);
+        
+        [conversation] = await db.insert(schema.adminUserConversations)
+          .values({
+            userId,
+            title: `Chat with ${user?.name || user?.email || userId}`,
+            isActive: true,
+          })
+          .returning();
+      }
+
+      res.json(conversation);
+    } catch (error) {
+      console.error('Error fetching/creating admin conversation:', error);
+      res.status(500).json({ message: 'Failed to fetch conversation' });
+    }
+  });
+
+  // Mark conversation messages as read (Admin)
+  app.patch('/api/admin/conversations/:conversationId/mark-read', requireAdmin, async (req, res) => {
+    try {
+      const { conversationId } = req.params;
+
+      await db.update(schema.adminUserMessages)
+        .set({ isRead: true, readAt: new Date() })
+        .where(
+          and(
+            eq(schema.adminUserMessages.conversationId, conversationId),
+            eq(schema.adminUserMessages.senderType, 'user'),
+            eq(schema.adminUserMessages.isRead, false)
+          )
+        );
+
+      await db.update(schema.adminUserConversations)
+        .set({ adminUnreadCount: 0, updatedAt: new Date() })
+        .where(eq(schema.adminUserConversations.id, conversationId));
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error marking admin messages as read:', error);
+      res.status(500).json({ message: 'Failed to mark messages as read' });
+    }
+  });
+
   // Get messages for a specific conversation (Admin)
   app.get('/api/admin/conversations/:conversationId/messages', requireAdmin, async (req, res) => {
     try {
