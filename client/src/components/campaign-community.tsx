@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { MessageSquare, Send, User, Shield, Wifi } from "lucide-react";
+import { MessageSquare, Send, User, Shield, Wifi, Paperclip } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
@@ -14,6 +14,9 @@ interface Message {
   senderId: string;
   messageType: 'text';
   content: string;
+  attachmentUrl?: string | null;
+  attachmentName?: string | null;
+  attachmentSize?: number | null;
   isRead: boolean;
   createdAt: string;
   readAt?: string | null;
@@ -33,6 +36,8 @@ interface Conversation {
 
 export default function CampaignCommunity() {
   const [messageContent, setMessageContent] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [isUserScrolling, setIsUserScrolling] = useState(false);
@@ -53,6 +58,50 @@ export default function CampaignCommunity() {
     enabled: !!conversation && !conversationError,
     retry: 2,
   });
+
+  // Handle file upload
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    setIsUploading(true);
+    try {
+      const response = await apiRequest('POST', '/api/user/messages/upload', formData);
+      const data = await response.json();
+      
+      toast({
+        title: "File Shared",
+        description: `Successfully shared ${file.name}`,
+      });
+      
+      queryClient.invalidateQueries({ queryKey: ['/api/user/messages'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/user/conversation'] });
+    } catch (error: any) {
+      toast({
+        title: "Upload Failed",
+        description: error.message || "Failed to upload file",
+        variant: "destructive"
+      });
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
+  const handleDownload = async (url: string, filename: string) => {
+    try {
+      window.open(url, '_blank');
+    } catch (error) {
+      toast({
+        title: "Download Failed",
+        description: "Failed to open file",
+        variant: "destructive"
+      });
+    }
+  };
 
   // Check if user is near bottom of scroll area
   const isNearBottom = useCallback(() => {
@@ -265,7 +314,32 @@ export default function CampaignCommunity() {
                       : 'bg-white border border-slate-200 text-slate-900'
                   }`}
                 >
-                  <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
+                  {message.attachmentUrl ? (
+                    <div className="flex flex-col space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <div className="p-2 bg-white/20 rounded">
+                          <Paperclip className="h-4 w-4" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium truncate">{message.attachmentName}</p>
+                          <p className="text-xs opacity-70">
+                            {message.attachmentSize ? (message.attachmentSize / 1024 / 1024).toFixed(2) + ' MB' : 'Unknown size'}
+                          </p>
+                        </div>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        className="w-full text-xs h-7"
+                        onClick={() => handleDownload(message.attachmentUrl!, message.attachmentName!)}
+                      >
+                        Download
+                      </Button>
+                      {message.content && <p className="text-sm mt-2">{message.content}</p>}
+                    </div>
+                  ) : (
+                    <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
+                  )}
                 </div>
                 <p className="text-xs text-slate-500 mt-1 px-1">
                   {formatTime(message.createdAt)}
@@ -284,6 +358,26 @@ export default function CampaignCommunity() {
       {/* Message Input */}
       <div className="border-t p-4 bg-white rounded-b-lg">
         <div className="flex items-end space-x-2">
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileUpload}
+            className="hidden"
+          />
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="h-10 w-10 p-0 shrink-0"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={hasError || !conversation || isUploading}
+          >
+            {isUploading ? (
+              <div className="animate-spin h-4 w-4 border-2 border-purple-600 border-t-transparent rounded-full" />
+            ) : (
+              <Paperclip className="h-4 w-4" />
+            )}
+          </Button>
           <div className="flex-1 relative">
             <Textarea
               placeholder={hasError ? "Chat unavailable" : !conversation ? "Connecting..." : "Type your message..."}

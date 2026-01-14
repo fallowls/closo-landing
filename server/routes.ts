@@ -2520,6 +2520,81 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // User-Side Chat API Routes (Campaign Community)
   
+  // File upload for Campaign Community
+  app.post('/api/user/messages/upload', upload.single('file'), async (req, res) => {
+    try {
+      let userId = req.session.userId;
+      if (!userId && req.session.authenticated) {
+        userId = req.session.userRole === 'admin' ? 'admin' : 'dashboard-user';
+        req.session.userId = userId;
+        await new Promise<void>(resolve => req.session.save(() => resolve()));
+      }
+      
+      if (!userId || !req.file) {
+        return res.status(401).json({ message: 'Unauthorized or no file' });
+      }
+
+      // Get or create user's conversation
+      let conversation = await db.select()
+        .from(schema.adminUserConversations)
+        .where(eq(schema.adminUserConversations.userId, String(userId)))
+        .limit(1);
+
+      if (conversation.length === 0) {
+        conversation = await db.insert(schema.adminUserConversations)
+          .values({
+            userId: String(userId),
+            title: 'Campaign Community Chat',
+            isActive: true,
+          })
+          .returning();
+      }
+
+      const fileKey = `chat/${conversation[0].id}/${Date.now()}-${req.file.originalname}`;
+      const encryptedPath = encrypt(fileKey);
+
+      // Store in file storage
+      await fileStorage.storeFile(fileKey, fs.createReadStream(req.file.path), req.file.mimetype);
+
+      // Create message with attachment
+      const message = await db.insert(schema.adminUserMessages)
+        .values({
+          conversationId: conversation[0].id,
+          senderType: 'user',
+          senderId: String(userId),
+          messageType: 'file',
+          content: `Sent a file: ${req.file.originalname}`,
+          attachmentUrl: `/api/user/messages/file/${Buffer.from(fileKey).toString('base64')}`,
+          attachmentName: req.file.originalname,
+          attachmentSize: req.file.size,
+          isRead: false,
+        })
+        .returning();
+
+      // Cleanup local temp file
+      fs.unlinkSync(req.file.path);
+
+      res.json(message[0]);
+    } catch (error) {
+      console.error('File upload error:', error);
+      res.status(500).json({ message: 'Failed to upload file' });
+    }
+  });
+
+  // Download chat file
+  app.get('/api/user/messages/file/:fileKeyBase64', async (req, res) => {
+    try {
+      const fileKey = Buffer.from(req.params.fileKeyBase64, 'base64').toString();
+      const { stream, filename } = await fileStorage.getFile(fileKey);
+      
+      res.setHeader('Content-Disposition', `attachment; filename="${filename.split('/').pop()}"`);
+      stream.pipe(res);
+    } catch (error) {
+      console.error('File download error:', error);
+      res.status(404).json({ message: 'File not found' });
+    }
+  });
+
   // Get user's own conversation with admin
   app.get('/api/user/conversation', async (req, res) => {
     try {
