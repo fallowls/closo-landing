@@ -2790,6 +2790,107 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin Chat API Routes
+  
+  // Get all user conversations
+  app.get('/api/admin/conversations', requireAdmin, async (req, res) => {
+    try {
+      const conversations = await db.select()
+        .from(schema.adminUserConversations)
+        .orderBy(sql`${schema.adminUserConversations.lastMessageAt} DESC`);
+      res.json(conversations);
+    } catch (error) {
+      console.error('Error fetching conversations:', error);
+      res.status(500).json({ message: 'Failed to fetch conversations' });
+    }
+  });
+
+  // Get messages for a specific conversation (Admin)
+  app.get('/api/admin/conversations/:conversationId/messages', requireAdmin, async (req, res) => {
+    try {
+      const { conversationId } = req.params;
+      const messages = await db.select()
+        .from(schema.adminUserMessages)
+        .where(eq(schema.adminUserMessages.conversationId, conversationId))
+        .orderBy(schema.adminUserMessages.createdAt);
+      res.json(messages);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+      res.status(500).json({ message: 'Failed to fetch messages' });
+    }
+  });
+
+  // Send message from admin
+  app.post('/api/admin/conversations/:conversationId/messages', requireAdmin, async (req, res) => {
+    try {
+      const { conversationId } = req.params;
+      const { content } = req.body;
+
+      if (!content) {
+        return res.status(400).json({ message: 'Message content is required' });
+      }
+
+      // Create admin message
+      const message = await db.insert(schema.adminUserMessages)
+        .values({
+          conversationId,
+          senderType: 'admin',
+          senderId: 'admin',
+          messageType: 'text',
+          content,
+          isRead: false,
+        })
+        .returning();
+
+      // Update conversation
+      await db.update(schema.adminUserConversations)
+        .set({
+          lastMessageAt: new Date(),
+          unreadCount: sql`${schema.adminUserConversations.unreadCount} + 1`,
+          updatedAt: new Date(),
+        })
+        .where(eq(schema.adminUserConversations.id, conversationId));
+
+      res.json(message[0]);
+    } catch (error) {
+      console.error('Error sending admin message:', error);
+      res.status(500).json({ message: 'Failed to send message' });
+    }
+  });
+
+  // Admin file upload for chat
+  app.post('/api/admin/conversations/:conversationId/upload', requireAdmin, upload.single('file'), async (req, res) => {
+    try {
+      const { conversationId } = req.params;
+      if (!req.file) {
+        return res.status(400).json({ message: 'No file provided' });
+      }
+
+      const fileKey = `chat/${conversationId}/${Date.now()}-${req.file.originalname}`;
+      await fileStorage.storeFile(fileKey, fs.createReadStream(req.file.path), req.file.mimetype);
+
+      const message = await db.insert(schema.adminUserMessages)
+        .values({
+          conversationId,
+          senderType: 'admin',
+          senderId: 'admin',
+          messageType: 'file',
+          content: `Admin sent a file: ${req.file.originalname}`,
+          attachmentUrl: `/api/user/messages/file/${Buffer.from(fileKey).toString('base64')}`,
+          attachmentName: req.file.originalname,
+          attachmentSize: req.file.size,
+          isRead: false,
+        })
+        .returning();
+
+      fs.unlinkSync(req.file.path);
+      res.json(message[0]);
+    } catch (error) {
+      console.error('Admin file upload error:', error);
+      res.status(500).json({ message: 'Failed to upload file' });
+    }
+  });
+
   // Contact form submission
   app.post('/api/contact', async (req, res) => {
     try {
