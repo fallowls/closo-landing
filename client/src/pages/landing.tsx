@@ -231,7 +231,7 @@ POST https://api.fallowl.com/webhooks
                 <img 
                   src={closoLogo} 
                   alt="Closo" 
-                  className="h-10 w-auto object-contain"
+                  className="h-8 w-auto object-contain"
                 />
               </div>
               

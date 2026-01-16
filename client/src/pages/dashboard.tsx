@@ -101,7 +101,7 @@ export default function Dashboard() {
           <div className="p-4 border-b border-slate-200/50">
             <div className="flex items-center space-x-3">
               <div className="shrink-0">
-                <img src={closoLogo} alt="Closo" className="h-6 w-auto object-contain" />
+                <img src={closoLogo} alt="Closo" className="h-4 w-auto object-contain" />
               </div>
               <div className={`transition-all duration-300 overflow-hidden ${
                 isSidebarHovered ? 'w-auto opacity-100' : 'w-0 opacity-0'

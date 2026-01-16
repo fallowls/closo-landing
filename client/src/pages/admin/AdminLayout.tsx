@@ -42,7 +42,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         <header className="bg-white border-b border-slate-200 shadow-sm">
           <div className="flex justify-between items-center px-6 py-4">
             <Link href="/">
-              <img src={closoLogo} alt="Closo" className="h-8 w-auto object-contain cursor-pointer" />
+              <img src={closoLogo} alt="Closo" className="h-6 w-auto object-contain cursor-pointer" />
             </Link>
             <Button
               variant="destructive"
