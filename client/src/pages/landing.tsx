@@ -201,18 +201,18 @@ POST https://api.fallowl.com/webhooks
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F7F5] text-slate-900 overflow-x-hidden">
+    <div className="min-h-screen bg-slate-950 text-slate-50 overflow-x-hidden selection:bg-purple-500/30">
       <SEO 
-        title="Twilio Dialer & Parallel Dialer with Sales CRM Integration | Closo"
-        description="Enterprise Twilio dialer with parallel dialing & sales CRM integration. Auto dialer software for sales teams with AI calling, real-time analytics & Twilio API integration. Free trial."
-        keywords="twilio dialer, parallel dialer, sales crm integration, twilio auto dialer, twilio power dialer, parallel dialing software, auto dialer crm, twilio call center software, sales dialer software, twilio predictive dialer"
+        title="Closo | Next-Gen Campaign Management & Lead Intelligence"
+        description="Enterprise-grade campaign management with AI-powered lead scoring, real-time analytics, and secure data handling."
+        keywords="campaign management, lead scoring, sales intelligence, CRM, enterprise software"
         canonical="https://closo.com/"
         schema={{
           "@context": "https://schema.org",
           "@type": "SoftwareApplication",
-          "name": "Closo - Twilio Dialer & Parallel Dialing CRM Software",
+          "name": "Closo",
           "applicationCategory": "BusinessApplication",
-          "description": "Enterprise Twilio dialer with parallel dialing and sales CRM integration for maximum sales productivity",
+          "description": "Next-gen campaign management and lead intelligence platform",
           "url": "https://closo.com",
           "offers": {
             "@type": "Offer",
@@ -222,31 +222,36 @@ POST https://api.fallowl.com/webhooks
         }}
       />
       
+      {/* Dynamic Background Effects */}
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-600/10 blur-[120px] rounded-full animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/10 blur-[120px] rounded-full animate-pulse delay-700" />
+        <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] bg-indigo-600/5 blur-[100px] rounded-full" />
+      </div>
+
       {/* Navigation */}
       <nav className={`${showHeader ? 'fixed top-0 animate-in slide-in-from-top duration-300' : 'relative top-4'} left-0 right-0 z-50 px-4 md:px-6 lg:px-8 ${!showHeader && 'mb-8'} transition-all`}>
-        <div className={`max-w-7xl mx-auto bg-white/80 backdrop-blur-xl ${showHeader ? 'rounded-b-2xl mt-0' : 'rounded-2xl mt-0'} border border-gray-200/50 shadow-lg shadow-slate-900/5`}>
+        <div className={`max-w-7xl mx-auto ${showHeader ? 'bg-slate-900/80 backdrop-blur-xl border-slate-800/50' : 'bg-transparent border-transparent'} border rounded-2xl transition-all duration-300`}>
           <div className="px-4 md:px-6">
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center">
                 <img 
                   src={closoLogo} 
                   alt="Closo" 
-                  className="h-8 w-auto object-contain"
+                  className="h-8 w-auto object-contain brightness-0 invert"
                 />
               </div>
               
               <div className="hidden md:flex items-center space-x-8">
-                <Link href="/features" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" data-testid="link-features">Features</Link>
-                <a href="#integrations" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" data-testid="link-integrations">Integrations</a>
-                <Link href="/about" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" data-testid="link-about">About</Link>
-                <Link href="/api-docs" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" data-testid="link-api-docs">API Doc</Link>
+                <Link href="/features" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">Features</Link>
+                <Link href="/about" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">About</Link>
+                <Link href="/blog" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">Blog</Link>
                 <Button 
                   size="sm" 
-                  className="bg-slate-900 hover:bg-slate-800 text-white text-sm rounded-xl" 
-                  data-testid="button-signin"
-                  onClick={() => window.location.href = 'https://app.fallowl.com'}
+                  className="bg-white hover:bg-slate-200 text-slate-950 font-semibold rounded-xl px-6" 
+                  onClick={() => window.location.href = '/dashboard'}
                 >
-                  Sign in
+                  Dashboard
                 </Button>
               </div>
 
@@ -254,187 +259,72 @@ POST https://api.fallowl.com/webhooks
                 variant="ghost" 
                 size="icon"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden"
-                data-testid="button-mobile-menu"
+                className="md:hidden text-slate-300"
               >
                 <Menu className="w-5 h-5" />
               </Button>
             </div>
-
-            {isMenuOpen && (
-              <div className="md:hidden py-4 border-t border-gray-200 animate-in slide-in-from-top">
-                <div className="flex flex-col space-y-3">
-                  <Link href="/features" className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 rounded-lg hover:bg-slate-50 transition-colors" data-testid="link-mobile-features">Features</Link>
-                  <a href="#integrations" className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 rounded-lg hover:bg-slate-50 transition-colors" data-testid="link-mobile-integrations">Integrations</a>
-                  <Link href="/about" className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 rounded-lg hover:bg-slate-50 transition-colors" data-testid="link-mobile-about">About</Link>
-                  <Link href="/api-docs" className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 rounded-lg hover:bg-slate-50 transition-colors" data-testid="link-mobile-api-docs">API Doc</Link>
-                  <div className="px-4 pt-2">
-                    <Button 
-                      size="sm" 
-                      className="bg-slate-900 hover:bg-slate-800 text-white w-full rounded-xl" 
-                      data-testid="button-mobile-signin"
-                      onClick={() => window.location.href = 'https://app.fallowl.com'}
-                    >
-                      Sign in
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-24 px-6 lg:px-8 relative overflow-hidden bg-[#F8F7F5]">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center max-w-4xl mx-auto">
-            {/* Top badge text */}
-            <p className="text-sm text-slate-600 mb-8 animate-in fade-in slide-in-from-top duration-500">
-              Powered by <Link href="/twilio-setup" className="text-purple-600 hover:text-purple-700 font-medium hover:underline" data-testid="link-twilio-setup">Twilio's Enterprise Infrastructure</Link>
-            </p>
-            
-            {/* Main heading with colored text */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 leading-tight animate-in fade-in slide-in-from-bottom duration-700 text-slate-900">
-              The Future of{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-pink-500">
-                Cloud
-              </span>{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-cyan-500">
-                Communications
-              </span>
-            </h1>
-            
-            {/* Subheading */}
-            <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-3xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom duration-1000">
-              Complete CRM platform with HD calling, automatic recording, voicemail, and programmable voice—all in one place.
-            </p>
-            
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 animate-in fade-in slide-in-from-bottom duration-1000">
-              <Button 
-                size="lg" 
-                className="bg-slate-900 hover:bg-slate-800 text-white px-8 h-12 text-base shadow-lg hover:shadow-xl transition-all rounded-lg" 
-                data-testid="button-hero-trial"
-                onClick={() => window.location.href = 'https://app.fallowl.com'}
-              >
-                Start Free Trial
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="px-8 h-12 text-base border-2 border-slate-300 text-slate-700 hover:bg-white rounded-lg" 
-                data-testid="button-hero-demo"
-                onClick={() => setLocation("/demo")}
-              >
-                Schedule Demo
-              </Button>
-            </div>
-
-            {/* Feature Cards */}
-            <div className="grid md:grid-cols-3 gap-8 mt-16 animate-in fade-in slide-in-from-bottom duration-1000" style={{animationDelay: '200ms'}}>
-              {/* Card 1 */}
-              <div className="text-left">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Code className="w-5 h-5 text-white" />
-                  </div>
-                  <h3 className="font-semibold text-lg text-slate-900">HD Voice Calling</h3>
-                </div>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  Crystal-clear voice quality powered by Twilio infrastructure
-                </p>
-              </div>
-
-              {/* Card 2 */}
-              <div className="text-left">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mic className="w-5 h-5 text-white" />
-                  </div>
-                  <h3 className="font-semibold text-lg text-slate-900">Auto Recording</h3>
-                </div>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  Every call captured automatically with unlimited storage
-                </p>
-              </div>
-
-              {/* Card 3 */}
-              <div className="text-left">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Layers className="w-5 h-5 text-white" />
-                  </div>
-                  <h3 className="font-semibold text-lg text-slate-900">Full Platform Access</h3>
-                </div>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  Complete CRM integration with all communication tools
-                </p>
-              </div>
-            </div>
+      <section className="pt-32 pb-24 px-6 lg:px-8 relative z-10">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-purple-400 mb-8 animate-in fade-in slide-in-from-top duration-500">
+            <Sparkles className="w-3 h-3" />
+            <span>Introducing Closo 2.0 — Now with AI Lead Scoring</span>
+          </div>
+          
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 leading-[1.1] animate-in fade-in slide-in-from-bottom duration-700">
+            Precision{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500">
+              Intelligence
+            </span>
+            <br />
+            for Modern Sales
+          </h1>
+          
+          <p className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom duration-1000">
+            Elevate your campaign management with advanced lead scoring, contact intelligence, and secure data handling designed for the enterprise.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-20 animate-in fade-in slide-in-from-bottom duration-1000">
+            <Button 
+              size="lg" 
+              className="bg-white hover:bg-slate-200 text-slate-950 px-8 h-14 text-base font-bold shadow-2xl shadow-white/10 rounded-2xl group transition-all" 
+              onClick={() => window.location.href = '/dashboard'}
+            >
+              Get Started Now
+              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="px-8 h-14 text-base border-slate-800 text-slate-300 hover:bg-white/5 hover:text-white rounded-2xl transition-all" 
+              onClick={() => setLocation("/demo")}
+            >
+              Book a Demo
+            </Button>
           </div>
 
-          {/* Hero Dashboard Preview */}
-          <div className="mt-20 relative animate-in fade-in slide-in-from-bottom duration-1000" style={{animationDelay: '300ms'}}>
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-purple-600 rounded-3xl blur-xl opacity-20 animate-pulse"></div>
-            <div className="relative bg-white rounded-3xl border border-gray-200 p-8 shadow-2xl">
+          {/* Interactive Preview Canvas */}
+          <div className="mt-20 relative animate-in fade-in zoom-in duration-1000">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-[2.5rem] blur-3xl opacity-30" />
+            <div className="relative bg-slate-900/50 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] p-4 lg:p-8 shadow-2xl">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <Card className="bg-white border-gray-200 hover:shadow-lg transition-all transform hover:scale-105">
-                  <CardContent className="p-6">
-                    <div className="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center mb-4">
-                      <PhoneCall className="w-6 h-6 text-white" />
-                    </div>
-                    <h3 className="font-semibold mb-2">HD Voice Calling</h3>
-                    <p className="text-sm text-slate-600 mb-4">Crystal-clear voice quality with Twilio</p>
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-xs text-slate-600">
-                        <span>Quality</span>
-                        <span className="font-medium">HD Audio</span>
-                      </div>
-                      <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-purple-500 to-purple-600 w-[99%] animate-in slide-in-from-left duration-1000"></div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-white border-gray-200 hover:shadow-lg transition-all transform hover:scale-105" style={{animationDelay: '100ms'}}>
-                  <CardContent className="p-6">
-                    <div className="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center mb-4">
-                      <Mic className="w-6 h-6 text-white" />
-                    </div>
-                    <h3 className="font-semibold mb-2">Auto Recording</h3>
-                    <p className="text-sm text-slate-600 mb-4">Every call captured automatically</p>
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-xs text-slate-600">
-                        <span>Storage</span>
-                        <span className="font-medium">Unlimited</span>
-                      </div>
-                      <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-teal-500 to-cyan-500 w-[85%] animate-in slide-in-from-left duration-1000"></div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-white border-gray-200 hover:shadow-lg transition-all transform hover:scale-105" style={{animationDelay: '200ms'}}>
-                  <CardContent className="p-6">
-                    <div className="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center mb-4">
-                      <BarChart3 className="w-6 h-6 text-white" />
-                    </div>
-                    <h3 className="font-semibold mb-2">Real-time Analytics</h3>
-                    <p className="text-sm text-slate-600 mb-4">Track every metric that matters</p>
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-xs text-slate-600">
-                        <span>Insights</span>
-                        <span className="font-medium">Live</span>
-                      </div>
-                      <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-orange-400 to-pink-500 w-[92%] animate-in slide-in-from-left duration-1000"></div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                {[
+                  { icon: Target, title: "Lead Scoring", value: "98.2%", desc: "AI Precision Rate", color: "text-blue-400" },
+                  { icon: Users, title: "Active Contacts", value: "2.4M+", desc: "Real-time Processing", color: "text-purple-400" },
+                  { icon: Zap, title: "Campaign ROI", value: "+142%", desc: "Average Growth", color: "text-emerald-400" }
+                ].map((stat, i) => (
+                  <div key={i} className="p-6 rounded-3xl bg-white/5 border border-white/5 hover:border-white/10 transition-all group">
+                    <stat.icon className={`w-8 h-8 ${stat.color} mb-4 group-hover:scale-110 transition-transform`} />
+                    <div className="text-3xl font-bold mb-1">{stat.value}</div>
+                    <div className="text-sm font-semibold text-slate-200 mb-1">{stat.title}</div>
+                    <div className="text-xs text-slate-500">{stat.desc}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

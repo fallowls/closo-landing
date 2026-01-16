@@ -123,23 +123,23 @@ export function EnterpriseFooter() {
 
 
   return (
-    <footer className="bg-slate-900 text-slate-300 border-t border-slate-800">
+    <footer className="bg-slate-950 text-slate-400 border-t border-white/5 selection:bg-purple-500/30">
       {/* Main Footer Content */}
-      <div className="max-w-full mx-auto px-8 lg:px-12 py-10">
+      <div className="max-w-7xl mx-auto px-8 lg:px-12 py-20">
         {/* Top Section: Logo, Newsletter, Social */}
-        <div className="grid lg:grid-cols-12 gap-8 mb-10">
+        <div className="grid lg:grid-cols-12 gap-12 mb-20">
           {/* Company Info */}
           <div className="lg:col-span-4">
-            <div className="mb-6">
+            <div className="mb-8">
               <img 
                 src={closoLogo} 
                 alt="Closo" 
-                className="h-10 w-auto object-contain invert mb-4"
+                className="h-10 w-auto object-contain brightness-0 invert mb-6"
                 data-testid="img-footer-logo"
               />
-              <p className="text-sm text-slate-400 leading-relaxed mb-6">
-                Enterprise-grade communication platform with AI-powered calling, 
-                automatic recording, transcription, and advanced analytics for modern sales teams.
+              <p className="text-base text-slate-400 leading-relaxed max-w-sm">
+                Next-generation campaign management and lead intelligence platform. 
+                Built for teams that demand precision and speed.
               </p>
             </div>
 
