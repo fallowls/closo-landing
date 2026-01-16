@@ -17,7 +17,7 @@ import {
   Menu
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import fallOwlLogo from "@assets/FallOwl_logo_1759280190715.png";
+import closoLogo from "@assets/closo_logo_png_1768558486274.png";
 import { EnterpriseFooter } from "@/components/EnterpriseFooter";
 
 export default function Security() {
@@ -33,9 +33,9 @@ export default function Security() {
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center cursor-pointer" onClick={() => setLocation("/")}>
                 <img 
-                  src={fallOwlLogo} 
-                  alt="FallOwl" 
-                  className="h-10 w-auto object-contain"
+                  src={closoLogo} 
+                  alt="Closo" 
+                  className="h-8 w-auto object-contain"
                 />
               </div>
               
@@ -99,7 +99,7 @@ export default function Security() {
             Enterprise-grade security with industry-leading protocols and compliance standards.
           </p>
           <p className="text-sm text-slate-500">
-            Built on Twilio's trusted infrastructure
+            Built on trusted enterprise infrastructure
           </p>
         </div>
       </section>
@@ -268,7 +268,7 @@ export default function Security() {
                 <h2 className="text-3xl font-bold text-slate-900">Infrastructure Security</h2>
               </div>
               <p className="text-slate-700 leading-relaxed">
-                Built on Twilio's enterprise infrastructure with multiple layers of protection.
+                Built on enterprise infrastructure with multiple layers of protection.
               </p>
               <div className="bg-[#F8F7F5] rounded-2xl p-6">
                 <div className="grid md:grid-cols-2 gap-6">

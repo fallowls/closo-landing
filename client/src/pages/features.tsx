@@ -23,7 +23,7 @@ import {
   Download
 } from "lucide-react";
 import { Link } from "wouter";
-import fallOwlLogo from "@assets/FallOwl_logo_1759280190715.png";
+import closoLogo from "@assets/closo_logo_png_1768558486274.png";
 import { EnterpriseFooter } from "@/components/EnterpriseFooter";
 import { SEO } from "@/components/SEO";
 
@@ -154,16 +154,16 @@ export default function Features() {
   return (
     <div className="min-h-screen bg-[#F8F7F5] text-slate-900">
       <SEO 
-        title="Parallel Dialer Features & Sales CRM Integration | FallOwl"
-        description="Explore FallOwl's parallel dialer features with sales CRM integration. Twilio auto dialer, AI calling, real-time analytics, call recording, and seamless CRM connectivity for sales teams."
-        keywords="parallel dialer features, sales crm integration, twilio dialer features, auto dialer crm, parallel dialing system, crm dialer software, twilio integration features, sales automation tools"
-        canonical="https://fallowl.com/features"
+        title="Parallel Dialer Features & Sales CRM Integration | Closo"
+        description="Explore Closo's parallel dialer features with sales CRM integration. Auto dialer, AI calling, real-time analytics, call recording, and seamless CRM connectivity for sales teams."
+        keywords="parallel dialer features, sales crm integration, dialer features, auto dialer crm, parallel dialing system, crm dialer software, integration features, sales automation tools"
+        canonical="https://closo.com/features"
         schema={{
           "@context": "https://schema.org",
           "@type": "WebPage",
-          "name": "FallOwl Features - Parallel Dialer & CRM Integration",
-          "description": "Complete feature list for FallOwl's parallel dialer and sales CRM integration platform",
-          "url": "https://fallowl.com/features"
+          "name": "Closo Features - Parallel Dialer & CRM Integration",
+          "description": "Complete feature list for Closo's parallel dialer and sales CRM integration platform",
+          "url": "https://closo.com/features"
         }}
       />
       {/* Navigation */}
@@ -174,9 +174,9 @@ export default function Features() {
               <Link href="/">
                 <a className="flex items-center cursor-pointer" data-testid="link-home">
                   <img 
-                    src={fallOwlLogo} 
-                    alt="FallOwl" 
-                    className="h-10 w-auto object-contain"
+                    src={closoLogo} 
+                    alt="Closo" 
+                    className="h-8 w-auto object-contain"
                   />
                 </a>
               </Link>

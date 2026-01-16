@@ -24,7 +24,7 @@ import {
   Menu
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import fallOwlLogo from "@assets/FallOwl_logo_1759280190715.png";
+import closoLogo from "@assets/closo_logo_png_1768558486274.png";
 import { EnterpriseFooter } from "@/components/EnterpriseFooter";
 import { SEO } from "@/components/SEO";
 
@@ -62,8 +62,8 @@ export default function AboutUs() {
     },
     {
       icon: Phone,
-      title: "Twilio Integration",
-      description: "Seamless integration with Twilio for reliable communications",
+      title: "Closo Integration",
+      description: "Seamless integration with Closo for reliable communications",
       gradient: "from-orange-400 to-pink-500"
     },
     {
@@ -106,16 +106,16 @@ export default function AboutUs() {
   return (
     <div className="min-h-screen bg-[#F8F7F5] text-slate-900">
       <SEO 
-        title="About FallOwl - Twilio Dialer & Parallel Dialing Platform | FallOwl"
-        description="Learn about FallOwl's enterprise Twilio dialer and parallel dialing platform. Innovative sales CRM integration, AI-powered calling, and Twilio voice API technology for sales teams."
-        keywords="about fallowl, twilio dialer company, parallel dialer platform, sales crm software, twilio integration company, auto dialer solutions, sales automation platform"
-        canonical="https://fallowl.com/about"
+        title="About Closo - Dialer & Parallel Dialing Platform | Closo"
+        description="Learn about Closo's enterprise dialer and parallel dialing platform. Innovative sales CRM integration, AI-powered calling, and voice API technology for sales teams."
+        keywords="about closo, dialer company, parallel dialer platform, sales crm software, auto dialer solutions, sales automation platform"
+        canonical="https://closo.com/about"
         schema={{
           "@context": "https://schema.org",
           "@type": "AboutPage",
-          "name": "About FallOwl",
-          "description": "FallOwl provides enterprise Twilio dialer with parallel dialing and sales CRM integration",
-          "url": "https://fallowl.com/about"
+          "name": "About Closo",
+          "description": "Closo provides enterprise dialer with parallel dialing and sales CRM integration",
+          "url": "https://closo.com/about"
         }}
       />
       {/* Navigation */}
@@ -126,9 +126,9 @@ export default function AboutUs() {
               <div className="flex items-center">
                 <Link href="/" data-testid="link-home">
                   <img 
-                    src={fallOwlLogo} 
-                    alt="FallOwl" 
-                    className="h-10 w-auto object-contain"
+                    src={closoLogo} 
+                    alt="Closo" 
+                    className="h-8 w-auto object-contain"
                   />
                 </Link>
               </div>
@@ -217,7 +217,7 @@ export default function AboutUs() {
             
             <h1 className="text-5xl md:text-6xl font-bold">
               <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-                About Fallowl
+                About Closo
               </span>
             </h1>
             
@@ -245,7 +245,7 @@ export default function AboutUs() {
                   </h2>
                   
                   <p className="text-slate-600 leading-relaxed">
-                    Fallowl is an individual venture, created with the vision of making sales and cold calling 
+                    Closo is an individual venture, created with the vision of making sales and cold calling 
                     accessible, efficient, and powerful for businesses of all sizes.
                   </p>
                   

@@ -24,7 +24,7 @@ import {
   Globe,
   GitBranch
 } from "lucide-react";
-import fallOwlLogo from "@assets/FallOwl_logo_1759280190715.png";
+import closoLogo from "@assets/closo_logo_png_1768558486274.png";
 import { EnterpriseFooter } from "@/components/EnterpriseFooter";
 
 const blogPosts = [
@@ -66,9 +66,9 @@ const blogPosts = [
   },
   {
     id: 4,
-    slug: "twilio-integration-sales-crm",
-    title: "Complete Guide to Twilio Integration with Sales CRM",
-    excerpt: "Step-by-step tutorial on integrating Twilio with your sales CRM for seamless calling, SMS, and customer communication automation.",
+    slug: "sales-automation-integration",
+    title: "Complete Guide to Integration with Sales CRM",
+    excerpt: "Step-by-step tutorial on integrating your sales CRM for seamless calling, SMS, and customer communication automation.",
     category: "Integration",
     author: "David Kumar",
     date: "October 15, 2025",
@@ -90,9 +90,9 @@ const blogPosts = [
   },
   {
     id: 6,
-    slug: "twilio-api-advanced-features",
-    title: "Advanced Twilio API Features for Sales Teams",
-    excerpt: "Unlock the full potential of Twilio API with advanced features like call recording, transcription, and analytics integration.",
+    slug: "api-advanced-features",
+    title: "Advanced API Features for Sales Teams",
+    excerpt: "Unlock the full potential of our API with advanced features like call recording, transcription, and analytics integration.",
     category: "Technical",
     author: "Alex Thompson",
     date: "October 9, 2025",
@@ -198,9 +198,9 @@ const blogPosts = [
   },
   {
     id: 15,
-    slug: "twilio-voice-quality-optimization",
-    title: "Optimizing Twilio Voice Quality for Crystal-Clear Calls",
-    excerpt: "Technical guide to optimizing Twilio voice quality, reducing latency, and ensuring HD audio for professional sales calls.",
+    slug: "voice-quality-optimization",
+    title: "Optimizing Voice Quality for Crystal-Clear Calls",
+    excerpt: "Technical guide to optimizing voice quality, reducing latency, and ensuring HD audio for professional sales calls.",
     category: "Technical",
     author: "Nathan Rodriguez",
     date: "September 25, 2025",
@@ -224,25 +224,25 @@ export default function Blog() {
   return (
     <div className="min-h-screen bg-[#F8F7F5] text-slate-900">
       <SEO 
-        title="Twilio Dialer & Parallel Dialing Blog - Sales CRM Insights | FallOwl"
-        description="Expert insights on Twilio dialers, parallel dialing, and sales CRM integration. Learn best practices for auto dialers, sales automation, and maximizing team productivity."
-        keywords="twilio dialer blog, parallel dialer tips, sales crm blog, auto dialer best practices, twilio integration guide, sales automation insights, power dialer strategies, auto dialer guide"
-        canonical="https://fallowl.com/blog"
-        ogTitle="Twilio Dialer & Sales Technology Blog | FallOwl"
-        ogDescription="Expert insights on Twilio dialers, parallel dialing, and sales CRM integration. Best practices for auto dialers and sales automation."
+        title="Dialer & Parallel Dialing Blog - Sales CRM Insights | Closo"
+        description="Expert insights on dialers, parallel dialing, and sales CRM integration. Learn best practices for auto dialers, sales automation, and maximizing team productivity."
+        keywords="dialer blog, parallel dialer tips, sales crm blog, auto dialer best practices, integration guide, sales automation insights, power dialer strategies, auto dialer guide"
+        canonical="https://closo.com/blog"
+        ogTitle="Dialer & Sales Technology Blog | Closo"
+        ogDescription="Expert insights on dialers, parallel dialing, and sales CRM integration. Best practices for auto dialers and sales automation."
         ogImage="/favicon.png"
         schema={{
           "@context": "https://schema.org",
           "@type": "Blog",
-          "name": "FallOwl Blog",
+          "name": "Closo Blog",
           "description": "Expert insights on auto dialers, power dialers, and sales technology",
-          "url": "https://fallowl.com/blog",
+          "url": "https://closo.com/blog",
           "publisher": {
             "@type": "Organization",
-            "name": "FallOwl",
+            "name": "Closo",
             "logo": {
               "@type": "ImageObject",
-              "url": "https://fallowl.com/attached_assets/FallOwl_logo_1759280190715.png"
+              "url": "https://closo.com/attached_assets/closo_logo_png_1768558486274.png"
             }
           }
         }}
@@ -254,9 +254,9 @@ export default function Blog() {
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center cursor-pointer" onClick={() => setLocation("/")}>
                 <img 
-                  src={fallOwlLogo} 
-                  alt="FallOwl" 
-                  className="h-10 w-auto object-contain"
+                  src={closoLogo} 
+                  alt="Closo" 
+                  className="h-8 w-auto object-contain"
                   data-testid="img-logo"
                 />
               </div>
@@ -315,10 +315,10 @@ export default function Blog() {
       <section className="pt-20 pb-16 px-6 lg:px-8">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 text-slate-900">
-            FallOwl Blog
+            Closo Blog
           </h1>
           <p className="text-lg text-slate-600 mb-8 max-w-3xl mx-auto">
-            Insights, guides, and best practices for modern sales teams using auto dialers and communication technology
+            Insights, guides, and best practices for modern sales teams using dialers and communication technology
           </p>
           
           {/* Search Bar */}
@@ -414,7 +414,7 @@ export default function Blog() {
               Ready to Transform Your Sales Process?
             </h2>
             <p className="text-purple-100 mb-8 max-w-2xl mx-auto">
-              Start using FallOwl's powerful dialing technology to increase your team's productivity and close more deals.
+              Start using Closo's powerful dialing technology to increase your team's productivity and close more deals.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 

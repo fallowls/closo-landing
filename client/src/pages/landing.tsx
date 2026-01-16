@@ -270,24 +270,24 @@ POST https://api.fallowl.com/webhooks
 
       {/* Hero Section */}
       <section className="pt-32 pb-24 px-6 lg:px-8 relative z-10">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-purple-400 mb-8 animate-in fade-in slide-in-from-top duration-500">
-            <Sparkles className="w-3 h-3" />
-            <span>Introducing Closo 2.0 — Now with AI Lead Scoring</span>
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 leading-[1.1] animate-in fade-in slide-in-from-bottom duration-700">
-            Precision{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500">
-              Intelligence
-            </span>
-            <br />
-            for Modern Sales
-          </h1>
-          
-          <p className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom duration-1000">
-            Elevate your campaign management with advanced lead scoring, contact intelligence, and secure data handling designed for the enterprise.
-          </p>
+          <div className="max-w-6xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-purple-400 mb-8 animate-in fade-in slide-in-from-top duration-500">
+              <Sparkles className="w-3 h-3" />
+              <span>Introducing Closo 2.0 — Now with AI Lead Scoring</span>
+            </div>
+            
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 leading-[1.1] animate-in fade-in slide-in-from-bottom duration-700">
+              Precision{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500">
+                Intelligence
+              </span>
+              <br />
+              for Modern Sales
+            </h1>
+            
+            <p className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom duration-1000">
+              Elevate your campaign management with advanced lead scoring, contact intelligence, and secure data handling designed for the enterprise.
+            </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-20 animate-in fade-in slide-in-from-bottom duration-1000">
             <Button 
