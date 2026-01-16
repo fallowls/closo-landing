@@ -36,7 +36,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 
-import closoLogo from "@assets/closo_logo_1768558290200.png";
+import closoLogo from "@assets/closo_logo_png_1768558486274.png";
 
 interface SidebarProps {
   className?: string;
@@ -276,7 +276,7 @@ export function AdminSidebar({ className }: SidebarProps) {
         <div className="flex h-16 items-center justify-between border-b border-slate-200 px-4">
           {!collapsed && (
             <div className="flex items-center gap-2">
-              <img src={closoLogo} alt="Closo" className="h-8 w-auto object-contain" />
+              <img src={closoLogo} alt="Closo" className="h-6 w-auto object-contain" />
               <span className="font-bold text-slate-900">Admin</span>
             </div>
           )}

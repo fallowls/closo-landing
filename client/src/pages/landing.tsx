@@ -57,7 +57,7 @@ import { useLocation, Link } from "wouter";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import closoLogo from "@assets/closo_logo_1768558290200.png";
+import closoLogo from "@assets/closo_logo_png_1768558486274.png";
 import { EnterpriseFooter } from "@/components/EnterpriseFooter";
 import { SEO } from "@/components/SEO";
 
