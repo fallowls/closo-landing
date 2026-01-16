@@ -30,8 +30,8 @@ function cleanStreamResponse(content: string): string {
   // Remove any emojis completely
   cleaned = cleaned.replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '');
   
-  // Replace Fallowl with zhatore in AI responses
-  cleaned = cleaned.replace(/Fallowl/gi, 'zhatore');
+  // Replace FallOwl with Closo in AI responses
+  cleaned = cleaned.replace(/FallOwl/gi, 'Closo');
   
   // Keep cute pet-like behaviors but remove formal greetings
   cleaned = cleaned.replace(/^(?:greets warmly\s*)?(?:Hello there[^.!?]*[.!?]\s*)?/i, '');

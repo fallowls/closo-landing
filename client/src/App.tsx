@@ -132,7 +132,6 @@ function Router() {
       <Route path="/compliance" component={Compliance} />
       <Route path="/api-docs" component={ApiDocs} />
       <Route path="/features" component={Features} />
-      <Route path="/twilio-setup" component={TwilioSetup} />
       <Route path="/blog" component={Blog} />
       <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/dashboard">

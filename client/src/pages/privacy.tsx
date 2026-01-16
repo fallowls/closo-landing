@@ -45,7 +45,7 @@ export default function Privacy() {
                 <Button 
                   size="sm" 
                   className="bg-slate-900 hover:bg-slate-800 text-white text-sm rounded-xl"
-                  onClick={() => window.location.href = 'https://app.fallowl.com'}
+                  onClick={() => window.location.href = 'https://app.closo.com'}
                 >
                   Sign in
                 </Button>
@@ -72,7 +72,7 @@ export default function Privacy() {
                     <Button 
                       size="sm" 
                       className="bg-slate-900 hover:bg-slate-800 text-white w-full rounded-xl"
-                      onClick={() => window.location.href = 'https://app.fallowl.com'}
+                      onClick={() => window.location.href = 'https://app.closo.com'}
                     >
                       Sign in
                     </Button>
@@ -350,10 +350,10 @@ export default function Privacy() {
                     If you have any questions or concerns about our privacy practices, please contact us at:
                   </p>
                   <a 
-                    href="mailto:privacy@fallowl.com" 
+                    href="mailto:privacy@closo.com" 
                     className="text-purple-600 font-medium hover:text-purple-700 transition-colors"
                   >
-                    privacy@fallowl.com
+                    privacy@closo.com
                   </a>
                 </div>
               </div>

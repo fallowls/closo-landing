@@ -44,7 +44,7 @@ export default function Terms() {
                 <Button 
                   size="sm" 
                   className="bg-slate-900 hover:bg-slate-800 text-white text-sm rounded-xl"
-                  onClick={() => window.location.href = 'https://app.fallowl.com'}
+                  onClick={() => window.location.href = 'https://app.closo.com'}
                 >
                   Sign in
                 </Button>
@@ -71,7 +71,7 @@ export default function Terms() {
                     <Button 
                       size="sm" 
                       className="bg-slate-900 hover:bg-slate-800 text-white w-full rounded-xl"
-                      onClick={() => window.location.href = 'https://app.fallowl.com'}
+                      onClick={() => window.location.href = 'https://app.closo.com'}
                     >
                       Sign in
                     </Button>
@@ -392,10 +392,10 @@ export default function Terms() {
                     If you have any questions or concerns about our terms of service, please contact us at:
                   </p>
                   <a 
-                    href="mailto:legal@fallowl.com" 
+                    href="mailto:legal@closo.com" 
                     className="text-purple-600 font-medium hover:text-purple-700 transition-colors"
                   >
-                    legal@fallowl.com
+                    legal@closo.com
                   </a>
                 </div>
               </div>

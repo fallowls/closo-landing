@@ -91,13 +91,13 @@ export function EnterpriseFooter() {
 
   const productLinks = [
     { label: "Features", href: "/features", testId: "link-footer-features" },
+    { label: "Parallel Dialer", href: "/features", testId: "link-footer-parallel" },
     { label: "API Documentation", href: "/api-docs", testId: "link-footer-api" },
-    { label: "Pricing", href: "#", testId: "link-footer-pricing" },
+    { label: "Security", href: "/security", testId: "link-footer-security-link" },
   ];
 
   const resourcesLinks = [
-    { label: "Help Center", href: "https://app.fallowl.com", testId: "link-footer-help" },
-    { label: "Twilio Setup Guide", href: "/twilio-setup", testId: "link-footer-twilio" },
+    { label: "Help Center", href: "#", testId: "link-footer-help" },
     { label: "Blog", href: "/blog", testId: "link-footer-blog" },
     { label: "Status Page", href: "#", testId: "link-footer-status" },
   ];
@@ -115,10 +115,10 @@ export function EnterpriseFooter() {
   ];
 
   const socialLinks = [
-    { icon: Linkedin, href: "https://www.linkedin.com/company/fallowl", label: "LinkedIn", testId: "link-social-linkedin" },
-    { icon: Twitter, href: "https://twitter.com", label: "Twitter", testId: "link-social-twitter" },
-    { icon: Github, href: "https://github.com", label: "GitHub", testId: "link-social-github" },
-    { icon: Youtube, href: "https://youtube.com", label: "YouTube", testId: "link-social-youtube" },
+    { icon: Linkedin, href: "https://www.linkedin.com/company/closo", label: "LinkedIn", testId: "link-social-linkedin" },
+    { icon: Twitter, href: "https://twitter.com/closo", label: "Twitter", testId: "link-social-twitter" },
+    { icon: Github, href: "https://github.com/closo", label: "GitHub", testId: "link-social-github" },
+    { icon: Youtube, href: "https://youtube.com/@closo", label: "YouTube", testId: "link-social-youtube" },
   ];
 
 
@@ -147,8 +147,8 @@ export function EnterpriseFooter() {
             <div className="space-y-3 mb-6">
               <div className="flex items-center gap-3 text-sm text-slate-400">
                 <Mail className="w-4 h-4 shrink-0" />
-                <a href="mailto:info@fallowl.com" className="hover:text-white transition-colors" data-testid="link-footer-email">
-                  info@fallowl.com
+                <a href="mailto:info@closo.com" className="hover:text-white transition-colors" data-testid="link-footer-email">
+                  info@closo.com
                 </a>
               </div>
               <div className="flex items-center gap-3 text-sm text-slate-400">
