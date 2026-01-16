@@ -26,7 +26,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { setAuthenticated } from "@/lib/auth";
-import fallOwlLogo from "@assets/FallOwl_logo_1759280190715.png";
+import closoLogo from "@assets/closo_logo_1768558290200.png";
 
 export function EnterpriseFooter() {
   const [email, setEmail] = useState("");
@@ -132,8 +132,8 @@ export function EnterpriseFooter() {
           <div className="lg:col-span-4">
             <div className="mb-6">
               <img 
-                src={fallOwlLogo} 
-                alt="FallOwl" 
+                src={closoLogo} 
+                alt="Closo" 
                 className="h-12 w-auto object-contain invert mb-4"
                 data-testid="img-footer-logo"
               />
@@ -363,7 +363,7 @@ export function EnterpriseFooter() {
           {/* Copyright */}
           <div className="flex flex-wrap items-center gap-6 text-sm text-slate-400">
             <p data-testid="text-footer-copyright">
-              © <span onClick={handleYearClick} className="cursor-pointer hover:text-white transition-colors" data-testid="text-footer-year">2025</span> FallOwl, Inc. All rights reserved.
+              © <span onClick={handleYearClick} className="cursor-pointer hover:text-white transition-colors" data-testid="text-footer-year">2025</span> Closo, Inc. All rights reserved.
             </p>
             <div className="flex items-center gap-2">
               <Globe className="w-4 h-4" />

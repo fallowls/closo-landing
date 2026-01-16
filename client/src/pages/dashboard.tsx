@@ -23,6 +23,8 @@ import CampaignList from "@/components/campaign-list";
 
 import PawMate from "@/components/pawmate-enhanced";
 
+import closoLogo from "@assets/closo_logo_1768558290200.png";
+
 export default function Dashboard() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
@@ -98,13 +100,13 @@ export default function Dashboard() {
           {/* Sidebar Header */}
           <div className="p-4 border-b border-slate-200/50">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center shadow shrink-0">
-                <Dog className="text-white h-4 w-4" />
+              <div className="shrink-0">
+                <img src={closoLogo} alt="Closo" className="h-8 w-auto object-contain" />
               </div>
               <div className={`transition-all duration-300 overflow-hidden ${
                 isSidebarHovered ? 'w-auto opacity-100' : 'w-0 opacity-0'
               }`}>
-                <h1 className="text-sm font-bold text-slate-900 whitespace-nowrap">FallOwl</h1>
+                <h1 className="text-sm font-bold text-slate-900 whitespace-nowrap">Closo</h1>
                 <p className="text-xs text-slate-500 whitespace-nowrap">Dashboard</p>
               </div>
             </div>
@@ -195,7 +197,7 @@ export default function Dashboard() {
         <header className="bg-white/80 backdrop-blur-sm border-b border-slate-200/50 px-6 py-3 sticky top-0 z-40">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-xl font-bold text-slate-900">FallOwl Dashboard</h1>
+              <h1 className="text-xl font-bold text-slate-900">Closo Dashboard</h1>
               <p className="text-sm text-slate-500">AI-powered lead scoring and business intelligence</p>
             </div>
             <div className="flex items-center space-x-3">

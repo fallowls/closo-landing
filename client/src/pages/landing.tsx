@@ -57,7 +57,7 @@ import { useLocation, Link } from "wouter";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import fallOwlLogo from "@assets/FallOwl_logo_1759280190715.png";
+import closoLogo from "@assets/closo_logo_1768558290200.png";
 import { EnterpriseFooter } from "@/components/EnterpriseFooter";
 import { SEO } from "@/components/SEO";
 
@@ -203,17 +203,17 @@ POST https://api.fallowl.com/webhooks
   return (
     <div className="min-h-screen bg-[#F8F7F5] text-slate-900 overflow-x-hidden">
       <SEO 
-        title="Twilio Dialer & Parallel Dialer with Sales CRM Integration | FallOwl"
+        title="Twilio Dialer & Parallel Dialer with Sales CRM Integration | Closo"
         description="Enterprise Twilio dialer with parallel dialing & sales CRM integration. Auto dialer software for sales teams with AI calling, real-time analytics & Twilio API integration. Free trial."
         keywords="twilio dialer, parallel dialer, sales crm integration, twilio auto dialer, twilio power dialer, parallel dialing software, auto dialer crm, twilio call center software, sales dialer software, twilio predictive dialer"
-        canonical="https://fallowl.com/"
+        canonical="https://closo.com/"
         schema={{
           "@context": "https://schema.org",
           "@type": "SoftwareApplication",
-          "name": "FallOwl - Twilio Dialer & Parallel Dialing CRM Software",
+          "name": "Closo - Twilio Dialer & Parallel Dialing CRM Software",
           "applicationCategory": "BusinessApplication",
           "description": "Enterprise Twilio dialer with parallel dialing and sales CRM integration for maximum sales productivity",
-          "url": "https://fallowl.com",
+          "url": "https://closo.com",
           "offers": {
             "@type": "Offer",
             "price": "0",
@@ -229,8 +229,8 @@ POST https://api.fallowl.com/webhooks
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center">
                 <img 
-                  src={fallOwlLogo} 
-                  alt="FallOwl" 
+                  src={closoLogo} 
+                  alt="Closo" 
                   className="h-10 w-auto object-contain"
                 />
               </div>

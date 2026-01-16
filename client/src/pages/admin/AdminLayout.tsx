@@ -1,11 +1,12 @@
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { Button } from "@/components/ui/button";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { LogOut } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { setAuthenticated } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
+import closoLogo from "@assets/closo_logo_1768558290200.png";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -39,7 +40,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       <AdminSidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <header className="bg-white border-b border-slate-200 shadow-sm">
-          <div className="flex justify-end items-center px-6 py-4">
+          <div className="flex justify-between items-center px-6 py-4">
+            <Link href="/">
+              <img src={closoLogo} alt="Closo" className="h-8 w-auto object-contain cursor-pointer" />
+            </Link>
             <Button
               variant="destructive"
               size="sm"
