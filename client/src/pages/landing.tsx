@@ -163,64 +163,6 @@ await closo.call({ to: '+1234567890' });`,
         </div>
       </section>
 
-      <section className="py-20 bg-white text-slate-900">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-3">Enterprise Core</h2>
-            <p className="text-slate-500 text-sm">Scalable tools for high-growth outreach</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { icon: PhoneOutgoing, title: "Outbound", desc: "Global calling reach" },
-              { icon: PhoneIncoming, title: "Inbound", desc: "Smart call routing" },
-              { icon: Mic, title: "Intelligence", desc: "AI transcriptions" },
-              { icon: Voicemail, title: "Voicemail", desc: "Custom drop-ins" },
-              { icon: Radio, title: "Programmable", desc: "Custom API hooks" },
-              { icon: MessageSquare, title: "Omnichannel", desc: "SMS & Voice sync" }
-            ].map((f, i) => (
-              <Card key={i} className="border-slate-100 shadow-sm hover:shadow-md transition-all group hover:-translate-y-1">
-                <CardContent className="p-5 flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-slate-900 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                    <f.icon className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-sm mb-1">{f.title}</h3>
-                    <p className="text-xs text-slate-500 leading-relaxed">{f.desc}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 bg-slate-50 text-slate-900">
-        <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-3xl font-bold mb-6">Developer First</h2>
-            <div className="space-y-4">
-              {[
-                { icon: Code, title: "REST API", active: hoveredCapability === 0 },
-                { icon: Smartphone, title: "Mobile SDK", active: hoveredCapability === 1 },
-                { icon: Laptop, title: "Web SDK", active: hoveredCapability === 2 },
-                { icon: Database, title: "Webhooks", active: hoveredCapability === 3 }
-              ].map((c, i) => (
-                <div key={i} onMouseEnter={() => setHoveredCapability(i)} className={`p-4 rounded-xl border transition-all cursor-pointer flex items-center gap-4 ${c.active ? 'bg-white border-purple-200 shadow-sm translate-x-1' : 'bg-transparent border-transparent grayscale opacity-60'}`}>
-                  <div className="w-8 h-8 rounded bg-slate-900 flex items-center justify-center"><c.icon className="w-4 h-4 text-white" /></div>
-                  <span className="font-bold text-sm">{c.title}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="bg-slate-900 rounded-2xl p-6 shadow-2xl border border-white/5 font-mono text-[11px] text-purple-400 min-h-[300px]">
-            <div className="flex gap-1.5 mb-6">
-              {[1, 2, 3].map(i => <div key={i} className="w-2.5 h-2.5 rounded-full bg-white/10" />)}
-            </div>
-            <pre>{typedCode}<span className="animate-pulse">_</span></pre>
-          </div>
-        </div>
-      </section>
-
       <section className="py-24 bg-white text-slate-900 border-y border-slate-100">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -328,7 +270,7 @@ await closo.call({ to: '+1234567890' });`,
             ].map((f, i) => (
               <Card key={i} className="border-slate-100 shadow-sm hover:shadow-md transition-all group hover:-translate-y-1">
                 <CardContent className="p-5 flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-slate-900 flex items-center justify-center shrink-0 group-hover:rotate-6 transition-transform">
+                  <div className="w-10 h-10 rounded-lg bg-slate-900 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                     <f.icon className="w-5 h-5 text-white" />
                   </div>
                   <div>
@@ -395,7 +337,7 @@ await closo.call({ to: '+1234567890' });`,
         </div>
       </section>
 
-      <section className="py-24 bg-white text-slate-900 overflow-hidden relative">
+      <section className="py-24 bg-white text-slate-900 overflow-hidden relative border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-12 bg-slate-900 rounded-[3rem] p-8 md:p-16 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/20 blur-[100px] rounded-full -mr-48 -mt-48" />
@@ -417,6 +359,36 @@ await closo.call({ to: '+1234567890' });`,
           </div>
         </div>
       </section>
+
+      <section className="py-24 bg-slate-50 text-slate-900">
+        <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 className="text-3xl font-bold mb-6">Developer First</h2>
+            <div className="space-y-4">
+              {[
+                { icon: Code, title: "REST API", active: hoveredCapability === 0 },
+                { icon: Smartphone, title: "Mobile SDK", active: hoveredCapability === 1 },
+                { icon: Laptop, title: "Web SDK", active: hoveredCapability === 2 },
+                { icon: Database, title: "Webhooks", active: hoveredCapability === 3 }
+              ].map((c, i) => (
+                <div key={i} onMouseEnter={() => setHoveredCapability(i)} className={`p-4 rounded-xl border transition-all cursor-pointer flex items-center gap-4 ${c.active ? 'bg-white border-purple-200 shadow-sm translate-x-1' : 'bg-transparent border-transparent grayscale opacity-60'}`}>
+                  <div className="w-8 h-8 rounded bg-slate-900 flex items-center justify-center"><c.icon className="w-4 h-4 text-white" /></div>
+                  <span className="font-bold text-sm">{c.title}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="bg-slate-900 rounded-2xl p-6 shadow-2xl border border-white/5 font-mono text-[11px] text-purple-400 min-h-[300px]">
+            <div className="flex gap-1.5 mb-6">
+              {[1, 2, 3].map(i => <div key={i} className="w-2.5 h-2.5 rounded-full bg-white/10" />)}
+            </div>
+            <pre>{typedCode}<span className="animate-pulse">_</span></pre>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-white">
+        <div className="max-w-5xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-3">
               {[
