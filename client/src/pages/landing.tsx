@@ -100,7 +100,10 @@ await closo.call({ to: '+1234567890' });`,
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-50 selection:bg-purple-500/30 font-sans tracking-tight">
-      <SEO title="Closo | Enterprise Lead Intelligence" />
+      <SEO 
+        title="Closo | Enterprise Lead Intelligence" 
+        description="Enterprise-grade lead scoring and contact intelligence platform designed for high-performance sales teams."
+      />
       
       <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-600/20 blur-[120px] rounded-full animate-pulse" />
