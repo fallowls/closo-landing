@@ -221,8 +221,202 @@ await closo.call({ to: '+1234567890' });`,
         </div>
       </section>
 
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white text-slate-900 border-y border-slate-100">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="relative">
+              <div className="absolute -top-20 -left-20 w-64 h-64 bg-purple-100/50 rounded-full blur-3xl opacity-60" />
+              <div className="relative space-y-8">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-[10px] font-bold uppercase tracking-widest text-slate-600">
+                  <Target className="w-3 h-3" />
+                  <span>AI-Driven Prospecting</span>
+                </div>
+                <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
+                  Qualify Leads with <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Unmatched Precision</span>
+                </h2>
+                <p className="text-lg text-slate-600 leading-relaxed max-w-lg">
+                  Closo's advanced AI engine analyzes millions of data points to identify your ideal customer profiles, scoring every lead based on real-time intent and behavioral signals.
+                </p>
+                <div className="grid grid-cols-2 gap-6">
+                  {[
+                    { label: "Data Sources", value: "50+", desc: "Real-time verification" },
+                    { label: "Intent Signals", value: "200+", desc: "Behavioral tracking" }
+                  ].map((stat, i) => (
+                    <div key={i} className="space-y-1">
+                      <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
+                      <div className="text-sm font-bold text-slate-600">{stat.label}</div>
+                      <p className="text-xs text-slate-400">{stat.desc}</p>
+                    </div>
+                  ))}
+                </div>
+                <Button size="lg" className="bg-slate-900 text-white rounded-xl px-8 h-12 text-sm font-bold shadow-xl hover:bg-slate-800 transition-all hover:scale-105">
+                  Explore AI Scoring
+                </Button>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-[2.5rem] -rotate-2" />
+              <div className="relative bg-white border border-slate-100 rounded-[2.5rem] p-8 shadow-2xl shadow-slate-200/50">
+                <div className="space-y-6">
+                  {[
+                    { title: "Decision Maker Identification", progress: 95, color: "bg-blue-500" },
+                    { title: "Budget Authority Scoring", progress: 88, color: "bg-purple-500" },
+                    { title: "Purchase Intent Analysis", progress: 92, color: "bg-emerald-500" },
+                    { title: "Engagement Probability", progress: 84, color: "bg-orange-500" }
+                  ].map((item, i) => (
+                    <div key={i} className="space-y-2">
+                      <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-slate-500">
+                        <span>{item.title}</span>
+                        <span>{item.progress}%</span>
+                      </div>
+                      <div className="h-2 w-full bg-slate-50 rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full ${item.color} transition-all duration-1000 ease-out`}
+                          style={{ width: `${item.progress}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-slate-950 text-white overflow-hidden relative">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">Built for Scale</h2>
+            <p className="text-slate-400 text-lg">Our global infrastructure handles millions of interactions with sub-millisecond latency.</p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { title: "Global Reach", value: "190+", sub: "Countries supported", icon: CloudLightning },
+              { title: "Uptime SLA", value: "99.99%", sub: "Enterprise reliability", icon: Wifi },
+              { title: "Encryption", value: "AES-256", sub: "Military-grade security", icon: Lock },
+              { title: "Support", value: "24/7", sub: "Expert assistance", icon: Users }
+            ].map((item, i) => (
+              <div key={i} className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/[0.08] transition-all group">
+                <item.icon className="w-8 h-8 text-purple-400 mb-6 group-hover:scale-110 transition-transform" />
+                <div className="text-3xl font-bold mb-2">{item.value}</div>
+                <div className="text-sm font-bold text-slate-300 mb-1">{item.title}</div>
+                <p className="text-xs text-slate-500 uppercase tracking-widest">{item.sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-white text-slate-900">
         <div className="max-w-5xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold mb-3">Enterprise Core</h2>
+            <p className="text-slate-500 text-sm">Scalable tools for high-growth outreach</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { icon: PhoneOutgoing, title: "Outbound", desc: "Global calling reach" },
+              { icon: PhoneIncoming, title: "Inbound", desc: "Smart call routing" },
+              { icon: Mic, title: "Intelligence", desc: "AI transcriptions" },
+              { icon: Voicemail, title: "Voicemail", desc: "Custom drop-ins" },
+              { icon: Radio, title: "Programmable", desc: "Custom API hooks" },
+              { icon: MessageSquare, title: "Omnichannel", desc: "SMS & Voice sync" }
+            ].map((f, i) => (
+              <Card key={i} className="border-slate-100 shadow-sm hover:shadow-md transition-all group hover:-translate-y-1">
+                <CardContent className="p-5 flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-slate-900 flex items-center justify-center shrink-0 group-hover:rotate-6 transition-transform">
+                    <f.icon className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-sm mb-1">{f.title}</h3>
+                    <p className="text-xs text-slate-500 leading-relaxed">{f.desc}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-slate-50 border-y border-slate-100">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { title: "CRM Integration", desc: "Sync leads automatically", icon: Database },
+                  { title: "Smart Routing", desc: "AI-based call distribution", icon: PhoneForwarded },
+                  { title: "Team Insights", desc: "Real-time performance metrics", icon: BarChart2 },
+                  { title: "Global Numbers", desc: "Local presence everywhere", icon: CloudLightning }
+                ].map((item, i) => (
+                  <div key={i} className="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-all group">
+                    <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center mb-4 group-hover:bg-slate-900 transition-colors">
+                      <item.icon className="w-5 h-5 text-slate-600 group-hover:text-white transition-colors" />
+                    </div>
+                    <h4 className="font-bold text-sm mb-1">{item.title}</h4>
+                    <p className="text-xs text-slate-500">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="order-1 lg:order-2 space-y-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-[10px] font-bold uppercase tracking-widest text-purple-600">
+                <Zap className="w-3 h-3" />
+                <span>Workflow Automation</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
+                Automate Your <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">Sales Lifecycle</span>
+              </h2>
+              <p className="text-lg text-slate-600 leading-relaxed max-w-lg">
+                Stop wasting time on manual data entry. Closo automates lead discovery, enrichment, and qualification, allowing your team to focus exclusively on closing high-value deals.
+              </p>
+              <ul className="space-y-4">
+                {[
+                  "Automated lead enrichment from 50+ sources",
+                  "Intelligent follow-up scheduling",
+                  "Real-time CRM synchronization",
+                  "Customizable qualification workflows"
+                ].map((point, i) => (
+                  <li key={i} className="flex items-center gap-3 text-sm font-medium text-slate-700">
+                    <div className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center">
+                      <Zap className="w-3 h-3 text-emerald-600" />
+                    </div>
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-white text-slate-900 overflow-hidden relative">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12 bg-slate-900 rounded-[3rem] p-8 md:p-16 text-white relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/20 blur-[100px] rounded-full -mr-48 -mt-48" />
+            <div className="relative z-10 max-w-xl text-center md:text-left">
+              <h2 className="text-3xl md:text-5xl font-bold mb-6">Ready to scale your sales intelligence?</h2>
+              <p className="text-slate-400 text-lg mb-10 leading-relaxed">Join 500+ enterprise teams using Closo to dominate their market with data-driven precision.</p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                <Button size="lg" className="bg-white text-slate-950 hover:bg-slate-100 px-10 h-14 text-base font-bold rounded-2xl transition-all hover:scale-105 active:scale-95" onClick={() => window.location.href='/dashboard'}>Get Started for Free</Button>
+                <Button variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/5 px-10 h-14 text-base font-bold rounded-2xl transition-all" onClick={() => setLocation("/demo")}>Talk to Sales</Button>
+              </div>
+            </div>
+            <div className="relative z-10 hidden lg:block">
+              <div className="w-64 h-64 border-4 border-white/10 rounded-full flex items-center justify-center animate-spin-slow">
+                <div className="w-48 h-48 border-2 border-white/5 rounded-full flex items-center justify-center">
+                  <img src={closoLogo} alt="Closo" className="h-10 brightness-0 invert opacity-50" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-3">
               {[
