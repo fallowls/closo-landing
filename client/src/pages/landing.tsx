@@ -320,26 +320,32 @@ await closo.call({ to: '+1234567890' });`,
       </section>
 
       {/* Infrastructure Section */}
-      <section className="py-24 bg-slate-950 text-white overflow-hidden relative">
+      <section className="py-16 bg-slate-950 text-white overflow-hidden relative border-y border-white/5">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">Built for Scale</h2>
-            <p className="text-slate-400 text-lg">Our global infrastructure handles millions of interactions with sub-millisecond latency.</p>
+          <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-12">
+            <div className="max-w-xl">
+              <h2 className="text-3xl md:text-4xl font-bold mb-3">Built for Scale</h2>
+              <p className="text-slate-400 text-sm">Global infrastructure handling millions of interactions with sub-millisecond latency.</p>
+            </div>
+            <div className="flex gap-4 items-center px-4 py-2 bg-white/5 border border-white/10 rounded-xl">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Global Status: Operational</span>
+            </div>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               { title: "Global Reach", value: "190+", sub: "Countries supported", icon: CloudLightning },
               { title: "Uptime SLA", value: "99.99%", sub: "Enterprise reliability", icon: Wifi },
               { title: "Encryption", value: "AES-256", sub: "Military-grade security", icon: Lock },
               { title: "Support", value: "24/7", sub: "Expert assistance", icon: Users }
             ].map((item, i) => (
-              <div key={i} className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/[0.08] transition-all group">
-                <item.icon className="w-8 h-8 text-purple-400 mb-6 group-hover:scale-110 transition-transform" />
-                <div className="text-3xl font-bold mb-2">{item.value}</div>
-                <div className="text-sm font-bold text-slate-300 mb-1">{item.title}</div>
-                <p className="text-xs text-slate-500 uppercase tracking-widest">{item.sub}</p>
+              <div key={i} className="p-5 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/[0.08] transition-all group">
+                <item.icon className="w-5 h-5 text-purple-400 mb-4 group-hover:scale-110 transition-transform" />
+                <div className="text-2xl font-bold mb-1">{item.value}</div>
+                <div className="text-[10px] font-bold text-slate-300">{item.title}</div>
+                <p className="text-[8px] text-slate-500 uppercase tracking-wider">{item.sub}</p>
               </div>
             ))}
           </div>
