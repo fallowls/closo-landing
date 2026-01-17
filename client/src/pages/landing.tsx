@@ -163,6 +163,72 @@ await closo.call({ to: '+1234567890' });`,
         </div>
       </section>
 
+      {/* AI Prospecting Section */}
+      <section className="py-24 bg-white text-slate-900 border-y border-slate-100">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="relative">
+              <div className="absolute -top-20 -left-20 w-64 h-64 bg-purple-100/50 rounded-full blur-3xl opacity-60" />
+              <div className="relative space-y-8">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-[10px] font-bold uppercase tracking-widest text-slate-600">
+                  <Target className="w-3 h-3" />
+                  <span>AI-Driven Prospecting</span>
+                </div>
+                <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
+                  Qualify Leads with <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Unmatched Precision</span>
+                </h2>
+                <p className="text-lg text-slate-600 leading-relaxed max-w-lg">
+                  Closo's advanced AI engine analyzes millions of data points to identify your ideal customer profiles, scoring every lead based on real-time intent and behavioral signals.
+                </p>
+                <div className="grid grid-cols-2 gap-6">
+                  {[
+                    { label: "Data Sources", value: "50+", desc: "Real-time verification" },
+                    { label: "Intent Signals", value: "200+", desc: "Behavioral tracking" }
+                  ].map((stat, i) => (
+                    <div key={i} className="space-y-1">
+                      <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
+                      <div className="text-sm font-bold text-slate-600">{stat.label}</div>
+                      <p className="text-xs text-slate-400">{stat.desc}</p>
+                    </div>
+                  ))}
+                </div>
+                <Button size="lg" className="bg-slate-900 text-white rounded-xl px-8 h-12 text-sm font-bold shadow-xl hover:bg-slate-800 transition-all hover:scale-105">
+                  Explore AI Scoring
+                </Button>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-[2.5rem] -rotate-2" />
+              <div className="relative bg-white border border-slate-100 rounded-[2.5rem] p-8 shadow-2xl shadow-slate-200/50">
+                <div className="space-y-6">
+                  {[
+                    { title: "Decision Maker Identification", progress: 95, color: "bg-blue-500" },
+                    { title: "Budget Authority Scoring", progress: 88, color: "bg-purple-500" },
+                    { title: "Purchase Intent Analysis", progress: 92, color: "bg-emerald-500" },
+                    { title: "Engagement Probability", progress: 84, color: "bg-orange-500" }
+                  ].map((item, i) => (
+                    <div key={i} className="space-y-2">
+                      <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-slate-500">
+                        <span>{item.title}</span>
+                        <span>{item.progress}%</span>
+                      </div>
+                      <div className="h-2 w-full bg-slate-50 rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full ${item.color} transition-all duration-1000 ease-out`}
+                          style={{ width: `${item.progress}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Parallel Dialer Section */}
       <section className="py-16 bg-slate-950 text-white border-y border-white/5 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 via-transparent to-blue-500/5 opacity-50" />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
@@ -253,70 +319,7 @@ await closo.call({ to: '+1234567890' });`,
         </div>
       </section>
 
-      <section className="py-24 bg-white text-slate-900 border-y border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="relative">
-              <div className="absolute -top-20 -left-20 w-64 h-64 bg-purple-100/50 rounded-full blur-3xl opacity-60" />
-              <div className="relative space-y-8">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-[10px] font-bold uppercase tracking-widest text-slate-600">
-                  <Target className="w-3 h-3" />
-                  <span>AI-Driven Prospecting</span>
-                </div>
-                <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
-                  Qualify Leads with <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Unmatched Precision</span>
-                </h2>
-                <p className="text-lg text-slate-600 leading-relaxed max-w-lg">
-                  Closo's advanced AI engine analyzes millions of data points to identify your ideal customer profiles, scoring every lead based on real-time intent and behavioral signals.
-                </p>
-                <div className="grid grid-cols-2 gap-6">
-                  {[
-                    { label: "Data Sources", value: "50+", desc: "Real-time verification" },
-                    { label: "Intent Signals", value: "200+", desc: "Behavioral tracking" }
-                  ].map((stat, i) => (
-                    <div key={i} className="space-y-1">
-                      <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
-                      <div className="text-sm font-bold text-slate-600">{stat.label}</div>
-                      <p className="text-xs text-slate-400">{stat.desc}</p>
-                    </div>
-                  ))}
-                </div>
-                <Button size="lg" className="bg-slate-900 text-white rounded-xl px-8 h-12 text-sm font-bold shadow-xl hover:bg-slate-800 transition-all hover:scale-105">
-                  Explore AI Scoring
-                </Button>
-              </div>
-            </div>
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-[2.5rem] -rotate-2" />
-              <div className="relative bg-white border border-slate-100 rounded-[2.5rem] p-8 shadow-2xl shadow-slate-200/50">
-                <div className="space-y-6">
-                  {[
-                    { title: "Decision Maker Identification", progress: 95, color: "bg-blue-500" },
-                    { title: "Budget Authority Scoring", progress: 88, color: "bg-purple-500" },
-                    { title: "Purchase Intent Analysis", progress: 92, color: "bg-emerald-500" },
-                    { title: "Engagement Probability", progress: 84, color: "bg-orange-500" }
-                  ].map((item, i) => (
-                    <div key={i} className="space-y-2">
-                      <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-slate-500">
-                        <span>{item.title}</span>
-                        <span>{item.progress}%</span>
-                      </div>
-                      <div className="h-2 w-full bg-slate-50 rounded-full overflow-hidden">
-                        <div 
-                          className={`h-full ${item.color} transition-all duration-1000 ease-out`}
-                          style={{ width: `${item.progress}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      {/* Infrastructure Section */}
       <section className="py-24 bg-slate-950 text-white overflow-hidden relative">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
@@ -343,6 +346,7 @@ await closo.call({ to: '+1234567890' });`,
         </div>
       </section>
 
+      {/* Enterprise Core Section */}
       <section className="py-24 bg-white text-slate-900">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-16">
@@ -360,7 +364,7 @@ await closo.call({ to: '+1234567890' });`,
             ].map((f, i) => (
               <Card key={i} className="border-slate-100 shadow-sm hover:shadow-md transition-all group hover:-translate-y-1">
                 <CardContent className="p-5 flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-slate-900 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <div className="w-10 h-10 rounded-lg bg-slate-900 flex items-center justify-center shrink-0 group-hover:rotate-6 transition-transform">
                     <f.icon className="w-5 h-5 text-white" />
                   </div>
                   <div>
@@ -374,6 +378,7 @@ await closo.call({ to: '+1234567890' });`,
         </div>
       </section>
 
+      {/* Workflow Automation Section */}
       <section className="py-24 bg-slate-50 border-y border-slate-100">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -427,6 +432,7 @@ await closo.call({ to: '+1234567890' });`,
         </div>
       </section>
 
+      {/* CTA Section */}
       <section className="py-24 bg-white text-slate-900 overflow-hidden relative border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-12 bg-slate-900 rounded-[3rem] p-8 md:p-16 text-white relative overflow-hidden">
@@ -450,6 +456,7 @@ await closo.call({ to: '+1234567890' });`,
         </div>
       </section>
 
+      {/* Developer Experience Section */}
       <section className="py-24 bg-slate-50 text-slate-900">
         <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
           <div>
@@ -477,6 +484,7 @@ await closo.call({ to: '+1234567890' });`,
         </div>
       </section>
 
+      {/* Monitoring Section */}
       <section className="py-24 bg-white">
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
