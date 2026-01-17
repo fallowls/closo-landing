@@ -1,56 +1,33 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { 
   PhoneCall,
   Mic,
-  BarChart3,
   Users,
   Zap,
   ArrowRight,
-  CheckCircle,
-  Star,
-  Shield,
-  Globe,
   Sparkles,
-  Phone,
-  Mail,
-  ChevronRight,
-  X,
-  Menu,
-  Play,
-  TrendingUp,
-  Lock,
-  Headphones,
-  Calendar,
-  FileText,
-  MessageSquare,
-  Settings,
-  Search,
-  Filter,
-  Download,
-  Upload,
-  Clock,
-  Target,
-  Award,
-  Voicemail,
-  Radio,
   PhoneIncoming,
   PhoneOutgoing,
+  Voicemail,
+  Radio,
   PhoneForwarded,
   Volume2,
+  MessageSquare,
+  Target,
   Wifi,
   Activity,
-  Layers,
-  GitBranch,
-  Database,
+  Lock,
+  CloudLightning,
+  AlertCircle,
+  BarChart2,
+  ChevronRight,
+  Menu,
   Code,
   Smartphone,
   Laptop,
-  CloudLightning,
-  AlertCircle,
-  BarChart2
+  Database
 } from "lucide-react";
 import { setAuthenticated } from "@/lib/auth";
 import { useLocation, Link } from "wouter";
@@ -62,33 +39,14 @@ import { EnterpriseFooter } from "@/components/EnterpriseFooter";
 import { SEO } from "@/components/SEO";
 
 export default function Landing() {
-  const [clickCount, setClickCount] = useState(0);
-  const [showPasswordField, setShowPasswordField] = useState(false);
-  const [password, setPassword] = useState("");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
   const [typedCode, setTypedCode] = useState("");
   const [hoveredCapability, setHoveredCapability] = useState(0);
   const [showHeader, setShowHeader] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-
-  const authMutation = useMutation({
-    mutationFn: async (password: string) => {
-      const response = await apiRequest("POST", "/api/auth", { password });
-      return response.json();
-    },
-    onSuccess: (data: any) => {
-      setAuthenticated(true);
-      localStorage.setItem("auth_token", data.token);
-      toast({ title: "Access granted", description: "Welcome to the dashboard!" });
-      setLocation("/dashboard");
-    },
-    onError: () => {
-      toast({ title: "Access denied", description: "Invalid credentials", variant: "destructive" });
-    },
-  });
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -98,1117 +56,203 @@ export default function Landing() {
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 100) {
-        setShowHeader(true);
-      } else {
-        setShowHeader(false);
-      }
-    };
-
+    const handleScroll = () => setShowHeader(window.scrollY > 100);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const codeSnippets = [
-    `const client = new Fallowl({
-  apiKey: process.env.FALLOWL_API_KEY
+    `const client = new Closo({
+  apiKey: process.env.CLOSO_API_KEY
 });
 
-// Make an outbound call
 await client.calls.create({
   to: '+1234567890',
   from: '+0987654321',
-  record: true,
-  voicemail: {
-    enabled: true,
-    greeting: 'custom-greeting.mp3'
-  }
+  record: true
 });`,
-    `// iOS SDK Example
-import FallowlSDK
-
-let fallowl = Fallowl(apiKey: apiKey)
-
-// Make a call
-fallowl.makeCall(
-  to: "+1234567890",
-  from: "+0987654321"
-) { result in
-  print("Call initiated")
-}`,
-    `// Web SDK for browser calling
-const fallowl = new FallowlWeb({
-  apiKey: 'your-api-key'
-});
-
-// Initialize browser calling
-await fallowl.initializeDevice();
-
-// Make a call from browser
-await fallowl.call({
-  to: '+1234567890',
-  enableVideo: false
-});`,
-    `// Webhook configuration
-POST https://api.fallowl.com/webhooks
-
+    `import ClosoSDK
+let closo = Closo(apiKey: apiKey)
+closo.makeCall(to: "+1234567890")`,
+    `const closo = new ClosoWeb({ apiKey: 'key' });
+await closo.initializeDevice();
+await closo.call({ to: '+1234567890' });`,
+    `POST https://api.closo.com/webhooks
 {
-  "url": "https://yourapp.com/webhook",
-  "events": [
-    "call.started",
-    "call.completed",
-    "call.failed"
-  ]
+  "url": "https://app.com/webhook",
+  "events": ["call.started"]
 }`
   ];
 
   useEffect(() => {
     const codeText = codeSnippets[hoveredCapability];
     let currentIndex = 0;
-    setTypedCode('');
-    
     const typingInterval = setInterval(() => {
       if (currentIndex <= codeText.length) {
         setTypedCode(codeText.slice(0, currentIndex));
         currentIndex++;
       } else {
-        setTimeout(() => {
-          currentIndex = 0;
-          setTypedCode('');
-        }, 2000);
+        setTimeout(() => { currentIndex = 0; }, 2000);
       }
     }, 30);
-    
     return () => clearInterval(typingInterval);
   }, [hoveredCapability]);
 
-  const handleYearClick = () => {
-    const newCount = clickCount + 1;
-    setClickCount(newCount);
-    
-    if (newCount >= 5) {
-      setShowPasswordField(true);
-      setClickCount(0);
-    }
-  };
-
-  const handleAdminLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password.trim()) {
-      authMutation.mutate(password);
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-50 overflow-x-hidden selection:bg-purple-500/30">
-      <SEO 
-        title="Closo | Next-Gen Campaign Management & Lead Intelligence"
-        description="Enterprise-grade campaign management with AI-powered lead scoring, real-time analytics, and secure data handling."
-        keywords="campaign management, lead scoring, sales intelligence, CRM, enterprise software"
-        canonical="https://closo.com/"
-        schema={{
-          "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
-          "name": "Closo",
-          "applicationCategory": "BusinessApplication",
-          "description": "Next-gen campaign management and lead intelligence platform",
-          "url": "https://closo.com",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-          }
-        }}
-      />
+    <div className="min-h-screen bg-slate-950 text-slate-50 selection:bg-purple-500/30 font-sans tracking-tight">
+      <SEO title="Closo | Enterprise Lead Intelligence" />
       
-      {/* Dynamic Background Effects */}
-      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-600/10 blur-[120px] rounded-full animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/10 blur-[120px] rounded-full animate-pulse delay-700" />
-        <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] bg-indigo-600/5 blur-[100px] rounded-full" />
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-600/20 blur-[120px] rounded-full animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-600/20 blur-[120px] rounded-full animate-pulse delay-1000" />
       </div>
 
-      {/* Navigation */}
-      <nav className={`${showHeader ? 'fixed top-0 animate-in slide-in-from-top duration-300' : 'relative top-4'} left-0 right-0 z-50 px-4 md:px-6 lg:px-8 ${!showHeader && 'mb-8'} transition-all`}>
-        <div className={`max-w-7xl mx-auto ${showHeader ? 'bg-slate-900/80 backdrop-blur-xl border-slate-800/50' : 'bg-transparent border-transparent'} border rounded-2xl transition-all duration-300`}>
-          <div className="px-4 md:px-6">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center">
-                <img 
-                  src={closoLogo} 
-                  alt="Closo" 
-                  className="h-8 w-auto object-contain brightness-0 invert"
-                />
-              </div>
-              
-              <div className="hidden md:flex items-center space-x-8">
-                <Link href="/features" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">Features</Link>
-                <Link href="/about" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">About</Link>
-                <Link href="/blog" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">Blog</Link>
-                <Button 
-                  size="sm" 
-                  className="bg-white hover:bg-slate-200 text-slate-950 font-semibold rounded-xl px-6" 
-                  onClick={() => window.location.href = '/dashboard'}
-                >
-                  Dashboard
-                </Button>
-              </div>
-
-              <Button 
-                variant="ghost" 
-                size="icon"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden text-slate-300"
-              >
-                <Menu className="w-5 h-5" />
-              </Button>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${showHeader ? 'py-3' : 'py-6'}`}>
+        <div className="max-w-5xl mx-auto px-6">
+          <div className={`flex items-center justify-between px-6 py-2 rounded-2xl border transition-all duration-500 ${showHeader ? 'bg-slate-900/80 backdrop-blur-md border-white/10 shadow-xl' : 'bg-transparent border-transparent'}`}>
+            <img src={closoLogo} alt="Closo" className="h-7 brightness-0 invert" />
+            <div className="hidden md:flex items-center gap-8">
+              {['Features', 'About', 'Blog'].map(item => (
+                <Link key={item} href={`/${item.toLowerCase()}`} className="text-sm font-medium text-slate-400 hover:text-white transition-colors">{item}</Link>
+              ))}
+              <Button size="sm" className="bg-white hover:bg-slate-200 text-slate-950 rounded-lg px-5 h-9 font-bold" onClick={() => window.location.href='/dashboard'}>Dashboard</Button>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-24 px-6 lg:px-8 relative z-10">
-          <div className="max-w-6xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-purple-400 mb-8 animate-in fade-in slide-in-from-top duration-500">
-              <Sparkles className="w-3 h-3" />
-              <span>Introducing Closo 2.0 — Now with AI Lead Scoring</span>
-            </div>
-            
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 leading-[1.1] animate-in fade-in slide-in-from-bottom duration-700">
-              Precision{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500">
-                Intelligence
-              </span>
-              <br />
-              for Modern Sales
-            </h1>
-            
-            <p className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom duration-1000">
-              Elevate your campaign management with advanced lead scoring, contact intelligence, and secure data handling designed for the enterprise.
-            </p>
+      <section className="relative pt-40 pb-20 px-6 overflow-hidden">
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-purple-400 mb-8 animate-fade-in-down shadow-inner">
+            <Sparkles className="w-3 h-3" />
+            <span>Introducing Closo 2.0</span>
+          </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-20 animate-in fade-in slide-in-from-bottom duration-1000">
-            <Button 
-              size="lg" 
-              className="bg-white hover:bg-slate-200 text-slate-950 px-8 h-14 text-base font-bold shadow-2xl shadow-white/10 rounded-2xl group transition-all" 
-              onClick={() => window.location.href = '/dashboard'}
-            >
-              Get Started Now
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="px-8 h-14 text-base border-slate-800 text-slate-300 hover:bg-white/5 hover:text-white rounded-2xl transition-all" 
-              onClick={() => setLocation("/demo")}
-            >
-              Book a Demo
-            </Button>
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
+            Precision <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Intelligence</span>
+            <br /> for Sales Teams
+          </h1>
+          
+          <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto leading-relaxed">
+            Enterprise-grade lead scoring and contact intelligence platform designed for high-performance sales teams.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <Button size="lg" className="bg-white hover:bg-slate-200 text-slate-950 px-8 h-12 text-sm font-bold rounded-xl shadow-lg shadow-white/5 transition-transform hover:scale-[1.02] active:scale-[0.98]" onClick={() => window.location.href='/dashboard'}>Get Started <ArrowRight className="ml-2 w-4 h-4" /></Button>
+            <Button variant="outline" size="lg" className="px-8 h-12 text-sm border-white/10 text-slate-300 hover:bg-white/5 rounded-xl transition-transform hover:scale-[1.02]" onClick={() => setLocation("/demo")}>Book a Demo</Button>
           </div>
 
-          {/* Interactive Preview Canvas */}
-          <div className="mt-20 relative animate-in fade-in zoom-in duration-1000">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-[2.5rem] blur-3xl opacity-30" />
-            <div className="relative bg-slate-900/50 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] p-4 lg:p-8 shadow-2xl">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {[
-                  { icon: Target, title: "Lead Scoring", value: "98.2%", desc: "AI Precision Rate", color: "text-blue-400" },
-                  { icon: Users, title: "Active Contacts", value: "2.4M+", desc: "Real-time Processing", color: "text-purple-400" },
-                  { icon: Zap, title: "Campaign ROI", value: "+142%", desc: "Average Growth", color: "text-emerald-400" }
-                ].map((stat, i) => (
-                  <div key={i} className="p-6 rounded-3xl bg-white/5 border border-white/5 hover:border-white/10 transition-all group">
-                    <stat.icon className={`w-8 h-8 ${stat.color} mb-4 group-hover:scale-110 transition-transform`} />
-                    <div className="text-3xl font-bold mb-1">{stat.value}</div>
-                    <div className="text-sm font-semibold text-slate-200 mb-1">{stat.title}</div>
-                    <div className="text-xs text-slate-500">{stat.desc}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Core Features Section */}
-      <section id="features" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900">
-              Complete Communication Platform
-            </h2>
-            <p className="text-lg text-slate-600">
-              Everything you need for modern business communications
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { 
-                icon: PhoneOutgoing, 
-                title: "Outbound Calling", 
-                desc: "Make unlimited high-quality calls to any number worldwide",
-                color: "from-purple-500 to-purple-600",
-                delay: "0ms"
-              },
-              { 
-                icon: PhoneIncoming, 
-                title: "Inbound Calling", 
-                desc: "Receive calls with intelligent routing and forwarding",
-                color: "from-teal-500 to-cyan-500",
-                delay: "100ms"
-              },
-              { 
-                icon: Mic, 
-                title: "Call Recording", 
-                desc: "Automatic recording with searchable transcriptions",
-                color: "from-orange-400 to-pink-500",
-                delay: "200ms"
-              },
-              { 
-                icon: Voicemail, 
-                title: "Voicemail", 
-                desc: "Professional voicemail with instant notifications",
-                color: "from-purple-500 to-purple-600",
-                delay: "300ms"
-              },
-              { 
-                icon: Radio, 
-                title: "Programmable Voice", 
-                desc: "Build custom voice workflows with our API",
-                color: "from-teal-500 to-cyan-500",
-                delay: "400ms"
-              },
-              { 
-                icon: PhoneForwarded, 
-                title: "Call Forwarding", 
-                desc: "Route calls intelligently based on your rules",
-                color: "from-orange-400 to-pink-500",
-                delay: "500ms"
-              },
-              { 
-                icon: Volume2, 
-                title: "Interactive Voice Response", 
-                desc: "Create custom IVR menus for better call routing",
-                color: "from-purple-500 to-purple-600",
-                delay: "600ms"
-              },
-              { 
-                icon: Users, 
-                title: "Conference Calling", 
-                desc: "Host multi-party calls with up to 100 participants",
-                color: "from-teal-500 to-cyan-500",
-                delay: "700ms"
-              },
-              { 
-                icon: MessageSquare, 
-                title: "SMS Integration", 
-                desc: "Send and receive text messages alongside calls",
-                color: "from-orange-400 to-pink-500",
-                delay: "800ms"
-              }
-            ].map((feature, index) => {
-              const IconComponent = feature.icon;
-              return (
-                <Card 
-                  key={index} 
-                  className="bg-white border-gray-200 hover:shadow-2xl hover:border-purple-300 transition-all duration-300 transform hover:-translate-y-2 group animate-in fade-in slide-in-from-bottom" 
-                  style={{animationDelay: feature.delay}}
-                  data-testid={`card-feature-${index}`}
-                >
-                  <CardContent className="p-6">
-                    <div className="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <IconComponent className="w-7 h-7 text-white" />
-                    </div>
-                    <h3 className="font-semibold text-lg mb-2" data-testid={`text-feature-title-${index}`}>{feature.title}</h3>
-                    <p className="text-sm text-slate-600" data-testid={`text-feature-desc-${index}`}>{feature.desc}</p>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Technical Capabilities Section */}
-      <section id="capabilities" className="py-24 bg-[#F8F7F5]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900">
-              Built for Developers
-            </h2>
-            <p className="text-lg text-slate-600">
-              Powerful APIs and SDKs for custom integrations
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8 items-stretch mb-20">
-            <div className="flex flex-col">
-              <div className="space-y-3 flex-1">
-                {[
-                  { icon: Code, title: "RESTful API", desc: "Simple, well-documented API for all features" },
-                  { icon: Smartphone, title: "Mobile SDKs", desc: "Native iOS and Android development kits" },
-                  { icon: Laptop, title: "Web SDK", desc: "JavaScript SDK for browser-based calling" },
-                  { icon: Database, title: "Webhooks", desc: "Real-time event notifications for your app" }
-                ].map((item, index) => {
-                  const IconComponent = item.icon;
-                  return (
-                    <div 
-                      key={index} 
-                      className={`flex items-start gap-4 group p-4 rounded-xl transition-all cursor-pointer ${
-                        hoveredCapability === index 
-                          ? 'bg-purple-50 border-2 border-purple-500 scale-[1.02]' 
-                          : 'bg-white border-2 border-gray-200 hover:border-purple-300'
-                      }`}
-                      onMouseEnter={() => setHoveredCapability(index)}
-                      data-testid={`capability-${index}`}
-                    >
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all ${
-                        hoveredCapability === index ? 'bg-slate-900 scale-110' : 'bg-slate-900'
-                      }`}>
-                        <IconComponent className="w-6 h-6 text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold mb-1">{item.title}</h3>
-                        <p className="text-sm text-slate-600">{item.desc}</p>
-                      </div>
-                      {hoveredCapability === index && (
-                        <ChevronRight className="w-4 h-4 text-purple-600 flex-shrink-0 mt-1" />
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="relative flex flex-col">
-              <div className="bg-slate-900 rounded-2xl p-8 shadow-2xl border border-slate-700 flex-1 flex flex-col min-h-[400px]">
-                <div className="flex items-center gap-2 mb-6">
-                  <div className="flex gap-1.5">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  </div>
-                  <span className="text-slate-400 text-sm ml-4">api.fallowl.com</span>
+          <div className="relative group max-w-3xl mx-auto">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-700 opacity-50" />
+            <div className="relative bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-3xl p-6 shadow-2xl grid grid-cols-3 gap-4">
+              {[
+                { label: "Precision", value: "98.2%", color: "text-blue-400" },
+                { label: "Reach", value: "2.4M+", color: "text-purple-400" },
+                { label: "Growth", value: "+142%", color: "text-emerald-400" }
+              ].map((s, i) => (
+                <div key={i} className="text-center p-4 rounded-2xl bg-white/5 border border-white/5 transition-colors hover:bg-white/[0.08]">
+                  <div className={`text-xl font-bold mb-1 ${s.color}`}>{s.value}</div>
+                  <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{s.label}</div>
                 </div>
-                <pre className="text-sm text-purple-400 font-mono overflow-x-auto flex-1">
-{typedCode}<span className="animate-pulse">|</span>
-                </pre>
-              </div>
-              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full blur-3xl opacity-50"></div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Interactive Feature Showcase */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-4xl font-bold mb-4 text-slate-900">
-              Intelligent Call Management
-            </h2>
-            <p className="text-lg text-slate-600">
-              <Link href="/features" className="text-purple-600 hover:text-purple-700 font-medium hover:underline" data-testid="link-advanced-features">Advanced features</Link> that help you manage calls more efficiently
-            </p>
-          </div>
-          
-          <div className="grid lg:grid-cols-2 gap-8 items-start">
-            <div>
-              <div className="space-y-3">
-                {[
-                  { icon: Wifi, title: "Auto-reconnect", desc: "Never lose a call due to network issues", active: activeFeature === 0 },
-                  { icon: Activity, title: "Call Quality Monitoring", desc: "Real-time quality metrics and alerts", active: activeFeature === 1 },
-                  { icon: Lock, title: "Secure Calling", desc: "Encrypted connections for all communications", active: activeFeature === 2 },
-                  { icon: CloudLightning, title: "Global Infrastructure", desc: "Low latency calling powered by Twilio's global network", active: activeFeature === 3 },
-                  { icon: AlertCircle, title: "Smart Notifications", desc: "Intelligent alerts for important calls", active: activeFeature === 4 },
-                  { icon: BarChart2, title: "Advanced Analytics", desc: "Deep insights into call patterns", active: activeFeature === 5 }
-                ].map((feature, index) => {
-                  const IconComponent = feature.icon;
-                  return (
-                    <div 
-                      key={index}
-                      className={`p-3 rounded-xl transition-all duration-500 ease-in-out cursor-pointer transform ${
-                        feature.active 
-                          ? 'bg-purple-50 border-2 border-purple-500 scale-[1.02]' 
-                          : 'bg-gray-50 border-2 border-gray-200 hover:border-purple-300 hover:scale-[1.01]'
-                      }`}
-                      onMouseEnter={() => setActiveFeature(index)}
-                      data-testid={`interactive-feature-${index}`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-500 ${
-                          feature.active ? 'bg-slate-900' : 'bg-white'
-                        }`}>
-                          <IconComponent className={`w-4 h-4 transition-colors duration-500 ${feature.active ? 'text-white' : 'text-slate-600'}`} />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="font-semibold text-sm truncate">{feature.title}</h4>
-                          <p className="text-xs text-slate-600 truncate">{feature.desc}</p>
-                        </div>
-                        {feature.active && (
-                          <ChevronRight className="w-4 h-4 text-purple-600 flex-shrink-0" />
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="relative h-full">
-              <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-8 border border-slate-200 shadow-xl h-full flex items-center justify-center">
-                {/* Auto-reconnect */}
-                {activeFeature === 0 && (
-                  <div key="feature-0" className="w-full animate-in fade-in duration-700 ease-out">
-                    <div className="grid grid-cols-2 gap-3 mb-6">
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Reconnect Speed</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-teal-500 to-cyan-500 bg-clip-text text-transparent">
-                          &lt;2s
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Success Rate</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-teal-500 to-cyan-500 bg-clip-text text-transparent">
-                          99.8%
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Auto-Recovery</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-teal-500 to-cyan-500 bg-clip-text text-transparent">
-                          Active
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Network Fallback</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-teal-500 to-cyan-500 bg-clip-text text-transparent">
-                          5G/4G
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-center h-28">
-                      <Wifi className="w-20 h-20 text-teal-500 animate-pulse" />
-                    </div>
-                  </div>
-                )}
-
-                {/* Call Quality Monitoring */}
-                {activeFeature === 1 && (
-                  <div key="feature-1" className="w-full animate-in fade-in duration-700 ease-out">
-                    <div className="grid grid-cols-2 gap-3 mb-6">
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Audio Quality</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-purple-600 bg-clip-text text-transparent">
-                          HD+
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Jitter</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-purple-600 bg-clip-text text-transparent">
-                          &lt;30ms
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Packet Loss</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-purple-600 bg-clip-text text-transparent">
-                          0.1%
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">MOS Score</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-purple-600 bg-clip-text text-transparent">
-                          4.5/5
-                        </div>
-                      </div>
-                    </div>
-                    <div className="bg-white rounded-lg p-4 border border-gray-200">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-xs text-slate-500">Quality Level</span>
-                        <span className="text-xs font-semibold text-purple-600">Excellent</span>
-                      </div>
-                      <div className="grid grid-cols-8 gap-2 items-end h-20">
-                        {[...Array(8)].map((_, i) => (
-                          <div 
-                            key={i} 
-                            className="bg-gradient-to-t from-purple-500 to-purple-600 rounded transition-all duration-500"
-                            style={{
-                              height: `${40 + i * 7}%`,
-                              animationDelay: `${i * 50}ms`
-                            }}
-                          ></div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Secure Calling */}
-                {activeFeature === 2 && (
-                  <div key="feature-2" className="w-full animate-in fade-in duration-700 ease-out">
-                    <div className="grid grid-cols-2 gap-3 mb-6">
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Connection</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-                          Secure
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Protocol</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-                          HTTPS
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Data Privacy</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-                          Private
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Provider</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-                          Twilio
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-center h-28">
-                      <Lock className="w-20 h-20 text-orange-500 animate-pulse" />
-                    </div>
-                  </div>
-                )}
-
-                {/* Global Infrastructure */}
-                {activeFeature === 3 && (
-                  <div key="feature-3" className="w-full animate-in fade-in duration-700 ease-out">
-                    <div className="grid grid-cols-2 gap-3 mb-6">
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Infrastructure</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-teal-500 to-cyan-500 bg-clip-text text-transparent">
-                          Twilio
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Latency</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-teal-500 to-cyan-500 bg-clip-text text-transparent">
-                          Low
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Coverage</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-teal-500 to-cyan-500 bg-clip-text text-transparent">
-                          Global
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Reliability</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-teal-500 to-cyan-500 bg-clip-text text-transparent">
-                          High
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-center h-28">
-                      <CloudLightning className="w-20 h-20 text-teal-500 animate-pulse" />
-                    </div>
-                  </div>
-                )}
-
-                {/* Smart Notifications */}
-                {activeFeature === 4 && (
-                  <div key="feature-4" className="w-full animate-in fade-in duration-700 ease-out">
-                    <div className="grid grid-cols-2 gap-3 mb-6">
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Channels</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-purple-600 bg-clip-text text-transparent">
-                          5+
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Response Time</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-purple-600 bg-clip-text text-transparent">
-                          Instant
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">AI Priority</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-purple-600 bg-clip-text text-transparent">
-                          Smart
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Delivery</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-purple-600 bg-clip-text text-transparent">
-                          100%
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-center h-28">
-                      <AlertCircle className="w-20 h-20 text-purple-500 animate-pulse" />
-                    </div>
-                  </div>
-                )}
-
-                {/* Advanced Analytics */}
-                {activeFeature === 5 && (
-                  <div key="feature-5" className="w-full animate-in fade-in duration-700 ease-out">
-                    <div className="grid grid-cols-2 gap-3 mb-6">
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Data Points</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-                          50+
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Real-time</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-                          Live
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Reports</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-                          Custom
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <div className="text-xs text-slate-500 mb-1">Insights</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-                          AI
-                        </div>
-                      </div>
-                    </div>
-                    <div className="bg-white rounded-lg p-4 border border-gray-200">
-                      <div className="grid grid-cols-12 gap-1 items-end h-24">
-                        {[65, 45, 78, 90, 55, 67, 82, 48, 92, 71, 58, 85].map((height, i) => (
-                          <div 
-                            key={i} 
-                            className="bg-gradient-to-t from-orange-400 to-pink-500 rounded-sm transition-all duration-500"
-                            style={{
-                              height: `${height}%`,
-                              animationDelay: `${i * 40}ms`
-                            }}
-                          ></div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Parallel Dialing Section */}
-      <section className="py-24 bg-gradient-to-br from-slate-900 to-black text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-full h-full" style={{
-            backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-            backgroundSize: '50px 50px'
-          }}></div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      <section className="py-20 bg-white text-slate-900">
+        <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Why Parallel Dialing?
-            </h2>
-            <p className="text-slate-300 text-lg">
-              Multiply your team's productivity with simultaneous calling
-            </p>
+            <h2 className="text-3xl font-bold mb-3">Enterprise Core</h2>
+            <p className="text-slate-500 text-sm">Scalable tools for high-growth outreach</p>
           </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { 
-                icon: Zap, 
-                title: "10x Faster Outreach", 
-                desc: "Call multiple leads simultaneously instead of one at a time. Reach more prospects in less time."
-              },
-              { 
-                icon: Target, 
-                title: "Higher Connect Rates", 
-                desc: "Automatically connect to the first person who answers, eliminating wait time between calls."
-              },
-              { 
-                icon: TrendingUp, 
-                title: "Maximize Agent Time", 
-                desc: "Your team spends more time talking to prospects, less time dialing and waiting."
-              },
-              { 
-                icon: BarChart3, 
-                title: "Real-Time Analytics", 
-                desc: "Track call metrics, conversion rates, and team performance with live dashboards."
-              },
-              { 
-                icon: Clock, 
-                title: "Automated Workflows", 
-                desc: "Set up call sequences, follow-ups, and reminders that run on autopilot."
-              },
-              { 
-                icon: Users, 
-                title: "Smart Call Distribution", 
-                desc: "Intelligently route calls to the right team members based on skills and availability."
-              }
-            ].map((benefit, index) => {
-              const IconComponent = benefit.icon;
-              return (
-                <div 
-                  key={index} 
-                  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-5 hover:bg-white/10 transition-all duration-300 transform hover:-translate-y-1 group"
-                  data-testid={`benefit-${index}`}
-                >
-                  <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <IconComponent className="w-5 h-5 text-slate-900" />
+              { icon: PhoneOutgoing, title: "Outbound", desc: "Global calling reach" },
+              { icon: PhoneIncoming, title: "Inbound", desc: "Smart call routing" },
+              { icon: Mic, title: "Intelligence", desc: "AI transcriptions" },
+              { icon: Voicemail, title: "Voicemail", desc: "Custom drop-ins" },
+              { icon: Radio, title: "Programmable", desc: "Custom API hooks" },
+              { icon: MessageSquare, title: "Omnichannel", desc: "SMS & Voice sync" }
+            ].map((f, i) => (
+              <Card key={i} className="border-slate-100 shadow-sm hover:shadow-md transition-all group hover:-translate-y-1">
+                <CardContent className="p-5 flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-slate-900 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                    <f.icon className="w-5 h-5 text-white" />
                   </div>
-                  <h3 className="text-lg font-semibold mb-2">{benefit.title}</h3>
-                  <p className="text-slate-300 text-sm leading-relaxed">{benefit.desc}</p>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Visual Comparison */}
-          <div className="mt-20 grid md:grid-cols-2 gap-8">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold mb-6 text-red-400">Traditional Dialing</h3>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                  <span className="text-slate-300">One call at a time</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-                  <span className="text-slate-300">Wait for each call to complete</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-                  <span className="text-slate-300">Manual redialing</span>
-                </div>
-                <div className="mt-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
-                  <div className="text-sm text-slate-400 mb-1">Average Calls/Hour</div>
-                  <div className="text-4xl font-bold text-red-400">20-30</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-sm border border-emerald-500/30 rounded-2xl p-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/20 rounded-full blur-3xl"></div>
-              <h3 className="text-2xl font-bold mb-6 text-emerald-400">Parallel Dialing</h3>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-400" />
-                  <span className="text-white font-medium">Multiple simultaneous calls</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-400" />
-                  <span className="text-white font-medium">Auto-connect to first answer</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-400" />
-                  <span className="text-white font-medium">Intelligent call routing</span>
-                </div>
-                <div className="mt-6 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
-                  <div className="text-sm text-slate-400 mb-1">Average Calls/Hour</div>
-                  <div className="text-4xl font-bold text-emerald-400">100-150+</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Integrations */}
-      <section id="integrations" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900">
-              Seamless Integrations
-            </h2>
-            <p className="text-lg text-slate-600">
-              Connect with your favorite tools and platforms
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-12">
-            {[
-              "Salesforce", "HubSpot", "Zapier", "Slack", "Google Workspace", "Microsoft 365",
-              "Stripe", "Intercom", "Zendesk", "Pipedrive", "Zoom", "Calendly",
-              "Notion", "Airtable", "Trello", "Asana", "Monday.com", "ClickUp"
-            ].map((integration, index) => (
-              <div 
-                key={index} 
-                className="bg-white rounded-xl p-6 flex items-center justify-center h-24 border-2 border-gray-200 hover:border-purple-500 hover:shadow-lg transition-all transform hover:-translate-y-1 group" 
-                data-testid={`integration-${index}`}
-              >
-                <span className="font-semibold text-slate-700 group-hover:text-purple-600 transition-colors">{integration}</span>
-              </div>
+                  <div>
+                    <h3 className="font-bold text-sm mb-1">{f.title}</h3>
+                    <p className="text-xs text-slate-500 leading-relaxed">{f.desc}</p>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
-
-          <div className="text-center">
-            <Button size="lg" variant="outline" className="border-2 border-slate-300 hover:border-purple-600 hover:text-purple-600">
-              View All Integrations
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </div>
         </div>
       </section>
 
-      {/* How It Works - Animated Flow */}
-      <section id="how-it-works" className="py-24 bg-[#F8F7F5]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900">
-              See Parallel Dialing in Action
-            </h2>
-            <p className="text-lg text-slate-600">
-              Watch how our system multiplies your calling efficiency
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Visual Animation Side */}
-            <div className="relative">
-              <div className="bg-white rounded-2xl p-6 shadow-xl border border-gray-200">
-                <h3 className="text-lg font-semibold mb-4 text-slate-900">Live Call Distribution</h3>
-                
-                {/* Simulated calling animation */}
-                <div className="space-y-3">
-                  {[
-                    { number: "+1 (555) 123-4567", status: "Calling...", color: "yellow", delay: "0s" },
-                    { number: "+1 (555) 234-5678", status: "Calling...", color: "yellow", delay: "0.2s" },
-                    { number: "+1 (555) 345-6789", status: "Connected", color: "green", delay: "0.4s" },
-                    { number: "+1 (555) 456-7890", status: "Calling...", color: "yellow", delay: "0.6s" },
-                    { number: "+1 (555) 567-8901", status: "No Answer", color: "gray", delay: "0.8s" }
-                  ].map((call, index) => (
-                    <div 
-                      key={index}
-                      className={`flex items-center justify-between p-3 rounded-lg border ${
-                        call.color === 'green' 
-                          ? 'bg-emerald-50 border-emerald-500 animate-pulse' 
-                          : call.color === 'yellow'
-                          ? 'bg-yellow-50 border-yellow-500'
-                          : 'bg-gray-50 border-gray-300'
-                      } transition-all duration-500`}
-                      style={{animationDelay: call.delay}}
-                      data-testid={`call-demo-${index}`}
-                    >
-                      <div className="flex items-center gap-2">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                          call.color === 'green' 
-                            ? 'bg-emerald-500' 
-                            : call.color === 'yellow'
-                            ? 'bg-yellow-500'
-                            : 'bg-gray-400'
-                        }`}>
-                          <Phone className="w-4 h-4 text-white" />
-                        </div>
-                        <div>
-                          <div className="font-medium text-sm text-slate-900">{call.number}</div>
-                          <div className={`text-xs ${
-                            call.color === 'green' 
-                              ? 'text-emerald-600 font-semibold' 
-                              : call.color === 'yellow'
-                              ? 'text-yellow-600'
-                              : 'text-gray-500'
-                          }`}>
-                            {call.status}
-                          </div>
-                        </div>
-                      </div>
-                      {call.color === 'green' && (
-                        <CheckCircle className="w-5 h-5 text-emerald-500 animate-bounce" />
-                      )}
-                      {call.color === 'yellow' && (
-                        <div className="flex gap-1">
-                          <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-pulse"></div>
-                          <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
-                          <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-4 p-3 bg-slate-50 rounded-lg border border-gray-200">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-xs text-slate-600 mb-0.5">Active Calls</div>
-                      <div className="text-2xl font-bold text-slate-900">5</div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-slate-600 mb-0.5">Connected</div>
-                      <div className="text-2xl font-bold text-slate-900">1</div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-slate-600 mb-0.5">Success Rate</div>
-                      <div className="text-2xl font-bold text-slate-900">20%</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating animation elements */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full blur-2xl opacity-50 animate-pulse"></div>
-              <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full blur-2xl opacity-50 animate-pulse" style={{animationDelay: '1s'}}></div>
-            </div>
-
-            {/* Steps Side */}
+      <section className="py-20 bg-slate-50 text-slate-900">
+        <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 className="text-3xl font-bold mb-6">Developer First</h2>
             <div className="space-y-4">
               {[
-                {
-                  step: "1",
-                  title: "Upload Your Contact List",
-                  desc: "Import contacts from CSV, CRM, or add manually. Organize by campaign or tags.",
-                  icon: Upload
-                },
-                {
-                  step: "2",
-                  title: "Configure Call Settings",
-                  desc: "Set how many simultaneous calls to make, choose your caller ID, and customize call scripts.",
-                  icon: Settings
-                },
-                {
-                  step: "3",
-                  title: "Launch Campaign",
-                  desc: "Start dialing multiple numbers at once. The system automatically connects you to answered calls.",
-                  icon: Play
-                },
-                {
-                  step: "4",
-                  title: "Track & Optimize",
-                  desc: "Monitor real-time analytics, review recordings, and adjust your strategy for better results.",
-                  icon: BarChart3
-                }
-              ].map((item, index) => {
-                const IconComponent = item.icon;
-                return (
-                  <div 
-                    key={index}
-                    className="flex gap-3 items-start group"
-                    data-testid={`step-${index}`}
-                  >
-                    <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                      <IconComponent className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-bold text-slate-400">STEP {item.step}</span>
-                        <ChevronRight className="w-3 h-3 text-slate-400" />
-                        <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
-                      </div>
-                      <p className="text-sm text-slate-600 leading-relaxed">{item.desc}</p>
-                    </div>
-                  </div>
-                );
-              })}
+                { icon: Code, title: "REST API", active: hoveredCapability === 0 },
+                { icon: Smartphone, title: "Mobile SDK", active: hoveredCapability === 1 },
+                { icon: Laptop, title: "Web SDK", active: hoveredCapability === 2 },
+                { icon: Database, title: "Webhooks", active: hoveredCapability === 3 }
+              ].map((c, i) => (
+                <div key={i} onMouseEnter={() => setHoveredCapability(i)} className={`p-4 rounded-xl border transition-all cursor-pointer flex items-center gap-4 ${c.active ? 'bg-white border-purple-200 shadow-sm translate-x-1' : 'bg-transparent border-transparent grayscale opacity-60'}`}>
+                  <div className="w-8 h-8 rounded bg-slate-900 flex items-center justify-center"><c.icon className="w-4 h-4 text-white" /></div>
+                  <span className="font-bold text-sm">{c.title}</span>
+                </div>
+              ))}
             </div>
           </div>
+          <div className="bg-slate-900 rounded-2xl p-6 shadow-2xl border border-white/5 font-mono text-[11px] text-purple-400 min-h-[300px]">
+            <div className="flex gap-1.5 mb-6">
+              {[1, 2, 3].map(i => <div key={i} className="w-2.5 h-2.5 rounded-full bg-white/10" />)}
+            </div>
+            <pre>{typedCode}<span className="animate-pulse">_</span></pre>
+          </div>
         </div>
       </section>
 
-      {/* Advanced Features */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900">
-              Everything You Need to Succeed
-            </h2>
-            <p className="text-lg text-slate-600">
-              Powerful features built for modern sales teams
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { 
-                icon: Search, 
-                title: "Smart Lead Filtering", 
-                desc: "Filter and segment contacts based on custom criteria for targeted campaigns"
-              },
-              { 
-                icon: Calendar, 
-                title: "Schedule Campaigns", 
-                desc: "Set up automated call campaigns to run at optimal times"
-              },
-              { 
-                icon: FileText, 
-                title: "Call Scripts", 
-                desc: "Create and display dynamic scripts to guide your conversations"
-              },
-              { 
-                icon: Headphones, 
-                title: "Call Monitoring", 
-                desc: "Listen in on live calls for training and quality assurance"
-              },
-              { 
-                icon: Download, 
-                title: "Export Reports", 
-                desc: "Download detailed analytics and call data in multiple formats"
-              },
-              { 
-                icon: MessageSquare, 
-                title: "Post-Call Notes", 
-                desc: "Automatically log notes and outcomes after each conversation"
-              },
-              { 
-                icon: Filter, 
-                title: "Custom Fields", 
-                desc: "Add unlimited custom fields to track what matters to your business"
-              },
-              { 
-                icon: GitBranch, 
-                title: "Multi-Campaign", 
-                desc: "Run multiple calling campaigns simultaneously with different settings"
-              }
-            ].map((item, index) => {
-              const IconComponent = item.icon;
-              return (
-                <div 
-                  key={index} 
-                  className="group bg-white border border-gray-200 rounded-xl p-5 hover:border-purple-300 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
-                  data-testid={`advanced-feature-${index}`}
-                >
-                  <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <IconComponent className="w-5 h-5 text-white" />
+      <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-3">
+              {[
+                { icon: Wifi, title: "Reliability", active: activeFeature === 0 },
+                { icon: Activity, title: "Monitoring", active: activeFeature === 1 },
+                { icon: Lock, title: "Security", active: activeFeature === 2 },
+                { icon: CloudLightning, title: "Infrastructure", active: activeFeature === 3 },
+                { icon: AlertCircle, title: "Alerting", active: activeFeature === 4 },
+                { icon: BarChart2, title: "Analytics", active: activeFeature === 5 }
+              ].map((f, i) => (
+                <div key={i} onMouseEnter={() => setActiveFeature(i)} className={`p-4 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${f.active ? 'bg-purple-50 border-purple-100' : 'bg-white border-transparent grayscale opacity-50'}`}>
+                  <div className="flex items-center gap-4">
+                    <f.icon className={`w-4 h-4 ${f.active ? 'text-purple-600' : 'text-slate-400'}`} />
+                    <span className={`text-sm font-bold ${f.active ? 'text-slate-950' : 'text-slate-500'}`}>{f.title}</span>
                   </div>
-                  <h3 className="font-semibold text-base mb-2 text-slate-900">{item.title}</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">{item.desc}</p>
+                  {f.active && <div className="w-1 h-1 rounded-full bg-purple-600" />}
                 </div>
-              );
-            })}
+              ))}
+            </div>
+            <div className="aspect-video bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-center p-8 text-center shadow-inner">
+              <div className="space-y-4 animate-in fade-in zoom-in duration-500">
+                <div className="w-16 h-16 bg-slate-900 rounded-2xl mx-auto flex items-center justify-center shadow-xl">
+                  {(() => {
+                    const icons = [Wifi, Activity, Lock, CloudLightning, AlertCircle, BarChart2];
+                    const Icon = icons[activeFeature];
+                    return <Icon className="w-8 h-8 text-white" />;
+                  })()}
+                </div>
+                <h3 className="font-bold text-xl">System Node {activeFeature + 1}</h3>
+                <p className="text-sm text-slate-500 max-w-xs">Optimized background processing for enterprise-scale communication workloads.</p>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="py-24 bg-gradient-to-br from-purple-600 to-purple-700 text-white relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
-        </div>
-        
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to Transform Your Calling?
-          </h2>
-          <p className="text-xl text-purple-100 mb-10 max-w-2xl mx-auto">
-            Experience the power of parallel dialing and multiply your team's productivity
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-slate-900 hover:bg-slate-800 text-white px-10 h-14 text-lg shadow-xl transform hover:scale-105 transition-all" data-testid="button-cta-trial" onClick={() => window.location.href = 'https://app.fallowl.com'}>
-              Start Free Trial
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-            <Button size="lg" variant="outline" className="border-2 border-white bg-transparent text-white hover:bg-white hover:text-purple-700 px-10 h-14 text-lg transition-all" data-testid="button-cta-demo" onClick={() => setLocation("/demo")}>
-              Schedule a Demo
-            </Button>
-          </div>
-          <p className="text-sm text-purple-100 mt-6">
-            No credit card required • 14-day free trial • Cancel anytime
-          </p>
         </div>
       </section>
 
