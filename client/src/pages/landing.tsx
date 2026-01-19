@@ -452,7 +452,7 @@ await closo.call({ to: '+1234567890' });`,
               <p className="text-slate-400 text-lg mb-10 leading-relaxed">Join 500+ enterprise teams using Closo to dominate their market with data-driven precision.</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <Button size="lg" className="bg-white text-slate-950 hover:bg-slate-100 px-10 h-14 text-base font-bold rounded-2xl transition-all hover:scale-105 active:scale-95" onClick={() => window.location.href='/dashboard'}>Get Started for Free</Button>
-                <Button variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/5 px-10 h-14 text-base font-bold rounded-2xl transition-all" onClick={() => setLocation("/demo")}>Talk to Sales</Button>
+                <Button variant="outline" size="lg" className="border-white/20 text-slate-900 bg-white hover:bg-slate-100 px-10 h-14 text-base font-bold rounded-2xl transition-all hover:scale-105 active:scale-95" onClick={() => setLocation("/demo")}>Talk to Sales</Button>
               </div>
             </div>
             <div className="relative z-10 hidden lg:block">
