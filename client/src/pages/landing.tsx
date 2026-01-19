@@ -142,7 +142,7 @@ await closo.call({ to: '+1234567890' });`,
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
             <Button size="lg" className="bg-white hover:bg-slate-200 text-slate-950 px-8 h-12 text-sm font-bold rounded-xl shadow-lg shadow-white/5 transition-transform hover:scale-[1.02] active:scale-[0.98]" onClick={() => window.location.href='/dashboard'}>Get Started <ArrowRight className="ml-2 w-4 h-4" /></Button>
-            <Button variant="outline" size="lg" className="px-8 h-12 text-sm border-white/20 text-slate-100 hover:bg-white/10 hover:text-white rounded-xl transition-transform hover:scale-[1.02]" onClick={() => setLocation("/demo")}>Book a Demo</Button>
+            <Button variant="outline" size="lg" className="px-8 h-12 text-sm border-white/20 text-slate-900 bg-white hover:bg-slate-100 rounded-xl transition-transform hover:scale-[1.02] shadow-xl" onClick={() => setLocation("/demo")}>Book a Demo</Button>
           </div>
 
           <div className="relative group max-w-3xl mx-auto">
