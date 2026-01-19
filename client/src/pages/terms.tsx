@@ -10,7 +10,8 @@ import {
   CreditCard,
   RefreshCw,
   Shield,
-  Mail
+  Mail,
+  Activity
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import closoLogo from "@assets/closo_logo_png_1768558486274.png";
