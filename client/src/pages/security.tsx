@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { 
@@ -8,455 +8,148 @@ import {
   Server, 
   Eye,
   CheckCircle,
-  AlertTriangle,
-  FileCheck,
   Activity,
   CloudLightning,
   Fingerprint,
-  Mail,
-  Menu
+  Mail
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import closoLogo from "@assets/closo_logo_png_1768558486274.png";
 import { EnterpriseFooter } from "@/components/EnterpriseFooter";
+import { SEO } from "@/components/SEO";
 
 export default function Security() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showHeader, setShowHeader] = useState(false);
   const [, setLocation] = useLocation();
 
+  useEffect(() => {
+    const handleScroll = () => setShowHeader(window.scrollY > 100);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#F8F7F5] text-slate-900">
-      {/* Navigation */}
-      <nav className="relative top-4 left-0 right-0 z-50 px-4 md:px-6 lg:px-8 mb-8">
-        <div className="max-w-7xl mx-auto bg-white/80 backdrop-blur-xl rounded-2xl border border-gray-200/50 shadow-lg shadow-slate-900/5">
-          <div className="px-4 md:px-6">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center cursor-pointer" onClick={() => setLocation("/")}>
-                <img 
-                  src={closoLogo} 
-                  alt="Closo" 
-                  className="h-8 w-auto object-contain"
-                />
-              </div>
-              
-              <div className="hidden md:flex items-center space-x-8">
-                <a href="/features" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" onClick={(e) => { e.preventDefault(); setLocation("/features"); }}>Features</a>
-                <a href="/#integrations" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors">Integrations</a>
-                <a href="/about" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" onClick={(e) => { e.preventDefault(); setLocation("/about"); }}>About</a>
-                <a href="/api-docs" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" onClick={(e) => { e.preventDefault(); setLocation("/api-docs"); }}>API Doc</a>
-                <Button 
-                  size="sm" 
-                  className="bg-slate-900 hover:bg-slate-800 text-white text-sm rounded-xl"
-                  onClick={() => window.location.href = 'https://app.fallowl.com'}
-                >
-                  Sign in
-                </Button>
-              </div>
+    <div className="min-h-screen bg-slate-950 text-slate-50 selection:bg-purple-500/30 font-sans tracking-tight">
+      <SEO 
+        title="Security & Infrastructure | Closo"
+        description="Enterprise-grade security with industry-leading protocols and compliance standards. Learn how Closo protects your data."
+      />
 
-              <Button 
-                variant="ghost" 
-                size="icon"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden"
-              >
-                <Menu className="w-5 h-5" />
-              </Button>
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-600/20 blur-[120px] rounded-full animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-600/20 blur-[120px] rounded-full animate-pulse delay-1000" />
+      </div>
+
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${showHeader ? 'py-3' : 'py-6'}`}>
+        <div className="max-w-5xl mx-auto px-6">
+          <div className={`flex items-center justify-between px-6 py-2 rounded-2xl border transition-all duration-500 ${showHeader ? 'bg-slate-900/90 backdrop-blur-md border-white/20 shadow-2xl' : 'bg-slate-900/40 border-white/10'}`}>
+            <Link href="/">
+              <img src={closoLogo} alt="Closo" className="h-7 brightness-0 invert cursor-pointer" />
+            </Link>
+            <div className="hidden md:flex items-center gap-8">
+              {['Features', 'About', 'Blog'].map(item => (
+                <Link key={item} href={`/${item.toLowerCase()}`} className="text-sm font-bold text-slate-100 hover:text-white transition-colors">{item}</Link>
+              ))}
+              <Button size="sm" className="bg-white hover:bg-slate-200 text-slate-950 rounded-lg px-5 h-9 font-extrabold shadow-xl" onClick={() => window.location.href='/dashboard'}>Dashboard</Button>
             </div>
-
-            {isMenuOpen && (
-              <div className="md:hidden py-4 border-t border-gray-200">
-                <div className="flex flex-col space-y-3">
-                  <a href="/features" className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 rounded-lg hover:bg-slate-50 transition-colors" onClick={(e) => { e.preventDefault(); setLocation("/features"); }}>Features</a>
-                  <a href="/#integrations" className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 rounded-lg hover:bg-slate-50 transition-colors">Integrations</a>
-                  <a href="/about" className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 rounded-lg hover:bg-slate-50 transition-colors" onClick={(e) => { e.preventDefault(); setLocation("/about"); }}>About</a>
-                  <a href="/api-docs" className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 rounded-lg hover:bg-slate-50 transition-colors" onClick={(e) => { e.preventDefault(); setLocation("/api-docs"); }}>API Doc</a>
-                  <div className="px-4 pt-2">
-                    <Button 
-                      size="sm" 
-                      className="bg-slate-900 hover:bg-slate-800 text-white w-full rounded-xl"
-                      onClick={() => window.location.href = 'https://app.fallowl.com'}
-                    >
-                      Sign in
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-20 pb-16 px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-purple-600 to-purple-700 rounded-3xl mb-8 shadow-lg">
+      <section className="relative pt-40 pb-20 px-6 overflow-hidden">
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-white/10 border border-white/20 rounded-[2rem] mb-8 shadow-2xl backdrop-blur-md">
             <Shield className="w-10 h-10 text-white" />
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-slate-900">
-            Security & Infrastructure
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight text-white">
+            Security & <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Infrastructure</span>
           </h1>
-          <p className="text-lg text-slate-600 mb-4">
+          <p className="text-xl text-slate-300 mb-4 max-w-2xl mx-auto leading-relaxed font-medium">
             Enterprise-grade security with industry-leading protocols and compliance standards.
           </p>
-          <p className="text-sm text-slate-500">
-            Built on trusted enterprise infrastructure
+        </div>
+      </section>
+
+      <section className="py-24 bg-white text-slate-900 relative z-10">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid md:grid-cols-4 gap-6 mb-24">
+            {[
+              { icon: Shield, val: "99.9%", label: "Uptime SLA", gradient: "from-purple-500 to-purple-600" },
+              { icon: Lock, val: "AES-256", label: "Encryption", gradient: "from-blue-500 to-cyan-500" },
+              { icon: Server, val: "SOC 2", label: "Certified", gradient: "from-orange-400 to-pink-500" },
+              { icon: Activity, val: "24/7", label: "Monitoring", gradient: "from-teal-500 to-emerald-500" }
+            ].map((item, i) => (
+              <Card key={i} className="border-slate-200 shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
+                <CardContent className="p-8 text-center">
+                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center mx-auto mb-6 shadow-xl`}>
+                    <item.icon className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-4xl font-black mb-2">{item.val}</div>
+                  <p className="text-xs font-black uppercase tracking-widest text-slate-500">{item.label}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="max-w-5xl mx-auto space-y-24">
+            <div className="space-y-12">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center shadow-xl">
+                  <Lock className="w-6 h-6 text-white" />
+                </div>
+                <h2 className="text-3xl font-black uppercase tracking-tight">Data Encryption</h2>
+              </div>
+              <div className="grid md:grid-cols-2 gap-8">
+                <Card className="bg-slate-900 rounded-[3rem] p-10 text-white shadow-2xl relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-48 h-48 bg-purple-500/10 blur-[80px] rounded-full -mr-24 -mt-24" />
+                  <div className="relative z-10">
+                    <CloudLightning className="w-12 h-12 text-purple-400 mb-6" />
+                    <h3 className="text-2xl font-black uppercase tracking-tight mb-4">In Transit</h3>
+                    <p className="text-slate-400 font-medium mb-8 leading-relaxed">All data is encrypted using TLS 1.3 with perfect forward secrecy.</p>
+                    <ul className="space-y-3">
+                      {["TLS 1.3 protocols", "PFS enabled", "Cert pinning"].map((t, i) => (
+                        <li key={i} className="flex items-center gap-3 text-sm font-bold text-slate-200">
+                          <CheckCircle className="w-4 h-4 text-purple-400" /> {t}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Card>
+                <Card className="bg-slate-50 border-slate-200 rounded-[3rem] p-10 shadow-xl">
+                  <Server className="w-12 h-12 text-slate-900 mb-6" />
+                  <h3 className="text-2xl font-black uppercase tracking-tight mb-4 text-slate-900">At Rest</h3>
+                  <p className="text-slate-600 font-medium mb-8 leading-relaxed">Stored data is protected by AES-256 encryption with automated key rotation.</p>
+                  <ul className="space-y-3">
+                    {["AES-256-GCM", "Key rotation", "Encrypted backups"].map((t, i) => (
+                      <li key={i} className="flex items-center gap-3 text-sm font-bold text-slate-900">
+                        <CheckCircle className="w-4 h-4 text-teal-600" /> {t}
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-slate-950 text-white relative overflow-hidden border-y border-white/5">
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 via-transparent to-blue-500/5 opacity-50" />
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
+          <div className="w-16 h-16 bg-white/10 rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-2xl backdrop-blur-md border border-white/20">
+            <Mail className="w-8 h-8 text-white" />
+          </div>
+          <h2 className="text-3xl md:text-5xl font-extrabold mb-6 leading-tight">Security Concerns?</h2>
+          <p className="text-slate-300 text-lg mb-10 leading-relaxed font-medium">
+            If you discover a vulnerability or have security-related questions, please reach out.
           </p>
-        </div>
-      </section>
-
-      {/* Security Stats */}
-      <section className="py-12 px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-6 mb-16">
-            <Card className="bg-white border-gray-200 hover:shadow-xl transition-all transform hover:-translate-y-1" data-testid="card-security-stat-0">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Shield className="w-8 h-8 text-white" />
-                </div>
-                <div className="text-3xl font-bold text-slate-900 mb-1">99.9%</div>
-                <p className="text-sm text-slate-600">Uptime SLA</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-gray-200 hover:shadow-xl transition-all transform hover:-translate-y-1" data-testid="card-security-stat-1">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Lock className="w-8 h-8 text-white" />
-                </div>
-                <div className="text-3xl font-bold text-slate-900 mb-1">AES-256</div>
-                <p className="text-sm text-slate-600">Encryption</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-gray-200 hover:shadow-xl transition-all transform hover:-translate-y-1" data-testid="card-security-stat-2">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Server className="w-8 h-8 text-white" />
-                </div>
-                <div className="text-3xl font-bold text-slate-900 mb-1">SOC 2</div>
-                <p className="text-sm text-slate-600">Certified</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-gray-200 hover:shadow-xl transition-all transform hover:-translate-y-1" data-testid="card-security-stat-3">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Activity className="w-8 h-8 text-white" />
-                </div>
-                <div className="text-3xl font-bold text-slate-900 mb-1">24/7</div>
-                <p className="text-sm text-slate-600">Monitoring</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content */}
-      <section className="py-12 px-6 lg:px-8 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <div className="space-y-12">
-            {/* Section 1 */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center">
-                  <Lock className="w-5 h-5 text-white" />
-                </div>
-                <h2 className="text-3xl font-bold text-slate-900">Data Encryption</h2>
-              </div>
-              <p className="text-slate-700 leading-relaxed">
-                We use military-grade encryption to protect your data at every stage, from transmission to storage.
-              </p>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-slate-900 rounded-2xl p-6 text-white">
-                  <div className="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center mb-4">
-                    <CloudLightning className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3">In Transit</h3>
-                  <p className="text-slate-300 mb-4">
-                    All data transmitted between your devices and our servers is encrypted using TLS 1.3 protocols.
-                  </p>
-                  <ul className="space-y-2 text-sm text-slate-300">
-                    <li className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-teal-400" />
-                      <span>TLS 1.3 encryption</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-teal-400" />
-                      <span>Perfect forward secrecy</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-teal-400" />
-                      <span>Certificate pinning</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-2xl p-6 border border-purple-200">
-                  <div className="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center mb-4">
-                    <Server className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3 text-slate-900">At Rest</h3>
-                  <p className="text-slate-700 mb-4">
-                    All stored data is encrypted using AES-256 encryption with regularly rotated keys.
-                  </p>
-                  <ul className="space-y-2 text-sm text-slate-700">
-                    <li className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-purple-600" />
-                      <span>AES-256-GCM encryption</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-purple-600" />
-                      <span>Automated key rotation</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-purple-600" />
-                      <span>Encrypted backups</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            {/* Section 2 */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center">
-                  <Key className="w-5 h-5 text-white" />
-                </div>
-                <h2 className="text-3xl font-bold text-slate-900">Access Control</h2>
-              </div>
-              <p className="text-slate-700 leading-relaxed mb-4">
-                Multi-layered access controls ensure only authorized personnel can access your data.
-              </p>
-              <div className="grid md:grid-cols-3 gap-4">
-                <Card className="bg-white border-gray-200">
-                  <CardContent className="p-5">
-                    <Fingerprint className="w-8 h-8 text-purple-600 mb-3" />
-                    <h3 className="font-semibold text-slate-900 mb-2">Multi-Factor Authentication</h3>
-                    <p className="text-sm text-slate-600">
-                      Required for all admin accounts with support for authenticator apps and hardware keys
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card className="bg-white border-gray-200">
-                  <CardContent className="p-5">
-                    <Eye className="w-8 h-8 text-teal-600 mb-3" />
-                    <h3 className="font-semibold text-slate-900 mb-2">Role-Based Access</h3>
-                    <p className="text-sm text-slate-600">
-                      Granular permissions ensure users only access what they need
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card className="bg-white border-gray-200">
-                  <CardContent className="p-5">
-                    <Activity className="w-8 h-8 text-orange-600 mb-3" />
-                    <h3 className="font-semibold text-slate-900 mb-2">Audit Logging</h3>
-                    <p className="text-sm text-slate-600">
-                      Comprehensive logs of all access and changes with tamper-proof records
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-
-            {/* Section 3 */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center">
-                  <Server className="w-5 h-5 text-white" />
-                </div>
-                <h2 className="text-3xl font-bold text-slate-900">Infrastructure Security</h2>
-              </div>
-              <p className="text-slate-700 leading-relaxed">
-                Built on enterprise infrastructure with multiple layers of protection.
-              </p>
-              <div className="bg-[#F8F7F5] rounded-2xl p-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-3">
-                    <h3 className="font-semibold text-slate-900 flex items-center gap-2">
-                      <CheckCircle className="w-5 h-5 text-purple-600" />
-                      Network Security
-                    </h3>
-                    <ul className="space-y-2 text-sm text-slate-700 ml-7">
-                      <li>• DDoS protection</li>
-                      <li>• Web application firewall (WAF)</li>
-                      <li>• Network segmentation</li>
-                      <li>• Intrusion detection systems</li>
-                    </ul>
-                  </div>
-                  <div className="space-y-3">
-                    <h3 className="font-semibold text-slate-900 flex items-center gap-2">
-                      <CheckCircle className="w-5 h-5 text-teal-600" />
-                      Physical Security
-                    </h3>
-                    <ul className="space-y-2 text-sm text-slate-700 ml-7">
-                      <li>• Tier IV data centers</li>
-                      <li>• 24/7 security monitoring</li>
-                      <li>• Biometric access controls</li>
-                      <li>• Redundant power and cooling</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Section 4 */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center">
-                  <Activity className="w-5 h-5 text-white" />
-                </div>
-                <h2 className="text-3xl font-bold text-slate-900">Continuous Monitoring</h2>
-              </div>
-              <p className="text-slate-700 leading-relaxed">
-                24/7 security monitoring with automated threat detection and response.
-              </p>
-              <div className="grid md:grid-cols-2 gap-6">
-                <Card className="bg-gradient-to-br from-teal-50 to-teal-100/50 border-teal-200">
-                  <CardContent className="p-6">
-                    <h3 className="font-semibold text-lg mb-3 text-slate-900">Real-Time Monitoring</h3>
-                    <p className="text-sm text-slate-700 mb-4">
-                      Our security operations center monitors all systems around the clock for potential threats.
-                    </p>
-                    <div className="space-y-2 text-sm text-slate-700">
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-teal-600 rounded-full"></div>
-                        <span>Automated anomaly detection</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-teal-600 rounded-full"></div>
-                        <span>Real-time alerting</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-teal-600 rounded-full"></div>
-                        <span>Incident response team</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-gradient-to-br from-orange-50 to-orange-100/50 border-orange-200">
-                  <CardContent className="p-6">
-                    <h3 className="font-semibold text-lg mb-3 text-slate-900">Vulnerability Management</h3>
-                    <p className="text-sm text-slate-700 mb-4">
-                      Regular security assessments and penetration testing to identify and fix vulnerabilities.
-                    </p>
-                    <div className="space-y-2 text-sm text-slate-700">
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-orange-600 rounded-full"></div>
-                        <span>Quarterly penetration tests</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-orange-600 rounded-full"></div>
-                        <span>Automated vulnerability scanning</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-orange-600 rounded-full"></div>
-                        <span>Bug bounty program</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-
-            {/* Section 5 */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center">
-                  <FileCheck className="w-5 h-5 text-white" />
-                </div>
-                <h2 className="text-3xl font-bold text-slate-900">Compliance & Certifications</h2>
-              </div>
-              <p className="text-slate-700 leading-relaxed mb-4">
-                We maintain industry-leading compliance standards to protect your data.
-              </p>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[
-                  { name: "SOC 2 Type II", desc: "Security, availability, and confidentiality" },
-                  { name: "GDPR", desc: "European data protection compliance" },
-                  { name: "HIPAA", desc: "Healthcare data security" },
-                  { name: "ISO 27001", desc: "Information security management" },
-                  { name: "PCI DSS", desc: "Payment card data security" },
-                  { name: "CCPA", desc: "California privacy compliance" }
-                ].map((cert, index) => (
-                  <Card key={index} className="bg-white border-gray-200 hover:border-purple-300 transition-all">
-                    <CardContent className="p-4">
-                      <div className="flex items-start gap-3">
-                        <CheckCircle className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" />
-                        <div>
-                          <h3 className="font-semibold text-slate-900 text-sm mb-1">{cert.name}</h3>
-                          <p className="text-xs text-slate-600">{cert.desc}</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            {/* Section 6 */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center">
-                  <AlertTriangle className="w-5 h-5 text-white" />
-                </div>
-                <h2 className="text-3xl font-bold text-slate-900">Incident Response</h2>
-              </div>
-              <p className="text-slate-700 leading-relaxed">
-                We have a comprehensive incident response plan to quickly address any security events.
-              </p>
-              <div className="bg-slate-900 rounded-2xl p-8 text-white">
-                <div className="grid md:grid-cols-4 gap-6 text-center">
-                  <div>
-                    <div className="text-3xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
-                      &lt;15min
-                    </div>
-                    <p className="text-sm text-slate-300">Detection time</p>
-                  </div>
-                  <div>
-                    <div className="text-3xl font-bold mb-2 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
-                      &lt;1hr
-                    </div>
-                    <p className="text-sm text-slate-300">Response time</p>
-                  </div>
-                  <div>
-                    <div className="text-3xl font-bold mb-2 bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-                      24/7
-                    </div>
-                    <p className="text-sm text-slate-300">Team availability</p>
-                  </div>
-                  <div>
-                    <div className="text-3xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
-                      100%
-                    </div>
-                    <p className="text-sm text-slate-300">Transparency</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Contact Section */}
-            <div className="bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-2xl p-8 border border-purple-200">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Mail className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">Security Concerns?</h3>
-                  <p className="text-slate-700 mb-4">
-                    If you discover a security vulnerability or have security-related questions, please contact our security team:
-                  </p>
-                  <a 
-                    href="mailto:security@fallowl.com" 
-                    className="text-purple-600 font-medium hover:text-purple-700 transition-colors"
-                  >
-                    security@fallowl.com
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Button 
+            size="lg" 
+            className="bg-white text-slate-950 hover:bg-slate-100 px-12 h-16 text-lg font-extrabold rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.4)]"
+            onClick={() => window.location.href='mailto:security@closo.com'}
+          >
+            Email Security Team
+          </Button>
         </div>
       </section>
 
