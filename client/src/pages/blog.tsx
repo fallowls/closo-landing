@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { SEO } from "@/components/SEO";
 import { 
-  Menu, 
   Search, 
   Calendar, 
   Clock,
@@ -211,9 +210,15 @@ const blogPosts = [
 ];
 
 export default function Blog() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showHeader, setShowHeader] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => setShowHeader(window.scrollY > 100);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const filteredPosts = blogPosts.filter(post =>
     post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -222,128 +227,62 @@ export default function Blog() {
   );
 
   return (
-    <div className="min-h-screen bg-[#F8F7F5] text-slate-900">
+    <div className="min-h-screen bg-slate-950 text-slate-50 selection:bg-purple-500/30 font-sans tracking-tight">
       <SEO 
         title="Dialer & Parallel Dialing Blog - Sales CRM Insights | Closo"
         description="Expert insights on dialers, parallel dialing, and sales CRM integration. Learn best practices for auto dialers, sales automation, and maximizing team productivity."
-        keywords="dialer blog, parallel dialer tips, sales crm blog, auto dialer best practices, integration guide, sales automation insights, power dialer strategies, auto dialer guide"
-        canonical="https://closo.com/blog"
-        ogTitle="Dialer & Sales Technology Blog | Closo"
-        ogDescription="Expert insights on dialers, parallel dialing, and sales CRM integration. Best practices for auto dialers and sales automation."
-        ogImage="/favicon.png"
-        schema={{
-          "@context": "https://schema.org",
-          "@type": "Blog",
-          "name": "Closo Blog",
-          "description": "Expert insights on auto dialers, power dialers, and sales technology",
-          "url": "https://closo.com/blog",
-          "publisher": {
-            "@type": "Organization",
-            "name": "Closo",
-            "logo": {
-              "@type": "ImageObject",
-              "url": "https://closo.com/attached_assets/closo_logo_png_1768558486274.png"
-            }
-          }
-        }}
       />
-      {/* Navigation */}
-      <nav className="relative top-4 left-0 right-0 z-50 px-4 md:px-6 lg:px-8 mb-8">
-        <div className="max-w-7xl mx-auto bg-white/80 backdrop-blur-xl rounded-2xl border border-gray-200/50 shadow-lg shadow-slate-900/5">
-          <div className="px-4 md:px-6">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center cursor-pointer" onClick={() => setLocation("/")}>
-                <img 
-                  src={closoLogo} 
-                  alt="Closo" 
-                  className="h-8 w-auto object-contain"
-                  data-testid="img-logo"
-                />
-              </div>
-              
-              <div className="hidden md:flex items-center space-x-8">
-                <a href="/features" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" onClick={(e) => { e.preventDefault(); setLocation("/features"); }} data-testid="link-nav-features">Features</a>
-                <a href="/#integrations" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" data-testid="link-nav-integrations">Integrations</a>
-                <a href="/blog" className="text-sm font-medium text-purple-600" onClick={(e) => { e.preventDefault(); setLocation("/blog"); }} data-testid="link-nav-blog">Blog</a>
-                <a href="/about" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" onClick={(e) => { e.preventDefault(); setLocation("/about"); }} data-testid="link-nav-about">About</a>
-                <Button 
-                  size="sm" 
-                  className="bg-slate-900 hover:bg-slate-800 text-white text-sm rounded-xl"
-                  onClick={() => window.location.href = 'https://app.fallowl.com'}
-                  data-testid="button-signin"
-                >
-                  Sign in
-                </Button>
-              </div>
 
-              <Button 
-                variant="ghost" 
-                size="icon"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden"
-                data-testid="button-menu"
-              >
-                <Menu className="w-5 h-5" />
-              </Button>
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-600/20 blur-[120px] rounded-full animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-600/20 blur-[120px] rounded-full animate-pulse delay-1000" />
+      </div>
+
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${showHeader ? 'py-3' : 'py-6'}`}>
+        <div className="max-w-5xl mx-auto px-6">
+          <div className={`flex items-center justify-between px-6 py-2 rounded-2xl border transition-all duration-500 ${showHeader ? 'bg-slate-900/90 backdrop-blur-md border-white/20 shadow-2xl' : 'bg-slate-900/40 border-white/10'}`}>
+            <Link href="/">
+              <img src={closoLogo} alt="Closo" className="h-7 brightness-0 invert cursor-pointer" />
+            </Link>
+            <div className="hidden md:flex items-center gap-8">
+              {['Features', 'About', 'Blog'].map(item => (
+                <Link key={item} href={`/${item.toLowerCase()}`} className="text-sm font-bold text-slate-100 hover:text-white transition-colors">{item}</Link>
+              ))}
+              <Button size="sm" className="bg-white hover:bg-slate-200 text-slate-950 rounded-lg px-5 h-9 font-extrabold shadow-xl" onClick={() => window.location.href='/dashboard'}>Dashboard</Button>
             </div>
-
-            {isMenuOpen && (
-              <div className="md:hidden py-4 border-t border-gray-200">
-                <div className="flex flex-col space-y-3">
-                  <a href="/features" className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 rounded-lg hover:bg-slate-50 transition-colors" onClick={(e) => { e.preventDefault(); setLocation("/features"); }} data-testid="link-mobile-features">Features</a>
-                  <a href="/#integrations" className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 rounded-lg hover:bg-slate-50 transition-colors" data-testid="link-mobile-integrations">Integrations</a>
-                  <a href="/blog" className="px-4 py-2 text-sm font-medium text-purple-600 rounded-lg bg-purple-50" onClick={(e) => { e.preventDefault(); setLocation("/blog"); }} data-testid="link-mobile-blog">Blog</a>
-                  <a href="/about" className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 rounded-lg hover:bg-slate-50 transition-colors" onClick={(e) => { e.preventDefault(); setLocation("/about"); }} data-testid="link-mobile-about">About</a>
-                  <div className="px-4 pt-2">
-                    <Button 
-                      size="sm" 
-                      className="bg-slate-900 hover:bg-slate-800 text-white w-full rounded-xl"
-                      onClick={() => window.location.href = 'https://app.fallowl.com'}
-                      data-testid="button-mobile-signin"
-                    >
-                      Sign in
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-20 pb-16 px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-slate-900">
-            Closo Blog
+      <section className="relative pt-40 pb-20 px-6 overflow-hidden">
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight text-white">
+            Closo <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Blog</span>
           </h1>
-          <p className="text-lg text-slate-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-300 mb-10 max-w-3xl mx-auto leading-relaxed font-medium">
             Insights, guides, and best practices for modern sales teams using dialers and communication technology
           </p>
           
-          {/* Search Bar */}
           <div className="max-w-2xl mx-auto">
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <div className="relative group">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-purple-400 transition-colors" />
               <Input
                 type="text"
                 placeholder="Search articles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 h-14 bg-white border-gray-300 rounded-2xl text-base focus:border-purple-500"
-                data-testid="input-search"
+                className="pl-12 h-14 bg-white/10 border-white/20 rounded-2xl text-base text-white placeholder-slate-400 focus:border-purple-500 backdrop-blur-sm shadow-xl"
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Blog Posts Grid */}
-      <section className="py-12 px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-24 bg-white text-slate-900 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {filteredPosts.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-slate-600">No articles found matching your search.</p>
+            <div className="text-center py-20">
+              <p className="text-xl text-slate-500 font-bold">No articles found matching your search.</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -352,48 +291,45 @@ export default function Blog() {
                 return (
                   <Card 
                     key={post.id} 
-                    className="bg-white border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group overflow-hidden"
+                    className="bg-white border-slate-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group overflow-hidden"
                     onClick={() => setLocation(`/blog/${post.slug}`)}
-                    data-testid={`card-blog-${post.id}`}
                   >
                     <CardContent className="p-0">
-                      {/* Image/Icon Header */}
-                      <div className={`bg-gradient-to-br ${post.gradient} p-8 flex items-center justify-center h-48`}>
-                        <IconComponent className="w-20 h-20 text-white" />
+                      <div className={`bg-gradient-to-br ${post.gradient} p-8 flex items-center justify-center h-48 shadow-inner`}>
+                        <IconComponent className="w-20 h-20 text-white group-hover:scale-110 transition-transform duration-500" />
                       </div>
                       
-                      {/* Content */}
                       <div className="p-6">
-                        <div className="flex items-center gap-2 mb-3">
-                          <span className="text-xs font-semibold text-purple-600 bg-purple-50 px-3 py-1 rounded-full">
+                        <div className="flex items-center gap-2 mb-4">
+                          <span className="text-xs font-black text-purple-600 bg-purple-100 px-3 py-1 rounded-full uppercase tracking-widest">
                             {post.category}
                           </span>
                         </div>
                         
-                        <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-purple-600 transition-colors line-clamp-2">
+                        <h3 className="text-xl font-extrabold text-slate-900 mb-3 group-hover:text-purple-600 transition-colors line-clamp-2 leading-tight">
                           {post.title}
                         </h3>
                         
-                        <p className="text-slate-600 text-sm mb-4 line-clamp-3">
+                        <p className="text-slate-600 text-sm mb-6 line-clamp-3 font-medium">
                           {post.excerpt}
                         </p>
                         
-                        <div className="flex items-center justify-between text-xs text-slate-500 mb-4">
+                        <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-400 mb-6">
                           <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-1">
-                              <Calendar className="w-3 h-3" />
+                            <div className="flex items-center gap-1.5">
+                              <Calendar className="w-3.5 h-3.5" />
                               <span>{post.date}</span>
                             </div>
-                            <div className="flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
+                            <div className="flex items-center gap-1.5">
+                              <Clock className="w-3.5 h-3.5" />
                               <span>{post.readTime}</span>
                             </div>
                           </div>
                         </div>
                         
-                        <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                          <span className="text-sm text-slate-700 font-medium">{post.author}</span>
-                          <ArrowRight className="w-5 h-5 text-purple-600 group-hover:translate-x-1 transition-transform" />
+                        <div className="flex items-center justify-between pt-6 border-t border-slate-100">
+                          <span className="text-sm text-slate-900 font-black">{post.author}</span>
+                          <ArrowRight className="w-5 h-5 text-purple-600 group-hover:translate-x-2 transition-transform" />
                         </div>
                       </div>
                     </CardContent>
@@ -405,36 +341,30 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 px-6 lg:px-8 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-br from-purple-600 to-purple-700 rounded-3xl p-8 md:p-12 text-white text-center">
-            <Phone className="w-16 h-16 mx-auto mb-6" />
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Ready to Transform Your Sales Process?
-            </h2>
-            <p className="text-purple-100 mb-8 max-w-2xl mx-auto">
-              Start using Closo's powerful dialing technology to increase your team's productivity and close more deals.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg"
-                className="bg-white text-purple-600 hover:bg-purple-50 text-base rounded-xl"
-                onClick={() => setLocation("/demo")}
-                data-testid="button-book-demo"
-              >
-                Book a Demo
-              </Button>
-              <Button 
-                size="lg"
-                variant="outline"
-                className="bg-transparent border-2 border-white text-white hover:bg-white/10 text-base rounded-xl"
-                onClick={() => window.location.href = 'https://app.fallowl.com'}
-                data-testid="button-start-free"
-              >
-                Start Free Trial
-              </Button>
-            </div>
+      <section className="py-24 bg-slate-950 text-white relative overflow-hidden border-y border-white/5">
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 via-transparent to-blue-500/5 opacity-50" />
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
+          <Phone className="w-16 h-16 mx-auto mb-8 text-purple-400 animate-pulse" />
+          <h2 className="text-3xl md:text-5xl font-extrabold mb-6 leading-tight">Ready to Transform Your Sales Process?</h2>
+          <p className="text-slate-300 text-lg mb-10 leading-relaxed font-medium">
+            Start using Closo's powerful dialing technology to increase your team's productivity and close more deals.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <Button 
+              size="lg"
+              className="bg-white text-slate-950 hover:bg-slate-100 px-12 h-16 text-lg font-extrabold rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.4)]"
+              onClick={() => setLocation("/demo")}
+            >
+              Book a Demo
+            </Button>
+            <Button 
+              size="lg"
+              variant="outline"
+              className="border-2 border-white text-slate-950 bg-white hover:bg-slate-100 px-12 h-16 text-lg font-extrabold rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.4)]"
+              onClick={() => window.location.href='/dashboard'}
+            >
+              Start Free Trial
+            </Button>
           </div>
         </div>
       </section>
