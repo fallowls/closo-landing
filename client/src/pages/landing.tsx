@@ -142,7 +142,7 @@ await closo.call({ to: '+1234567890' });`,
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
             <Button size="lg" className="bg-white hover:bg-slate-200 text-slate-950 px-8 h-12 text-sm font-bold rounded-xl shadow-lg shadow-white/5 transition-transform hover:scale-[1.02] active:scale-[0.98]" onClick={() => window.location.href='/dashboard'}>Get Started <ArrowRight className="ml-2 w-4 h-4" /></Button>
-            <Button variant="outline" size="lg" className="px-8 h-12 text-sm border-white/10 text-slate-300 hover:bg-white/5 rounded-xl transition-transform hover:scale-[1.02]" onClick={() => setLocation("/demo")}>Book a Demo</Button>
+            <Button variant="outline" size="lg" className="px-8 h-12 text-sm border-white/20 text-slate-100 hover:bg-white/10 hover:text-white rounded-xl transition-transform hover:scale-[1.02]" onClick={() => setLocation("/demo")}>Book a Demo</Button>
           </div>
 
           <div className="relative group max-w-3xl mx-auto">
@@ -251,11 +251,11 @@ await closo.call({ to: '+1234567890' });`,
                   { title: "Smart VM Detection", desc: "AI skips voicemails", icon: Mic },
                   { title: "Live Coaching", desc: "Real-time call join", icon: Users }
                 ].map((benefit, i) => (
-                  <div key={i} className="p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/[0.08] transition-all group flex gap-3 items-start">
-                    <benefit.icon className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                  <div key={i} className="p-4 rounded-xl bg-white/10 border border-white/20 hover:bg-white/[0.15] transition-all group flex gap-3 items-start shadow-lg">
+                    <benefit.icon className="w-4 h-4 text-blue-300 shrink-0 mt-0.5" />
                     <div>
-                      <h4 className="font-bold text-sm mb-0.5">{benefit.title}</h4>
-                      <p className="text-[10px] text-slate-500 leading-tight">{benefit.desc}</p>
+                      <h4 className="font-bold text-sm mb-0.5 text-white">{benefit.title}</h4>
+                      <p className="text-[10px] text-slate-200 leading-tight font-medium">{benefit.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -341,11 +341,11 @@ await closo.call({ to: '+1234567890' });`,
               { title: "Encryption", value: "AES-256", sub: "Military-grade security", icon: Lock },
               { title: "Support", value: "24/7", sub: "Expert assistance", icon: Users }
             ].map((item, i) => (
-              <div key={i} className="p-5 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/[0.08] transition-all group">
-                <item.icon className="w-5 h-5 text-purple-400 mb-4 group-hover:scale-110 transition-transform" />
-                <div className="text-2xl font-bold mb-1">{item.value}</div>
-                <div className="text-[10px] font-bold text-slate-300">{item.title}</div>
-                <p className="text-[8px] text-slate-500 uppercase tracking-wider">{item.sub}</p>
+              <div key={i} className="p-5 rounded-2xl bg-white/10 border border-white/20 hover:bg-white/[0.15] transition-all group shadow-xl">
+                <item.icon className="w-5 h-5 text-purple-300 mb-4 group-hover:scale-110 transition-transform" />
+                <div className="text-2xl font-bold mb-1 text-white">{item.value}</div>
+                <div className="text-[10px] font-bold text-slate-200">{item.title}</div>
+                <p className="text-[8px] text-slate-300 uppercase tracking-wider font-semibold">{item.sub}</p>
               </div>
             ))}
           </div>
@@ -368,14 +368,14 @@ await closo.call({ to: '+1234567890' });`,
               { icon: Radio, title: "Programmable", desc: "Custom API hooks" },
               { icon: MessageSquare, title: "Omnichannel", desc: "SMS & Voice sync" }
             ].map((f, i) => (
-              <Card key={i} className="border-slate-100 shadow-sm hover:shadow-md transition-all group hover:-translate-y-1">
+              <Card key={i} className="border-slate-200 shadow-sm hover:shadow-md transition-all group hover:-translate-y-1 bg-white">
                 <CardContent className="p-5 flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg bg-slate-900 flex items-center justify-center shrink-0 group-hover:rotate-6 transition-transform">
                     <f.icon className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm mb-1">{f.title}</h3>
-                    <p className="text-xs text-slate-500 leading-relaxed">{f.desc}</p>
+                    <h3 className="font-bold text-sm mb-1 text-slate-900">{f.title}</h3>
+                    <p className="text-xs text-slate-600 leading-relaxed">{f.desc}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -389,19 +389,23 @@ await closo.call({ to: '+1234567890' });`,
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-4">
                 {[
                   { title: "CRM Integration", desc: "Sync leads automatically", icon: Database },
                   { title: "Smart Routing", desc: "AI-based call distribution", icon: PhoneForwarded },
                   { title: "Team Insights", desc: "Real-time performance metrics", icon: BarChart2 },
                   { title: "Global Numbers", desc: "Local presence everywhere", icon: CloudLightning }
                 ].map((item, i) => (
-                  <div key={i} className="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-all group">
-                    <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center mb-4 group-hover:bg-slate-900 transition-colors">
-                      <item.icon className="w-5 h-5 text-slate-600 group-hover:text-white transition-colors" />
+                  <div key={i} className="p-6 bg-white border border-slate-200 rounded-2xl shadow-md hover:shadow-lg transition-all group">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center group-hover:bg-slate-900 transition-colors">
+                        <item.icon className="w-6 h-6 text-slate-700 group-hover:text-white transition-colors" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-base text-slate-900 mb-1">{item.title}</h4>
+                        <p className="text-sm text-slate-600">{item.desc}</p>
+                      </div>
                     </div>
-                    <h4 className="font-bold text-sm mb-1">{item.title}</h4>
-                    <p className="text-xs text-slate-500">{item.desc}</p>
                   </div>
                 ))}
               </div>
