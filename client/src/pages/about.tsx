@@ -9,7 +9,6 @@ import {
   Zap,
   Shield,
   Mic,
-  Settings,
   Rocket,
   Heart,
   Code,
@@ -19,9 +18,7 @@ import {
   PhoneCall,
   Database,
   Lock,
-  Cpu,
-  Mail,
-  Menu
+  Cpu
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import closoLogo from "@assets/closo_logo_png_1768558486274.png";
@@ -31,18 +28,10 @@ import { SEO } from "@/components/SEO";
 export default function AboutUs() {
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
   const [showHeader, setShowHeader] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [, setLocation] = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 100) {
-        setShowHeader(true);
-      } else {
-        setShowHeader(false);
-      }
-    };
-
+    const handleScroll = () => setShowHeader(window.scrollY > 100);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -104,147 +93,67 @@ export default function AboutUs() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F8F7F5] text-slate-900">
+    <div className="min-h-screen bg-slate-950 text-slate-50 selection:bg-purple-500/30 font-sans tracking-tight">
       <SEO 
         title="About Closo - Dialer & Parallel Dialing Platform | Closo"
         description="Learn about Closo's enterprise dialer and parallel dialing platform. Innovative sales CRM integration, AI-powered calling, and voice API technology for sales teams."
-        keywords="about closo, dialer company, parallel dialer platform, sales crm software, auto dialer solutions, sales automation platform"
-        canonical="https://closo.com/about"
-        schema={{
-          "@context": "https://schema.org",
-          "@type": "AboutPage",
-          "name": "About Closo",
-          "description": "Closo provides enterprise dialer with parallel dialing and sales CRM integration",
-          "url": "https://closo.com/about"
-        }}
       />
-      {/* Navigation */}
-      <nav className={`${showHeader ? 'fixed top-0 animate-in slide-in-from-top duration-300' : 'relative top-4'} left-0 right-0 z-50 px-4 md:px-6 lg:px-8 ${!showHeader && 'mb-8'} transition-all`}>
-        <div className={`max-w-7xl mx-auto bg-white/80 backdrop-blur-xl ${showHeader ? 'rounded-b-2xl mt-0' : 'rounded-2xl mt-0'} border border-gray-200/50 shadow-lg shadow-slate-900/5`}>
-          <div className="px-4 md:px-6">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center">
-                <Link href="/" data-testid="link-home">
-                  <img 
-                    src={closoLogo} 
-                    alt="Closo" 
-                    className="h-8 w-auto object-contain"
-                  />
-                </Link>
-              </div>
-              
-              <div className="hidden md:flex items-center space-x-8">
-                <Link href="/features" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" data-testid="link-features">
-                  Features
-                </Link>
-                <Link href="/#integrations" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" data-testid="link-integrations">
-                  Integrations
-                </Link>
-                <Link href="/about" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" data-testid="link-about">
-                  About
-                </Link>
-                <Link href="/api-docs" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" data-testid="link-api-docs">
-                  API Doc
-                </Link>
-                <Button 
-                  size="sm" 
-                  className="bg-slate-900 hover:bg-slate-800 text-white text-sm rounded-xl" 
-                  data-testid="button-signin"
-                  onClick={() => window.location.href = 'https://app.fallowl.com'}
-                >
-                  Sign in
-                </Button>
-              </div>
 
-              <Button 
-                variant="ghost" 
-                size="icon"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden"
-                data-testid="button-mobile-menu"
-              >
-                <Menu className="w-5 h-5" />
-              </Button>
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-600/20 blur-[120px] rounded-full animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-600/20 blur-[120px] rounded-full animate-pulse delay-1000" />
+      </div>
+
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${showHeader ? 'py-3' : 'py-6'}`}>
+        <div className="max-w-5xl mx-auto px-6">
+          <div className={`flex items-center justify-between px-6 py-2 rounded-2xl border transition-all duration-500 ${showHeader ? 'bg-slate-900/90 backdrop-blur-md border-white/20 shadow-2xl' : 'bg-slate-900/40 border-white/10'}`}>
+            <Link href="/">
+              <img src={closoLogo} alt="Closo" className="h-7 brightness-0 invert cursor-pointer" />
+            </Link>
+            <div className="hidden md:flex items-center gap-8">
+              {['Features', 'About', 'Blog'].map(item => (
+                <Link key={item} href={`/${item.toLowerCase()}`} className="text-sm font-bold text-slate-100 hover:text-white transition-colors">{item}</Link>
+              ))}
+              <Button size="sm" className="bg-white hover:bg-slate-200 text-slate-950 rounded-lg px-5 h-9 font-extrabold shadow-xl" onClick={() => window.location.href='/dashboard'}>Dashboard</Button>
             </div>
-
-            {isMenuOpen && (
-              <div className="md:hidden py-4 border-t border-gray-200 animate-in slide-in-from-top">
-                <div className="flex flex-col space-y-3">
-                  <Link href="/features" className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 rounded-lg hover:bg-slate-50 transition-colors" data-testid="link-mobile-features">
-                    Features
-                  </Link>
-                  <Link href="/#integrations" className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 rounded-lg hover:bg-slate-50 transition-colors" data-testid="link-mobile-integrations">
-                    Integrations
-                  </Link>
-                  <Link href="/about" className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 rounded-lg hover:bg-slate-50 transition-colors" data-testid="link-mobile-about">
-                    About
-                  </Link>
-                  <Link href="/api-docs" className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 rounded-lg hover:bg-slate-50 transition-colors" data-testid="link-mobile-api-docs">
-                    API Doc
-                  </Link>
-                  <div className="px-4 pt-2">
-                    <Button 
-                      size="sm" 
-                      className="bg-slate-900 hover:bg-slate-800 text-white w-full rounded-xl" 
-                      data-testid="button-mobile-signin"
-                      onClick={() => window.location.href = 'https://app.fallowl.com'}
-                    >
-                      Sign in
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative px-4 md:px-6 lg:px-8 pt-20 pb-16 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 opacity-60"></div>
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
-          <div className="absolute top-40 right-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
-        </div>
-        
-        <div className="max-w-5xl mx-auto relative">
-          <div className="text-center space-y-6">
-            <Badge className="bg-gradient-to-r from-purple-500 to-purple-600 text-white border-0 px-4 py-1.5 text-sm" data-testid="badge-status">
-              <Sparkles className="w-3 h-3 mr-1" />
-              Under Active Development
-            </Badge>
-            
-            <h1 className="text-5xl md:text-6xl font-bold">
-              <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-                About Closo
-              </span>
-            </h1>
-            
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-              Making sales and cold calling effortless with intelligent automation and seamless integrations
-            </p>
+      <section className="relative pt-40 pb-20 px-6 overflow-hidden">
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/30 text-[10px] font-extrabold uppercase tracking-widest text-purple-300 mb-8 animate-fade-in-down shadow-xl">
+            <Sparkles className="w-3 h-3" />
+            <span>Under Active Development</span>
           </div>
+          
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight text-white">
+            About <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-pink-500">Closo</span>
+          </h1>
+          
+          <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed font-medium">
+            Making sales and cold calling effortless with intelligent automation and seamless integrations
+          </p>
         </div>
       </section>
 
-      {/* Story Section */}
-      <section className="px-4 md:px-6 lg:px-8 py-16">
-        <div className="max-w-5xl mx-auto">
-          <Card className="border-0 shadow-xl bg-white overflow-hidden" data-testid="card-story">
+      <section className="py-24 bg-white text-slate-900 relative z-10">
+        <div className="max-w-5xl mx-auto px-6">
+          <Card className="border-slate-200 shadow-2xl bg-white overflow-hidden">
             <CardContent className="p-8 md:p-12">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div className="space-y-6">
                   <div className="inline-flex items-center space-x-2 bg-slate-100 text-slate-900 px-4 py-2 rounded-full">
                     <Code className="w-4 h-4" />
-                    <span className="text-sm font-semibold">Built by Amit Yadav</span>
+                    <span className="text-sm font-bold">Built by Amit Yadav</span>
                   </div>
                   
-                  <h2 className="text-3xl md:text-4xl font-bold text-slate-900">
+                  <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900">
                     A Solo Mission to Transform Cold Calling
                   </h2>
                   
-                  <p className="text-slate-600 leading-relaxed">
+                  <p className="text-slate-600 leading-relaxed font-medium">
                     Closo is an individual venture, created with the vision of making sales and cold calling 
                     accessible, efficient, and powerful for businesses of all sizes.
                   </p>
@@ -257,35 +166,35 @@ export default function AboutUs() {
                 
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl blur-2xl opacity-20"></div>
-                  <div className="relative bg-slate-900 rounded-2xl p-8 text-white">
-                    <div className="space-y-4">
-                      <div className="flex items-center space-x-3">
+                  <div className="relative bg-slate-900 rounded-2xl p-8 text-white shadow-2xl">
+                    <div className="space-y-6">
+                      <div className="flex items-center space-x-4">
                         <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
-                          <Users className="w-6 h-6" />
+                          <Users className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                          <p className="text-sm text-white/80">Individual Company</p>
-                          <p className="font-semibold">Solo Founded</p>
+                          <p className="text-xs text-white/60 font-bold uppercase tracking-widest">Company Structure</p>
+                          <p className="font-extrabold text-lg">Solo Founded</p>
                         </div>
                       </div>
                       
-                      <div className="flex items-center space-x-3">
+                      <div className="flex items-center space-x-4">
                         <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
-                          <TrendingUp className="w-6 h-6" />
+                          <TrendingUp className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                          <p className="text-sm text-white/80">Status</p>
-                          <p className="font-semibold">Active Development</p>
+                          <p className="text-xs text-white/60 font-bold uppercase tracking-widest">Current Status</p>
+                          <p className="font-extrabold text-lg">Active Development</p>
                         </div>
                       </div>
                       
-                      <div className="flex items-center space-x-3">
+                      <div className="flex items-center space-x-4">
                         <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
-                          <Sparkles className="w-6 h-6" />
+                          <Sparkles className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                          <p className="text-sm text-white/80">Pricing</p>
-                          <p className="font-semibold">Currently Free</p>
+                          <p className="text-xs text-white/60 font-bold uppercase tracking-widest">Early Access</p>
+                          <p className="font-extrabold text-lg">Currently Free</p>
                         </div>
                       </div>
                     </div>
@@ -297,37 +206,33 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="px-4 md:px-6 lg:px-8 py-16 bg-gradient-to-b from-transparent to-purple-50/30">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-purple-500 to-purple-600 bg-clip-text text-transparent">
+      <section className="py-24 bg-slate-50 relative z-10">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-extrabold mb-4">
+              <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 What We Offer
               </span>
             </h2>
-            <p className="text-slate-600 text-lg">
+            <p className="text-slate-600 text-lg font-medium">
               Comprehensive tools to supercharge your sales operations
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <Card
                 key={index}
-                className={`group border-0 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden ${
-                  hoveredFeature === index ? 'scale-105' : ''
-                }`}
+                className="group border-slate-200 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden hover:-translate-y-1 bg-white"
                 onMouseEnter={() => setHoveredFeature(index)}
                 onMouseLeave={() => setHoveredFeature(null)}
-                data-testid={`card-feature-${index}`}
               >
-                <CardContent className="p-6">
-                  <div className="w-14 h-14 rounded-2xl bg-slate-900 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <CardContent className="p-8">
+                  <div className="w-14 h-14 rounded-2xl bg-slate-900 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-xl">
                     <feature.icon className="w-7 h-7 text-white" />
                   </div>
                   
-                  <h3 className="text-xl font-bold mb-2 text-slate-900">{feature.title}</h3>
+                  <h3 className="text-xl font-bold mb-3 text-slate-900">{feature.title}</h3>
                   <p className="text-slate-600 text-sm leading-relaxed">{feature.description}</p>
                 </CardContent>
               </Card>
@@ -336,84 +241,41 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/* Values Section */}
-      <section className="px-4 md:px-6 lg:px-8 py-16">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-teal-500 to-cyan-500 bg-clip-text text-transparent">
-                Our Values
-              </span>
-            </h2>
+      <section className="py-24 bg-slate-950 text-white relative overflow-hidden border-y border-white/5">
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 via-transparent to-blue-500/5 opacity-50" />
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
+          <div className="inline-flex items-center space-x-2 bg-emerald-500/10 text-emerald-400 px-6 py-2 rounded-full mb-8 border border-emerald-500/20 shadow-xl">
+            <Sparkles className="w-5 h-5" />
+            <span className="font-extrabold uppercase tracking-widest text-xs">Limited Time Offer</span>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((value, index) => (
-              <div
-                key={index}
-                className="text-center space-y-3 p-6 rounded-xl hover:bg-white/60 transition-all duration-300"
-                data-testid={`value-${index}`}
-              >
-                <div className="w-16 h-16 mx-auto rounded-2xl bg-slate-900 flex items-center justify-center">
-                  <value.icon className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="font-bold text-slate-900">{value.title}</h3>
-                <p className="text-sm text-slate-600">{value.description}</p>
+          <h2 className="text-3xl md:text-5xl font-extrabold mb-6 leading-tight">Currently Free to Use</h2>
+          <p className="text-slate-300 text-lg mb-10 leading-relaxed font-medium">
+            We're in active development and offering Closo completely free while we refine the platform. 
+            A small fee may be introduced in the future, but early users will receive special benefits.
+          </p>
+          
+          <div className="flex flex-wrap justify-center gap-6 mb-12">
+            {[
+              { icon: PhoneCall, label: "Unlimited Calls" },
+              { icon: Database, label: "Full CRM Access" },
+              { icon: Zap, label: "All Integrations" }
+            ].map((item, i) => (
+              <div key={i} className="flex items-center space-x-3 text-slate-200 bg-white/5 px-4 py-2 rounded-xl border border-white/10">
+                <item.icon className="w-5 h-5 text-white" />
+                <span className="text-sm font-bold">{item.label}</span>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Pricing Info */}
-      <section className="px-4 md:px-6 lg:px-8 py-16 bg-gradient-to-br from-purple-50 to-blue-50">
-        <div className="max-w-4xl mx-auto">
-          <Card className="border-0 shadow-2xl bg-white overflow-hidden" data-testid="card-pricing">
-            <CardContent className="p-8 md:p-12">
-              <div className="text-center space-y-6">
-                <div className="inline-flex items-center space-x-2 bg-green-100 text-green-700 px-6 py-2 rounded-full">
-                  <Sparkles className="w-5 h-5" />
-                  <span className="font-semibold">Limited Time Offer</span>
-                </div>
-                
-                <h2 className="text-3xl md:text-4xl font-bold">
-                  <span className="bg-gradient-to-r from-purple-500 to-purple-600 bg-clip-text text-transparent">
-                    Currently Free to Use
-                  </span>
-                </h2>
-                
-                <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                  We're in active development and offering Fallowl completely free while we refine the platform. 
-                  A small fee may be introduced in the future, but early users will receive special benefits.
-                </p>
-                
-                <div className="flex flex-wrap justify-center gap-4 pt-4">
-                  <div className="flex items-center space-x-2 text-slate-600">
-                    <PhoneCall className="w-5 h-5 text-slate-900" />
-                    <span className="text-sm font-medium">Unlimited Calls</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-slate-600">
-                    <Database className="w-5 h-5 text-slate-900" />
-                    <span className="text-sm font-medium">Full CRM Access</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-slate-600">
-                    <Zap className="w-5 h-5 text-slate-900" />
-                    <span className="text-sm font-medium">All Integrations</span>
-                  </div>
-                </div>
-                
-                <Button 
-                  size="lg" 
-                  className="bg-slate-900 hover:bg-slate-800 text-white rounded-xl group mt-4"
-                  data-testid="button-get-started"
-                  onClick={() => setLocation("/demo")}
-                >
-                  Get Started Free
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          
+          <Button 
+            size="lg" 
+            className="bg-white text-slate-950 hover:bg-slate-100 px-12 h-16 text-lg font-extrabold rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.4)]"
+            onClick={() => window.location.href='/demo'}
+          >
+            Get Started Free
+            <ArrowRight className="w-5 h-5 ml-3" />
+          </Button>
         </div>
       </section>
 

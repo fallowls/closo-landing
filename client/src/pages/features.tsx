@@ -20,14 +20,24 @@ import {
   Radio,
   Volume2,
   Upload,
-  Download
+  Download,
+  Sparkles
 } from "lucide-react";
 import { Link } from "wouter";
 import closoLogo from "@assets/closo_logo_png_1768558486274.png";
 import { EnterpriseFooter } from "@/components/EnterpriseFooter";
 import { SEO } from "@/components/SEO";
+import { useState, useEffect } from "react";
 
 export default function Features() {
+  const [showHeader, setShowHeader] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setShowHeader(window.scrollY > 100);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const features = [
     {
       icon: PhoneCall,
@@ -152,74 +162,52 @@ export default function Features() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F8F7F5] text-slate-900">
+    <div className="min-h-screen bg-slate-950 text-slate-50 selection:bg-purple-500/30 font-sans tracking-tight">
       <SEO 
         title="Parallel Dialer Features & Sales CRM Integration | Closo"
         description="Explore Closo's parallel dialer features with sales CRM integration. Auto dialer, AI calling, real-time analytics, call recording, and seamless CRM connectivity for sales teams."
-        keywords="parallel dialer features, sales crm integration, dialer features, auto dialer crm, parallel dialing system, crm dialer software, integration features, sales automation tools"
-        canonical="https://closo.com/features"
-        schema={{
-          "@context": "https://schema.org",
-          "@type": "WebPage",
-          "name": "Closo Features - Parallel Dialer & CRM Integration",
-          "description": "Complete feature list for Closo's parallel dialer and sales CRM integration platform",
-          "url": "https://closo.com/features"
-        }}
       />
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 px-4 md:px-6 lg:px-8 bg-white/80 backdrop-blur-xl border-b border-gray-200/50 shadow-sm">
-        <div className="max-w-7xl mx-auto">
-          <div className="px-4 md:px-6">
-            <div className="flex justify-between items-center h-16">
-              <Link href="/">
-                <a className="flex items-center cursor-pointer" data-testid="link-home">
-                  <img 
-                    src={closoLogo} 
-                    alt="Closo" 
-                    className="h-8 w-auto object-contain"
-                  />
-                </a>
-              </Link>
-              
-              <div className="flex items-center space-x-6">
-                <a href="/#features" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" data-testid="link-features">Features</a>
-                <a href="/#capabilities" className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" data-testid="link-capabilities">Capabilities</a>
-                <Link href="/api-docs">
-                  <a className="text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors" data-testid="link-api-docs">API Docs</a>
-                </Link>
-                <Link href="/">
-                  <Button size="sm" className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white" data-testid="button-back-home">
-                    Back to Home
-                  </Button>
-                </Link>
-              </div>
+
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-600/20 blur-[120px] rounded-full animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-600/20 blur-[120px] rounded-full animate-pulse delay-1000" />
+      </div>
+
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${showHeader ? 'py-3' : 'py-6'}`}>
+        <div className="max-w-5xl mx-auto px-6">
+          <div className={`flex items-center justify-between px-6 py-2 rounded-2xl border transition-all duration-500 ${showHeader ? 'bg-slate-900/90 backdrop-blur-md border-white/20 shadow-2xl' : 'bg-slate-900/40 border-white/10'}`}>
+            <Link href="/">
+              <img src={closoLogo} alt="Closo" className="h-7 brightness-0 invert cursor-pointer" />
+            </Link>
+            <div className="hidden md:flex items-center gap-8">
+              {['Features', 'About', 'Blog'].map(item => (
+                <Link key={item} href={`/${item.toLowerCase()}`} className="text-sm font-bold text-slate-100 hover:text-white transition-colors">{item}</Link>
+              ))}
+              <Button size="sm" className="bg-white hover:bg-slate-200 text-slate-950 rounded-lg px-5 h-9 font-extrabold shadow-xl" onClick={() => window.location.href='/dashboard'}>Dashboard</Button>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-br from-purple-50 via-white to-teal-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 mb-6 border border-purple-200 shadow-sm">
-              <Zap className="w-4 h-4 text-purple-600" />
-              <span className="text-sm font-medium text-purple-600">Powerful Features</span>
-            </div>
-            
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 via-purple-500 to-teal-500 bg-clip-text text-transparent">
-              Everything You Need to Excel
-            </h1>
-            
-            <p className="text-xl text-slate-600 mb-8 leading-relaxed">
-              Comprehensive communication platform with AI-powered features designed to streamline your workflow and boost productivity.
-            </p>
+      <section className="relative pt-40 pb-20 px-6 overflow-hidden">
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/30 text-[10px] font-extrabold uppercase tracking-widest text-purple-300 mb-8 animate-fade-in-down shadow-xl">
+            <Zap className="w-3 h-3" />
+            <span>Powerful Features</span>
           </div>
+          
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight text-white">
+            Everything You Need <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">to Excel</span>
+          </h1>
+          
+          <p className="text-xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed font-medium">
+            Comprehensive communication platform with AI-powered features designed to streamline your workflow and boost productivity.
+          </p>
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="py-16 bg-white">
+      <section className="py-24 bg-white text-slate-900 relative z-10">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => {
@@ -227,14 +215,13 @@ export default function Features() {
               return (
                 <Card 
                   key={index} 
-                  className="border-gray-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white group"
-                  data-testid={`card-feature-${index}`}
+                  className="border-slate-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 bg-white group"
                 >
                   <CardContent className="p-6">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
                       <Icon className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="font-semibold text-lg mb-2 text-slate-900">{feature.title}</h3>
+                    <h3 className="font-bold text-lg mb-2 text-slate-900">{feature.title}</h3>
                     <p className="text-sm text-slate-600 leading-relaxed">{feature.description}</p>
                   </CardContent>
                 </Card>
@@ -244,26 +231,20 @@ export default function Features() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-br from-purple-50 to-teal-50">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-teal-600 bg-clip-text text-transparent">
-            Ready to Transform Your Communication?
-          </h2>
-          <p className="text-lg text-slate-600 mb-8">
-            Join thousands of businesses using FallOwl to streamline their operations.
+      <section className="py-24 bg-slate-950 text-white border-y border-white/5 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 via-transparent to-blue-500/5 opacity-50" />
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-3xl md:text-5xl font-extrabold mb-6 text-white leading-tight">Ready to Transform Your Communication?</h2>
+          <p className="text-slate-300 text-lg mb-10 leading-relaxed font-medium">
+            Join thousands of businesses using Closo to streamline their operations.
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
-            <Link href="/demo">
-              <Button size="lg" className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white" data-testid="button-book-demo">
-                Book a Demo
-              </Button>
-            </Link>
-            <Link href="/api-docs">
-              <Button size="lg" variant="outline" className="border-gray-300" data-testid="button-explore-api">
-                Explore API
-              </Button>
-            </Link>
+            <Button size="lg" className="bg-white text-slate-950 hover:bg-slate-100 px-10 h-14 text-base font-extrabold rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-[0_0_25px_rgba(255,255,255,0.4)]" onClick={() => window.location.href='/demo'}>
+              Book a Demo
+            </Button>
+            <Button variant="outline" size="lg" className="border-2 border-white text-slate-950 bg-white hover:bg-slate-100 px-10 h-14 text-base font-extrabold rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-[0_0_25px_rgba(255,255,255,0.4)]" onClick={() => window.location.href='/api-docs'}>
+              Explore API
+            </Button>
           </div>
         </div>
       </section>
