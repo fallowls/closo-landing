@@ -112,13 +112,13 @@ await closo.call({ to: '+1234567890' });`,
 
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${showHeader ? 'py-3' : 'py-6'}`}>
         <div className="max-w-5xl mx-auto px-6">
-          <div className={`flex items-center justify-between px-6 py-2 rounded-2xl border transition-all duration-500 ${showHeader ? 'bg-slate-900/80 backdrop-blur-md border-white/10 shadow-xl' : 'bg-transparent border-transparent'}`}>
+          <div className={`flex items-center justify-between px-6 py-2 rounded-2xl border transition-all duration-500 ${showHeader ? 'bg-slate-900/90 backdrop-blur-md border-white/20 shadow-2xl' : 'bg-slate-900/40 border-white/10'}`}>
             <img src={closoLogo} alt="Closo" className="h-7 brightness-0 invert" />
             <div className="hidden md:flex items-center gap-8">
               {['Features', 'About', 'Blog'].map(item => (
-                <Link key={item} href={`/${item.toLowerCase()}`} className="text-sm font-medium text-slate-400 hover:text-white transition-colors">{item}</Link>
+                <Link key={item} href={`/${item.toLowerCase()}`} className="text-sm font-bold text-slate-100 hover:text-white transition-colors">{item}</Link>
               ))}
-              <Button size="sm" className="bg-white hover:bg-slate-200 text-slate-950 rounded-lg px-5 h-9 font-bold" onClick={() => window.location.href='/dashboard'}>Dashboard</Button>
+              <Button size="sm" className="bg-white hover:bg-slate-200 text-slate-950 rounded-lg px-5 h-9 font-extrabold shadow-xl" onClick={() => window.location.href='/dashboard'}>Dashboard</Button>
             </div>
           </div>
         </div>
@@ -126,17 +126,17 @@ await closo.call({ to: '+1234567890' });`,
 
       <section className="relative pt-40 pb-20 px-6 overflow-hidden">
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-purple-400 mb-8 animate-fade-in-down shadow-inner">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/30 text-[10px] font-extrabold uppercase tracking-widest text-purple-300 mb-8 animate-fade-in-down shadow-xl">
             <Sparkles className="w-3 h-3" />
             <span>Introducing Closo 2.0</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
-            Precision <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Intelligence</span>
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight text-white">
+            Precision <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Intelligence</span>
             <br /> for Sales Teams
           </h1>
           
-          <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto leading-relaxed">
+          <p className="text-xl text-slate-300 mb-10 max-w-xl mx-auto leading-relaxed font-medium">
             Enterprise-grade lead scoring and contact intelligence platform designed for high-performance sales teams.
           </p>
           
@@ -147,15 +147,15 @@ await closo.call({ to: '+1234567890' });`,
 
           <div className="relative group max-w-3xl mx-auto">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-700 opacity-50" />
-            <div className="relative bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-3xl p-6 shadow-2xl grid grid-cols-3 gap-4">
+            <div className="relative bg-slate-900 border border-white/20 rounded-3xl p-6 shadow-[0_0_40px_rgba(0,0,0,0.5)] grid grid-cols-3 gap-4">
               {[
-                { label: "Precision", value: "98.2%", color: "text-blue-400" },
-                { label: "Reach", value: "2.4M+", color: "text-purple-400" },
-                { label: "Growth", value: "+142%", color: "text-emerald-400" }
+                { label: "Precision", value: "98.2%", color: "text-blue-300" },
+                { label: "Reach", value: "2.4M+", color: "text-purple-300" },
+                { label: "Growth", value: "+142%", color: "text-emerald-300" }
               ].map((s, i) => (
-                <div key={i} className="text-center p-4 rounded-2xl bg-white/5 border border-white/5 transition-colors hover:bg-white/[0.08]">
-                  <div className={`text-xl font-bold mb-1 ${s.color}`}>{s.value}</div>
-                  <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{s.label}</div>
+                <div key={i} className="text-center p-4 rounded-2xl bg-white/10 border border-white/10 transition-colors hover:bg-white/[0.15]">
+                  <div className={`text-xl font-extrabold mb-1 ${s.color}`}>{s.value}</div>
+                  <div className="text-[10px] font-extrabold text-white uppercase tracking-widest">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -272,11 +272,11 @@ await closo.call({ to: '+1234567890' });`,
                       <PhoneCall className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                      <div className="text-xs font-bold uppercase tracking-widest text-blue-400">Dialer Active</div>
-                      <div className="text-[10px] text-slate-400">5 Lines Live</div>
+                      <div className="text-xs font-extrabold uppercase tracking-widest text-blue-300">Dialer Active</div>
+                      <div className="text-[10px] text-slate-200 font-bold">5 Lines Live</div>
                     </div>
                   </div>
-                  <div className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-mono text-emerald-400">
+                  <div className="px-3 py-1 bg-white/10 border border-white/20 rounded-lg text-[10px] font-black text-emerald-400 shadow-xl">
                     TALK TIME: 4h 12m
                   </div>
                 </div>
@@ -300,16 +300,16 @@ await closo.call({ to: '+1234567890' });`,
                   ))}
                 </div>
 
-                <div className="p-4 bg-white/5 border border-white/10 rounded-xl grid grid-cols-3 gap-2">
+                <div className="p-4 bg-white/10 border border-white/20 rounded-xl grid grid-cols-3 gap-2 shadow-inner">
                   {[
                     { label: "Connect", value: "24%", change: "+12%" },
                     { label: "Wait", value: "8s", change: "-42s" },
                     { label: "Dials/Hr", value: "140", change: "+310%" }
                   ].map((stat, i) => (
                     <div key={i} className="text-center">
-                      <div className="text-sm font-bold">{stat.value}</div>
-                      <div className="text-[9px] font-bold text-slate-500 uppercase tracking-tighter">{stat.label}</div>
-                      <div className="text-[8px] text-emerald-400 font-bold">{stat.change}</div>
+                      <div className="text-sm font-black text-white">{stat.value}</div>
+                      <div className="text-[9px] font-black text-slate-200 uppercase tracking-tighter">{stat.label}</div>
+                      <div className="text-[8px] text-emerald-400 font-black">{stat.change}</div>
                     </div>
                   ))}
                 </div>
@@ -325,8 +325,8 @@ await closo.call({ to: '+1234567890' });`,
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-12">
             <div className="max-w-xl">
-              <h2 className="text-3xl md:text-4xl font-bold mb-3">Built for Scale</h2>
-              <p className="text-slate-400 text-sm">Global infrastructure handling millions of interactions with sub-millisecond latency.</p>
+              <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white">Built for Scale</h2>
+              <p className="text-slate-300 text-sm font-medium">Global infrastructure handling millions of interactions with sub-millisecond latency.</p>
             </div>
             <div className="flex gap-4 items-center px-4 py-2 bg-white/5 border border-white/10 rounded-xl">
               <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -341,11 +341,11 @@ await closo.call({ to: '+1234567890' });`,
               { title: "Encryption", value: "AES-256", sub: "Military-grade security", icon: Lock },
               { title: "Support", value: "24/7", sub: "Expert assistance", icon: Users }
             ].map((item, i) => (
-              <div key={i} className="p-5 rounded-2xl bg-white/10 border border-white/20 hover:bg-white/[0.15] transition-all group shadow-xl">
+              <div key={i} className="p-5 rounded-2xl bg-white/10 border border-white/30 hover:bg-white/20 transition-all group shadow-2xl">
                 <item.icon className="w-5 h-5 text-purple-300 mb-4 group-hover:scale-110 transition-transform" />
                 <div className="text-2xl font-bold mb-1 text-white">{item.value}</div>
-                <div className="text-[10px] font-bold text-slate-200">{item.title}</div>
-                <p className="text-[8px] text-slate-300 uppercase tracking-wider font-semibold">{item.sub}</p>
+                <div className="text-[10px] font-bold text-white">{item.title}</div>
+                <p className="text-[8px] text-slate-200 uppercase tracking-wider font-bold">{item.sub}</p>
               </div>
             ))}
           </div>
@@ -448,11 +448,11 @@ await closo.call({ to: '+1234567890' });`,
           <div className="flex flex-col md:flex-row items-center justify-between gap-12 bg-slate-900 rounded-[3rem] p-8 md:p-16 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/20 blur-[100px] rounded-full -mr-48 -mt-48" />
             <div className="relative z-10 max-w-xl text-center md:text-left">
-              <h2 className="text-3xl md:text-5xl font-bold mb-6">Ready to scale your sales intelligence?</h2>
-              <p className="text-slate-400 text-lg mb-10 leading-relaxed">Join 500+ enterprise teams using Closo to dominate their market with data-driven precision.</p>
+              <h2 className="text-3xl md:text-5xl font-extrabold mb-6 text-white leading-tight">Ready to scale your sales intelligence?</h2>
+              <p className="text-slate-100 text-lg mb-10 leading-relaxed font-bold">Join 500+ enterprise teams using Closo to dominate their market with data-driven precision.</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <Button size="lg" className="bg-white text-slate-950 hover:bg-slate-100 px-10 h-14 text-base font-bold rounded-2xl transition-all hover:scale-105 active:scale-95" onClick={() => window.location.href='/dashboard'}>Get Started for Free</Button>
-                <Button variant="outline" size="lg" className="border-white/20 text-slate-900 bg-white hover:bg-slate-100 px-10 h-14 text-base font-bold rounded-2xl transition-all hover:scale-105 active:scale-95" onClick={() => setLocation("/demo")}>Talk to Sales</Button>
+                <Button size="lg" className="bg-white text-slate-950 hover:bg-slate-100 px-10 h-14 text-base font-extrabold rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-[0_0_25px_rgba(255,255,255,0.4)]" onClick={() => window.location.href='/dashboard'}>Get Started for Free</Button>
+                <Button variant="outline" size="lg" className="border-2 border-white text-slate-900 bg-white hover:bg-slate-100 px-10 h-14 text-base font-extrabold rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-[0_0_25px_rgba(255,255,255,0.4)]" onClick={() => setLocation("/demo")}>Talk to Sales</Button>
               </div>
             </div>
             <div className="relative z-10 hidden lg:block">
