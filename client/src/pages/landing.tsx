@@ -107,7 +107,7 @@ export default function Landing() {
             className="relative w-[300px] h-[300px] mx-auto mb-12"
           >
             <div className="absolute inset-0 rounded-full overflow-hidden border-4 border-white shadow-xl z-10">
-              <img src="/attached_assets/stock_images/professional_happy_s_11e31104.jpg" alt="Hero" className="w-full h-full object-cover" />
+              <img src="/attached_assets/stock_images/happy_professional_d_3abe973d.jpg" alt="Hero" className="w-full h-full object-cover" />
             </div>
             <motion.div 
               initial={{ x: -20, opacity: 0 }}
