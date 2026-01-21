@@ -41,36 +41,37 @@ export default function Landing() {
         description="Drive new sales and discover unique insights by engaging with your customers profitably on the phone."
       />
       
-      {/* Background Grid Pattern - Consio Style */}
+      {/* Background Grid Pattern */}
       <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.03]" 
         style={{ backgroundImage: `radial-gradient(#111 0.5px, transparent 0.5px)`, backgroundSize: '24px 24px' }} 
       />
 
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${showHeader ? 'py-2 border-b border-slate-100 bg-white/80 backdrop-blur-md' : 'py-5'}`}>
-        <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between">
+      {/* New Redesigned Header - Centered & Compact Consio Style */}
+      <div className={`fixed top-4 left-0 right-0 z-50 flex justify-center transition-all duration-500`}>
+        <nav className={`flex items-center justify-between px-6 py-2 rounded-2xl border transition-all duration-500 shadow-sm ${showHeader ? 'bg-white/90 backdrop-blur-md border-slate-200 w-[1150px]' : 'bg-white/40 backdrop-blur-sm border-slate-100 w-[1200px]'}`}>
           <div className="flex items-center gap-12">
             <Link href="/"><img src={closoLogo} alt="Closo" className="h-5 cursor-pointer" /></Link>
             <div className="hidden lg:flex items-center gap-8">
               {['Product', 'Resources', 'Customers', 'Pricing'].map(item => (
                 <div key={item} className="flex items-center gap-1 cursor-pointer group">
-                  <span className="text-[15px] font-medium text-slate-600 group-hover:text-[#111] transition-colors">{item}</span>
+                  <span className="text-[14px] font-medium text-slate-600 group-hover:text-[#111] transition-colors">{item}</span>
                   <ChevronRight className="w-3 h-3 rotate-90 text-slate-300" />
                 </div>
               ))}
             </div>
           </div>
           <div className="flex items-center gap-6">
-            <Link href="/login" className="text-[15px] font-medium text-slate-600 hover:text-[#111]">Log in</Link>
+            <Link href="/login" className="text-[14px] font-medium text-slate-600 hover:text-[#111]">Log in</Link>
             <div className="flex items-center gap-3">
-              <Button variant="ghost" className="text-[15px] font-medium hover:bg-slate-50 px-4 h-10 rounded-lg border border-slate-100">Sign up free</Button>
-              <Button className="bg-[#111] hover:bg-black text-white px-5 h-10 text-[15px] font-medium rounded-lg shadow-sm" onClick={() => window.location.href='/dashboard'}>Book a demo</Button>
+              <Button variant="ghost" className="text-[14px] font-medium hover:bg-slate-50 px-4 h-9 rounded-lg border border-slate-100">Sign up free</Button>
+              <Button className="bg-[#111] hover:bg-black text-white px-5 h-9 text-[14px] font-medium rounded-lg shadow-sm" onClick={() => window.location.href='/dashboard'}>Book a demo</Button>
             </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
 
       {/* Hero Section */}
-      <section className="relative pt-36 pb-20 px-6">
+      <section className="relative pt-44 pb-20 px-6">
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <div className="relative w-[340px] h-[340px] mx-auto mb-10">
             <div className="absolute inset-0 rounded-full overflow-hidden border-8 border-white shadow-2xl z-10">
