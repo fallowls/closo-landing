@@ -1,0 +1,94 @@
+{
+  "colorScheme": "light",
+  "fonts": [
+    {
+      "family": "sans-serif",
+      "count": 88
+    },
+    {
+      "family": "Inter",
+      "count": 30
+    },
+    {
+      "family": "Inter Placeholder",
+      "count": 30
+    },
+    {
+      "family": "TT_Hoves_Pro_Medium Unspecified",
+      "count": 11
+    },
+    {
+      "family": "TT_Hoves_Pro_Medium Unspecified Placeholder",
+      "count": 11
+    }
+  ],
+  "colors": {
+    "primary": "#E1B2FF",
+    "accent": "#0000EE",
+    "background": "#F9F9FB",
+    "textPrimary": "#0000EE",
+    "link": "#0000EE"
+  },
+  "typography": {
+    "fontFamilies": {
+      "primary": "sans-serif",
+      "heading": "TT_Hoves_Pro_Medium Unspecified"
+    },
+    "fontStacks": {
+      "body": [
+        "sans-serif"
+      ],
+      "heading": [
+        "TT_Hoves_Pro_Medium Unspecified",
+        "TT_Hoves_Pro_Medium Unspecified Placeholder",
+        "sans-serif"
+      ],
+      "paragraph": [
+        "Inter",
+        "Inter Placeholder",
+        "sans-serif"
+      ]
+    },
+    "fontSizes": {
+      "h1": "76px",
+      "h2": "56px",
+      "body": "15px"
+    }
+  },
+  "spacing": {
+    "baseUnit": 4,
+    "borderRadius": "8px"
+  },
+  "components": {},
+  "images": {
+    "logo": "File saved at: attached_assets/logo.svg",
+    "favicon": "File saved at: attached_assets/favicon.png",
+    "ogImage": "File saved at: attached_assets/ogImage.webp"
+  },
+  "__framework_hints": [
+    "Framer c0d7099"
+  ],
+  "__llm_logo_reasoning": {
+    "selectedIndex": 0,
+    "reasoning": "Strong indicators: in header, header location, visible, highest logo on page, reasonable size, SVG format. Score: 80 (clear winner by 52 points)",
+    "confidence": 0.9
+  },
+  "__llm_button_reasoning": {
+    "primary": {
+      "index": -1,
+      "text": "N/A",
+      "reasoning": "LLM failed"
+    },
+    "secondary": {
+      "index": -1,
+      "text": "N/A",
+      "reasoning": "LLM failed"
+    },
+    "confidence": 0
+  },
+  "confidence": {
+    "buttons": 0,
+    "colors": 0,
+    "overall": 0
+  }
+}
