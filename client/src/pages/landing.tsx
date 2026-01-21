@@ -21,7 +21,12 @@ import {
   BarChart3,
   MousePointer2,
   Headphones,
-  Database
+  Database,
+  Terminal,
+  Cpu,
+  RefreshCw,
+  TrendingUp,
+  Target
 } from "lucide-react";
 import { useLocation, Link } from "wouter";
 import closoLogo from "@assets/closo_logo_png_1768558486274.png";
@@ -127,6 +132,7 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Intro Section */}
       <section className="py-24 bg-white text-center">
         <div className="max-w-4xl mx-auto px-6">
            <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-[11px] font-bold mb-6">Introducing Closo</div>
@@ -149,6 +155,7 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Outbound Section */}
       <section className="py-24 bg-white">
         <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
           <div className="space-y-6">
@@ -200,7 +207,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* New Middle Section: Intelligence */}
+      {/* Intelligence Section */}
       <section className="py-24 bg-[#F9F9FB] border-y border-slate-100">
         <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
           <div className="order-2 lg:order-1 relative">
@@ -238,6 +245,97 @@ export default function Landing() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* New Section: Automation & Workflow */}
+      <section className="py-32 bg-white">
+        <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
+          <div className="space-y-8">
+            <div className="inline-flex items-center px-3 py-1 bg-emerald-100 text-emerald-600 rounded-lg text-[11px] font-black uppercase tracking-wider">Automation</div>
+            <h2 className="text-[44px] font-bold text-[#111] leading-tight tracking-tight">Workflow that <br /> works for you</h2>
+            <p className="text-[17px] text-slate-500 font-medium leading-relaxed">
+              Eliminate manual data entry and repetitive tasks. Closo integrates deeply with your existing B2B commerce tools to automate the entire phone sales cycle.
+            </p>
+            <div className="grid sm:grid-cols-2 gap-6">
+               {[
+                 { icon: RefreshCw, title: "Real-time Sync", desc: "Instantly update order status and customer notes." },
+                 { icon: Target, title: "Smart Routing", desc: "Connect customers to the right agent every time." },
+                 { icon: Cpu, title: "AI Workflows", desc: "Trigger actions based on call outcomes automatically." },
+                 { icon: Terminal, title: "Custom APIs", desc: "Build tailored solutions with our robust API." }
+               ].map((item, i) => (
+                 <div key={i} className="space-y-2">
+                    <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-[#111] mb-3">
+                       <item.icon className="w-4 h-4" />
+                    </div>
+                    <h4 className="text-[15px] font-bold text-[#111]">{item.title}</h4>
+                    <p className="text-[13px] text-slate-400 leading-snug">{item.desc}</p>
+                 </div>
+               ))}
+            </div>
+          </div>
+          <div className="relative">
+             <div className="bg-[#111] rounded-[3rem] p-10 text-white overflow-hidden shadow-2xl">
+                <div className="flex items-center gap-4 mb-12 opacity-50">
+                   <div className="w-3 h-3 rounded-full bg-rose-500" />
+                   <div className="w-3 h-3 rounded-full bg-amber-500" />
+                   <div className="w-3 h-3 rounded-full bg-emerald-500" />
+                </div>
+                <div className="space-y-6 font-mono text-[13px]">
+                   <div className="flex gap-4">
+                      <span className="text-emerald-400">01</span>
+                      <span className="text-slate-400">{"{"}</span>
+                   </div>
+                   <div className="flex gap-4 pl-4">
+                      <span className="text-emerald-400">02</span>
+                      <span><span className="text-[#E1B2FF]">"event"</span>: <span className="text-amber-300">"call_completed"</span>,</span>
+                   </div>
+                   <div className="flex gap-4 pl-4">
+                      <span className="text-emerald-400">03</span>
+                      <span><span className="text-[#E1B2FF]">"summary"</span>: <span className="text-amber-300">"Customer interested in bulk order."</span>,</span>
+                   </div>
+                   <div className="flex gap-4 pl-4">
+                      <span className="text-emerald-400">04</span>
+                      <span><span className="text-[#E1B2FF]">"action"</span>: <span className="text-amber-300">"create_hubspot_deal"</span></span>
+                   </div>
+                   <div className="flex gap-4">
+                      <span className="text-emerald-400">05</span>
+                      <span className="text-slate-400">{"}"}</span>
+                   </div>
+                </div>
+                <div className="mt-12 pt-8 border-t border-white/10 flex items-center justify-between">
+                   <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded bg-[#E1B2FF] flex items-center justify-center text-[#111] font-bold">C</div>
+                      <span className="text-[12px] font-bold">API Status: Online</span>
+                   </div>
+                   <div className="text-[11px] font-bold uppercase tracking-widest text-[#E1B2FF]">200 OK</div>
+                </div>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* New Section: Testimonials/Results */}
+      <section className="py-32 bg-[#F9F9FB]">
+         <div className="max-w-6xl mx-auto px-6 text-center">
+            <div className="inline-flex items-center px-3 py-1 bg-amber-100 text-amber-600 rounded-lg text-[11px] font-black uppercase tracking-wider mb-8">Case Studies</div>
+            <h2 className="text-[44px] font-bold text-[#111] mb-20 leading-tight tracking-tight">Real results from <br /> top commerce teams</h2>
+            <div className="grid md:grid-cols-3 gap-8 text-left">
+               {[
+                 { brand: "Polysleep", result: "45%", label: "Conversion lift", desc: "By using the dialer for abandoned checkouts." },
+                 { brand: "Michael Todd", result: "2.5x", label: "Agent efficiency", desc: "Automating post-call notes and CRM sync." },
+                 { brand: "Jaxxon", result: "12min", label: "Avg saved per agent", desc: "Every hour by eliminating manual dialing." }
+               ].map((c, i) => (
+                 <Card key={i} className="bg-white border-none rounded-[2.5rem] p-10 shadow-sm flex flex-col justify-between h-full">
+                    <div>
+                       <div className="text-[13px] font-black text-[#111] mb-8 uppercase tracking-widest">{c.brand}</div>
+                       <div className="text-[56px] font-black text-[#0000EE] leading-none mb-2">{c.result}</div>
+                       <div className="text-[15px] font-bold text-[#111] mb-4">{c.label}</div>
+                       <p className="text-sm text-slate-400 font-medium leading-relaxed">{c.desc}</p>
+                    </div>
+                 </Card>
+               ))}
+            </div>
+         </div>
       </section>
 
       {/* Global Scale Section */}
