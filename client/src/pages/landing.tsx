@@ -20,7 +20,10 @@ import {
   Target,
   Sparkles,
   PhoneForwarded,
-  LayoutDashboard
+  LayoutDashboard,
+  Volume2,
+  Wifi,
+  Lock
 } from "lucide-react";
 import { useLocation, Link } from "wouter";
 import closoLogo from "@assets/closo_logo_png_1768558486274.png";
