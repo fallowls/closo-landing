@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { useLocation, Link } from "wouter";
 import closoLogo from "@assets/closo_logo_png_1768558486274.png";
+import heroImg from "@assets/stock_images/happy_professional_d_3abe973d.jpg";
 import { EnterpriseFooter } from "@/components/EnterpriseFooter";
 import { SEO } from "@/components/SEO";
 import { motion, AnimatePresence } from "framer-motion";
@@ -107,7 +108,7 @@ export default function Landing() {
             className="relative w-[300px] h-[300px] mx-auto mb-12"
           >
             <div className="absolute inset-0 rounded-full overflow-hidden border-4 border-white shadow-xl z-10">
-              <img src="/attached_assets/stock_images/happy_professional_d_3abe973d.jpg" alt="Hero" className="w-full h-full object-cover" />
+              <img src={heroImg} alt="Hero" className="w-full h-full object-cover" />
             </div>
             <motion.div 
               initial={{ x: -20, opacity: 0 }}
