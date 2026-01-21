@@ -32,6 +32,19 @@ import { useLocation, Link } from "wouter";
 import closoLogo from "@assets/closo_logo_png_1768558486274.png";
 import { EnterpriseFooter } from "@/components/EnterpriseFooter";
 import { SEO } from "@/components/SEO";
+import { motion, AnimatePresence } from "framer-motion";
+
+const fadeIn = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+};
+
+const staggerContainer = {
+  initial: {},
+  whileInView: { transition: { staggerChildren: 0.1 } }
+};
 
 export default function Landing() {
   const [showHeader, setShowHeader] = useState(false);
@@ -57,7 +70,12 @@ export default function Landing() {
         }} 
       />
 
-      <div className={`fixed top-4 left-0 right-0 z-50 flex justify-center transition-all duration-300`}>
+      <motion.div 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className={`fixed top-4 left-0 right-0 z-50 flex justify-center transition-all duration-300`}
+      >
         <nav className={`flex items-center justify-between px-6 py-2 rounded-xl border transition-all duration-300 shadow-sm ${showHeader ? 'bg-white/90 backdrop-blur-md border-slate-200 w-[1000px]' : 'bg-white/40 backdrop-blur-sm border-slate-100 w-[1100px]'}`}>
           <div className="flex items-center gap-10">
             <Link href="/"><img src={closoLogo} alt="Closo" className="h-4 cursor-pointer" /></Link>
@@ -78,23 +96,38 @@ export default function Landing() {
             </div>
           </div>
         </nav>
-      </div>
+      </motion.div>
 
       <section className="relative pt-40 pb-24 px-6">
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="relative w-[300px] h-[300px] mx-auto mb-12">
+          <motion.div 
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="relative w-[300px] h-[300px] mx-auto mb-12"
+          >
             <div className="absolute inset-0 rounded-full overflow-hidden border-4 border-white shadow-xl z-10">
               <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600" alt="Hero" className="w-full h-full object-cover" />
             </div>
-            <div className="absolute -left-8 top-1/4 bg-white p-2 rounded-lg shadow-xl border border-slate-50 z-20 animate-bounce-slow">
+            <motion.div 
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="absolute -left-8 top-1/4 bg-white p-2 rounded-lg shadow-xl border border-slate-50 z-20 animate-bounce-slow"
+            >
               <div className="flex items-center gap-2 mb-0.5">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Voicemail dropped</span>
               </div>
               <div className="text-lg font-black text-[#111] tracking-tight">$18,600</div>
               <div className="text-[8px] text-slate-400 font-bold">Total revenue</div>
-            </div>
-            <div className="absolute -right-12 top-1/2 bg-white p-2 rounded-lg shadow-xl border border-slate-50 z-20 animate-float">
+            </motion.div>
+            <motion.div 
+              initial={{ x: 20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.7, duration: 0.8 }}
+              className="absolute -right-12 top-1/2 bg-white p-2 rounded-lg shadow-xl border border-slate-50 z-20 animate-float"
+            >
                <div className="flex items-center gap-2">
                  <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-white text-[10px] font-bold">CH</div>
                  <div className="text-left">
@@ -104,43 +137,68 @@ export default function Landing() {
                    </div>
                  </div>
                </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-100 shadow-sm text-[11px] font-medium text-slate-600 mb-8">
+          <motion.div 
+            {...fadeIn}
+            transition={{ delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-100 shadow-sm text-[11px] font-medium text-slate-600 mb-8"
+          >
             <span className="text-[#0000EE]">📣</span>
             <span className="font-semibold">Closo raises $3.3M</span>
             <Link href="/blog" className="flex items-center gap-1 ml-1 text-slate-400 border-l pl-2 border-slate-200">Read <ArrowUpRight className="w-3 h-3" /></Link>
-          </div>
+          </motion.div>
           
-          <h1 className="text-[48px] md:text-[68px] font-bold tracking-tight mb-8 leading-[1.1] text-[#111] max-w-3xl mx-auto">
+          <motion.h1 
+            {...fadeIn}
+            transition={{ delay: 0.3 }}
+            className="text-[48px] md:text-[68px] font-bold tracking-tight mb-8 leading-[1.1] text-[#111] max-w-3xl mx-auto"
+          >
             The phone platform for <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E1B2FF] to-[#0000EE]">B2B commerce</span>
-          </h1>
+          </motion.h1>
           
-          <p className="text-[18px] text-slate-500 mb-10 max-w-lg mx-auto leading-relaxed">
+          <motion.p 
+            {...fadeIn}
+            transition={{ delay: 0.4 }}
+            className="text-[18px] text-slate-500 mb-10 max-w-lg mx-auto leading-relaxed"
+          >
             Drive new sales and discover unique insights by engaging with your customers profitably on the phone.
-          </p>
+          </motion.p>
           
-          <div className="flex gap-3 justify-center mb-20">
+          <motion.div 
+            {...fadeIn}
+            transition={{ delay: 0.5 }}
+            className="flex gap-3 justify-center mb-20"
+          >
             <Button size="lg" className="bg-[#111] hover:bg-black text-white px-8 h-12 text-sm font-bold rounded-xl" onClick={() => window.location.href='/dashboard'}>Start for free</Button>
             <Button variant="outline" size="lg" className="px-8 h-12 text-sm border-slate-200 text-[#111] bg-white rounded-xl">Book a demo</Button>
-          </div>
+          </motion.div>
 
-          <div className="pt-10 border-t border-slate-100 flex flex-wrap justify-center items-center gap-x-12 gap-y-8 opacity-40 grayscale">
+          <motion.div 
+            {...fadeIn}
+            transition={{ delay: 0.6 }}
+            className="pt-10 border-t border-slate-100 flex flex-wrap justify-center items-center gap-x-12 gap-y-8 opacity-40 grayscale"
+          >
             {['MICHAEL TODD', 'Polysleep', 'JAXXON', 'BATTLEX', 'H-ARNY', 'Audien Hearing', 'Z-Link'].map(brand => (
               <div key={brand} className="text-xl font-bold text-[#111]">{brand}</div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Intro Section */}
-      <section className="py-24 bg-white text-center">
-        <div className="max-w-4xl mx-auto px-6">
-           <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-[11px] font-bold mb-6">Introducing Closo</div>
-           <h2 className="text-[36px] md:text-[48px] font-bold text-[#111] mb-4 leading-tight tracking-tight">A voice platform <br /> built for growth</h2>
-           <p className="text-[17px] text-slate-500 mb-16 max-w-xl mx-auto">Everything you need to turn phone calls into revenue.</p>
+      <section className="py-24 bg-white text-center overflow-hidden">
+        <motion.div 
+          initial="initial"
+          whileInView="whileInView"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+          className="max-w-4xl mx-auto px-6"
+        >
+           <motion.div variants={fadeIn} className="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-[11px] font-bold mb-6">Introducing Closo</motion.div>
+           <motion.h2 variants={fadeIn} className="text-[36px] md:text-[48px] font-bold text-[#111] mb-4 leading-tight tracking-tight">A voice platform <br /> built for growth</motion.h2>
+           <motion.p variants={fadeIn} className="text-[17px] text-slate-500 mb-16 max-w-xl mx-auto">Everything you need to turn phone calls into revenue.</motion.p>
            
            <div className="grid md:grid-cols-3 gap-6">
               {[
@@ -148,20 +206,27 @@ export default function Landing() {
                 { title: "Voice Agents", icon: Mic, color: "text-rose-500", bg: "bg-rose-50", desc: "Automate intake and qualification." },
                 { title: "Phone Hub", icon: Layers, color: "text-amber-500", bg: "bg-amber-50", desc: "Sync all call data to your CRM." }
               ].map((item, i) => (
-                <Card key={i} className="bg-[#F9F9FB] border-none rounded-[2rem] p-8 text-left hover:shadow-lg transition-all cursor-pointer">
-                   <div className={`w-10 h-10 rounded-xl ${item.bg} flex items-center justify-center mb-5`}><item.icon className={`w-6 h-6 ${item.color}`} /></div>
-                   <h3 className="text-xl font-bold text-[#111] mb-2">{item.title}</h3>
-                   <p className="text-sm text-slate-400 font-medium">{item.desc}</p>
-                </Card>
+                <motion.div key={i} variants={fadeIn}>
+                  <Card className="bg-[#F9F9FB] border-none rounded-[2rem] p-8 text-left hover:shadow-lg transition-all cursor-pointer group h-full">
+                    <div className={`w-10 h-10 rounded-xl ${item.bg} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}><item.icon className={`w-6 h-6 ${item.color}`} /></div>
+                    <h3 className="text-xl font-bold text-[#111] mb-2">{item.title}</h3>
+                    <p className="text-sm text-slate-400 font-medium">{item.desc}</p>
+                  </Card>
+                </motion.div>
               ))}
            </div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* Outbound Section */}
       <section className="py-24 bg-white">
         <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
-          <div className="space-y-6">
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-6"
+          >
             <div className="inline-flex items-center px-3 py-1 bg-purple-100 text-purple-600 rounded-lg text-[11px] font-black uppercase tracking-wider">Outbound Phone</div>
             <h2 className="text-[44px] font-bold text-[#111] leading-tight tracking-tight">Add a new <br /> sales channel</h2>
             <ul className="space-y-4 text-[17px] text-slate-600 font-medium">
@@ -170,8 +235,14 @@ export default function Landing() {
                <li className="flex gap-2"><span className="text-purple-500 font-bold">•</span><span>Run campaigns on high-value segments like abandoned carts.</span></li>
             </ul>
             <Button className="bg-[#111] text-white px-8 h-12 rounded-xl font-bold text-sm shadow-lg">Tour the platform</Button>
-          </div>
-          <div className="relative bg-[#E1B2FF]/10 rounded-[3rem] p-10">
+          </motion.div>
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative bg-[#E1B2FF]/10 rounded-[3rem] p-10"
+          >
             <Card className="bg-white rounded-[2.5rem] border-none shadow-xl p-10 relative">
                <div className="flex items-center gap-2 mb-10">
                   <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -188,7 +259,12 @@ export default function Landing() {
                   <Button variant="outline" className="flex-1 h-12 rounded-xl text-[13px] font-bold gap-2 border-slate-100"><Volume2 className="w-4 h-4 text-slate-400" /> Voicemail</Button>
                   <Button className="w-12 h-12 p-0 bg-rose-500 hover:bg-rose-600 rounded-xl"><PhoneCall className="w-5 h-5 text-white rotate-[135deg]" /></Button>
                </div>
-               <div className="absolute -top-10 -left-16 bg-white rounded-2xl shadow-xl border border-slate-50 p-8 w-64 animate-float">
+               <motion.div 
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="absolute -top-10 -left-16 bg-white rounded-2xl shadow-xl border border-slate-50 p-8 w-64 animate-float"
+               >
                   <div className="text-[12px] font-black text-[#111] mb-6 uppercase tracking-widest">Call list</div>
                   <div className="space-y-6">
                      {[
@@ -204,15 +280,21 @@ export default function Landing() {
                        </div>
                      ))}
                   </div>
-               </div>
+               </motion.div>
             </Card>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Intelligence Section */}
       <section className="py-24 bg-[#F9F9FB] border-y border-slate-100">
-        <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
+        <motion.div 
+          initial="initial"
+          whileInView="whileInView"
+          viewport={{ once: true }}
+          variants={staggerContainer}
+          className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center"
+        >
           <div className="order-2 lg:order-1 relative">
              <div className="grid grid-cols-2 gap-4">
                 {[
@@ -221,15 +303,17 @@ export default function Landing() {
                   { icon: Headphones, label: "Topic", val: "Pricing", color: "text-purple-500" },
                   { icon: Database, label: "Sync", val: "Live", color: "text-rose-500" }
                 ].map((f, i) => (
-                  <Card key={i} className="bg-white border-none rounded-3xl p-6 shadow-sm">
-                     <f.icon className={`w-5 h-5 ${f.color} mb-3`} />
-                     <div className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">{f.label}</div>
-                     <div className="text-lg font-black text-[#111]">{f.val}</div>
-                  </Card>
+                  <motion.div key={i} variants={fadeIn}>
+                    <Card className="bg-white border-none rounded-3xl p-6 shadow-sm hover:shadow-md transition-all">
+                       <f.icon className={`w-5 h-5 ${f.color} mb-3`} />
+                       <div className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">{f.label}</div>
+                       <div className="text-lg font-black text-[#111]">{f.val}</div>
+                    </Card>
+                  </motion.div>
                 ))}
              </div>
           </div>
-          <div className="order-1 lg:order-2 space-y-6">
+          <motion.div variants={fadeIn} className="order-1 lg:order-2 space-y-6">
             <div className="inline-flex items-center px-3 py-1 bg-[#E1B2FF]/20 text-[#E1B2FF] rounded-lg text-[11px] font-black uppercase tracking-wider">AI Phone Hub</div>
             <h2 className="text-[44px] font-bold text-[#111] leading-tight tracking-tight">Intelligence on <br /> every conversation</h2>
             <p className="text-[17px] text-slate-500 font-medium leading-relaxed">
@@ -246,14 +330,20 @@ export default function Landing() {
                  </div>
                ))}
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
-      {/* New Section: Automation & Workflow */}
+      {/* Automation & Workflow */}
       <section className="py-32 bg-white">
         <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
-          <div className="space-y-8">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
+          >
             <div className="inline-flex items-center px-3 py-1 bg-emerald-100 text-emerald-600 rounded-lg text-[11px] font-black uppercase tracking-wider">Automation</div>
             <h2 className="text-[44px] font-bold text-[#111] leading-tight tracking-tight">Workflow that <br /> works for you</h2>
             <p className="text-[17px] text-slate-500 font-medium leading-relaxed">
@@ -275,8 +365,14 @@ export default function Landing() {
                  </div>
                ))}
             </div>
-          </div>
-          <div className="relative">
+          </motion.div>
+          <motion.div 
+            initial={{ scale: 0.9, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative"
+          >
              <div className="bg-[#111] rounded-[3rem] p-10 text-white overflow-hidden shadow-2xl">
                 <div className="flex items-center gap-4 mb-12 opacity-50">
                    <div className="w-3 h-3 rounded-full bg-rose-500" />
@@ -313,38 +409,52 @@ export default function Landing() {
                    <div className="text-[11px] font-bold uppercase tracking-widest text-[#E1B2FF]">200 OK</div>
                 </div>
              </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* New Section: Testimonials/Results */}
-      <section className="py-32 bg-[#F9F9FB]">
-         <div className="max-w-6xl mx-auto px-6 text-center">
-            <div className="inline-flex items-center px-3 py-1 bg-amber-100 text-amber-600 rounded-lg text-[11px] font-black uppercase tracking-wider mb-8">Case Studies</div>
-            <h2 className="text-[44px] font-bold text-[#111] mb-20 leading-tight tracking-tight">Real results from <br /> top commerce teams</h2>
+      {/* Case Studies */}
+      <section className="py-32 bg-[#F9F9FB] overflow-hidden">
+         <motion.div 
+          initial="initial"
+          whileInView="whileInView"
+          viewport={{ once: true }}
+          variants={staggerContainer}
+          className="max-w-6xl mx-auto px-6 text-center"
+         >
+            <motion.div variants={fadeIn} className="inline-flex items-center px-3 py-1 bg-amber-100 text-amber-600 rounded-lg text-[11px] font-black uppercase tracking-wider mb-8">Case Studies</motion.div>
+            <motion.h2 variants={fadeIn} className="text-[44px] font-bold text-[#111] mb-20 leading-tight tracking-tight">Real results from <br /> top commerce teams</motion.h2>
             <div className="grid md:grid-cols-3 gap-8 text-left">
                {[
                  { brand: "Polysleep", result: "45%", label: "Conversion lift", desc: "By using the dialer for abandoned checkouts." },
                  { brand: "Michael Todd", result: "2.5x", label: "Agent efficiency", desc: "Automating post-call notes and CRM sync." },
                  { brand: "Jaxxon", result: "12min", label: "Avg saved per agent", desc: "Every hour by eliminating manual dialing." }
                ].map((c, i) => (
-                 <Card key={i} className="bg-white border-none rounded-[2.5rem] p-10 shadow-sm flex flex-col justify-between h-full">
-                    <div>
-                       <div className="text-[13px] font-black text-[#111] mb-8 uppercase tracking-widest">{c.brand}</div>
-                       <div className="text-[56px] font-black text-[#0000EE] leading-none mb-2">{c.result}</div>
-                       <div className="text-[15px] font-bold text-[#111] mb-4">{c.label}</div>
-                       <p className="text-sm text-slate-400 font-medium leading-relaxed">{c.desc}</p>
-                    </div>
-                 </Card>
+                 <motion.div key={i} variants={fadeIn}>
+                   <Card className="bg-white border-none rounded-[2.5rem] p-10 shadow-sm flex flex-col justify-between h-full hover:shadow-xl transition-all">
+                      <div>
+                         <div className="text-[13px] font-black text-[#111] mb-8 uppercase tracking-widest">{c.brand}</div>
+                         <div className="text-[56px] font-black text-[#0000EE] leading-none mb-2">{c.result}</div>
+                         <div className="text-[15px] font-bold text-[#111] mb-4">{c.label}</div>
+                         <p className="text-sm text-slate-400 font-medium leading-relaxed">{c.desc}</p>
+                      </div>
+                   </Card>
+                 </motion.div>
                ))}
             </div>
-         </div>
+         </motion.div>
       </section>
 
-      {/* Global Scale Section */}
+      {/* Global Scale */}
       <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-           <h2 className="text-4xl md:text-5xl font-black text-[#111] mb-20 tracking-tight">Built for global scale</h2>
+        <motion.div 
+          initial="initial"
+          whileInView="whileInView"
+          viewport={{ once: true }}
+          variants={staggerContainer}
+          className="max-w-7xl mx-auto px-6 text-center"
+        >
+           <motion.h2 variants={fadeIn} className="text-4xl md:text-5xl font-black text-[#111] mb-20 tracking-tight">Built for global scale</motion.h2>
            <div className="grid md:grid-cols-4 gap-12">
               {[
                 { label: "Uptime", val: "99.99%", desc: "Enterprise SLA", icon: Activity },
@@ -352,36 +462,47 @@ export default function Landing() {
                 { label: "Security", val: "SOC 2", desc: "Certified infra", icon: ShieldCheck },
                 { label: "Latency", val: "< 50ms", desc: "Edge network", icon: Zap }
               ].map((s, i) => (
-                <div key={i} className="space-y-4">
+                <motion.div key={i} variants={fadeIn} className="space-y-4">
                    <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center mx-auto mb-6">
                       <s.icon className="w-5 h-5 text-[#0000EE]" />
                    </div>
                    <div className="text-3xl font-black text-[#111]">{s.val}</div>
                    <div className="text-[10px] font-black uppercase tracking-widest text-[#0000EE]">{s.label}</div>
                    <p className="text-xs text-slate-400 font-bold">{s.desc}</p>
-                </div>
+                </motion.div>
               ))}
            </div>
-        </div>
+        </motion.div>
       </section>
 
       <section className="py-32 bg-white text-center border-t border-slate-50">
-        <div className="max-w-3xl mx-auto px-6 space-y-10">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="max-w-3xl mx-auto px-6 space-y-10"
+        >
           <h2 className="text-[52px] md:text-[72px] font-black text-[#111] tracking-tighter leading-none">Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0000EE] to-[#E1B2FF]">grow?</span></h2>
           <p className="text-xl text-slate-400 font-medium">Join the high-performing revenue teams scaling with Closo.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
              <Button size="lg" className="bg-[#111] text-white px-10 h-14 text-sm font-bold rounded-2xl shadow-xl transition-all hover:scale-105" onClick={() => window.location.href='/dashboard'}>Start for free</Button>
              <Button variant="outline" size="lg" className="px-10 h-14 text-sm border-slate-200 text-[#111] bg-white rounded-2xl transition-all hover:scale-105" onClick={() => setLocation("/demo")}>Talk to sales</Button>
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      <div className="fixed bottom-6 right-6 z-[100]">
+      <motion.div 
+        initial={{ y: 100 }}
+        animate={{ y: 0 }}
+        transition={{ delay: 1, duration: 0.8 }}
+        className="fixed bottom-6 right-6 z-[100]"
+      >
         <div className="bg-white p-1.5 rounded-2xl shadow-2xl border border-slate-100 flex items-center gap-2 cursor-pointer hover:scale-105 transition-all">
           <div className="w-8 h-8 rounded-xl bg-purple-500/10 flex items-center justify-center text-[10px]">💬</div>
           <div className="bg-[#111] text-white px-3 py-2 rounded-xl flex items-center gap-2 text-[12px] font-bold"><PhoneCall className="w-3.5 h-3.5" />Start call</div>
         </div>
-      </div>
+      </motion.div>
 
       <EnterpriseFooter />
       <style>{`
