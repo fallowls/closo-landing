@@ -50,8 +50,11 @@ export default function Landing() {
         description="Drive new sales and discover unique insights by engaging with your customers profitably on the phone."
       />
       
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.03]" 
-        style={{ backgroundImage: `radial-gradient(#111 0.5px, transparent 0.5px)`, backgroundSize: '24px 24px' }} 
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.4]" 
+        style={{ 
+          backgroundImage: `radial-gradient(circle, #E2E8F0 1px, transparent 1px)`, 
+          backgroundSize: '24px 24px' 
+        }} 
       />
 
       <div className={`fixed top-4 left-0 right-0 z-50 flex justify-center transition-all duration-300`}>
