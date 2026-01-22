@@ -76,8 +76,8 @@ const AbstractHub = () => (
 
     {/* Floating Data Nodes - Reduced count and smaller */}
     {[
-      { icon: Mic, pos: "top-4 left-1/4", color: "bg-white border border-slate-100 shadow-sm" },
-      { icon: Activity, pos: "bottom-8 right-4", color: "bg-white border border-slate-100 shadow-sm" },
+      { icon: Mic, pos: "top-[-10px] left-[35%]", color: "bg-white border border-slate-100 shadow-sm" },
+      { icon: Activity, pos: "bottom-[10px] right-[30%]", color: "bg-white border border-slate-100 shadow-sm" },
     ].map((node, i) => (
       <motion.div
         key={i}
@@ -207,7 +207,7 @@ export default function Landing() {
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="absolute -left-4 top-1/4 bg-white p-4 rounded-2xl shadow-2xl border border-slate-100 z-30 animate-bounce-slow min-w-[180px]"
+              className="absolute -left-4 top-1/4 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-2xl border border-slate-100 z-30 animate-bounce-slow min-w-[180px]"
             >
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
@@ -221,7 +221,7 @@ export default function Landing() {
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.7, duration: 0.8 }}
-              className="absolute -right-4 top-2/3 bg-white p-4 rounded-2xl shadow-2xl border border-slate-100 z-30 animate-float min-w-[200px]"
+              className="absolute -right-4 top-2/3 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-2xl border border-slate-100 z-30 animate-float min-w-[200px]"
             >
                <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-white text-[12px] font-black">CH</div>
