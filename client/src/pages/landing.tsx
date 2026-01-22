@@ -54,9 +54,9 @@ const AbstractHub = () => (
         scale: [1, 1.02, 1],
       }}
       transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      className="w-28 h-28 rounded-[2.5rem] bg-gradient-to-br from-[#0000EE] to-[#E1B2FF] shadow-2xl shadow-[#0000EE]/10 flex items-center justify-center z-10"
+      className="w-28 h-28 rounded-[2.5rem] bg-gradient-to-br from-[#0000EE] to-[#E1B2FF] shadow-2xl shadow-[#0000EE]/10 flex items-center justify-center z-10 transform-gpu backface-hidden"
     >
-      <PhoneCall className="w-10 h-10 text-white stroke-[1.5]" />
+      <PhoneCall className="w-10 h-10 text-white stroke-[1.5] transform-gpu" />
     </motion.div>
 
     {/* Orbital Rings - Thinner and more subtle */}
@@ -76,8 +76,8 @@ const AbstractHub = () => (
 
     {/* Floating Data Nodes - Reduced count and smaller */}
     {[
-      { icon: Mic, pos: "top-[-10px] left-[35%]", color: "bg-white border border-slate-100 shadow-sm" },
-      { icon: Activity, pos: "bottom-[10px] right-[30%]", color: "bg-white border border-slate-100 shadow-sm" },
+      { icon: Mic, pos: "top-[-10px] left-[45%]", color: "bg-white border border-slate-100 shadow-sm" },
+      { icon: Activity, pos: "bottom-[10px] right-[40%]", color: "bg-white border border-slate-100 shadow-sm" },
     ].map((node, i) => (
       <motion.div
         key={i}
@@ -85,9 +85,10 @@ const AbstractHub = () => (
           y: [0, -10, 0],
         }}
         transition={{ duration: 5 + i, repeat: Infinity, ease: "easeInOut" }}
-        className={`absolute ${node.pos} w-8 h-8 rounded-xl ${node.color} flex items-center justify-center z-20`}
+        className={`absolute ${node.pos} w-8 h-8 rounded-xl ${node.color} flex items-center justify-center z-20 overflow-hidden backface-hidden perspective-1000 transform-gpu`}
+        style={{ WebkitBackfaceVisibility: 'hidden', WebkitFontSmoothing: 'antialiased' }}
       >
-        <node.icon className="w-4 h-4 text-[#0000EE]" />
+        <node.icon className="w-4 h-4 text-[#0000EE] transform-gpu" />
       </motion.div>
     ))}
 
@@ -207,23 +208,25 @@ export default function Landing() {
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="absolute -left-4 top-1/4 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-2xl border border-slate-100 z-30 animate-bounce-slow min-w-[180px]"
+              className="absolute -left-4 top-1/4 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-2xl border border-slate-100 z-30 animate-bounce-slow min-w-[180px] backface-hidden perspective-1000 transform-gpu"
+              style={{ WebkitBackfaceVisibility: 'hidden', WebkitFontSmoothing: 'antialiased' }}
             >
-              <div className="flex items-center gap-2 mb-1">
+              <div className="flex items-center gap-2 mb-1 transform-gpu">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Voicemail dropped</span>
               </div>
-              <div className="text-2xl font-black text-[#111] tracking-tight">$18,600</div>
-              <div className="text-[9px] text-slate-400 font-bold">Total revenue</div>
+              <div className="text-2xl font-black text-[#111] tracking-tight transform-gpu">$18,600</div>
+              <div className="text-[9px] text-slate-400 font-bold transform-gpu">Total revenue</div>
             </motion.div>
 
             <motion.div 
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.7, duration: 0.8 }}
-              className="absolute -right-4 top-2/3 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-2xl border border-slate-100 z-30 animate-float min-w-[200px]"
+              className="absolute -right-4 top-2/3 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-2xl border border-slate-100 z-30 animate-float min-w-[200px] backface-hidden perspective-1000 transform-gpu"
+              style={{ WebkitBackfaceVisibility: 'hidden', WebkitFontSmoothing: 'antialiased' }}
             >
-               <div className="flex items-center gap-3">
+               <div className="flex items-center gap-3 transform-gpu">
                  <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-white text-[12px] font-black">CH</div>
                  <div className="text-left">
                    <div className="text-[12px] font-black text-[#111]">Charlie Hawkins</div>
