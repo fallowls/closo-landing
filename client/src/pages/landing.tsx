@@ -341,7 +341,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Intelligence Section */}
+      {/* Parallel Dialer Benefits Section */}
       <section className="py-32 bg-white">
         <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
           <motion.div 
@@ -436,6 +436,85 @@ export default function Landing() {
                   animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Parallel Dialer "How it Works" Section */}
+      <section className="py-32 bg-[#F9F9FB] border-y border-slate-100">
+        <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="order-2 lg:order-1 relative bg-white rounded-[3rem] p-12 shadow-xl border border-slate-100 overflow-hidden min-h-[400px]"
+          >
+            {/* Step-by-step Process Animation */}
+            <div className="space-y-12 relative z-10">
+              {[
+                { step: "01", title: "Select Leads", desc: "Pick your high-value segment from CRM.", icon: Users },
+                { step: "02", title: "Launch Dial", desc: "Closo dials up to 5 lines at once.", icon: Zap },
+                { step: "03", title: "Live Connect", desc: "Speak only when someone picks up.", icon: PhoneCall },
+              ].map((item, i) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.3 }}
+                  className="flex gap-6 items-start"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[#0000EE] font-black text-xs">
+                    {item.step}
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-black text-[#111] mb-1 flex items-center gap-2">
+                      <item.icon className="w-4 h-4 text-[#0000EE]" /> {item.title}
+                    </h4>
+                    <p className="text-sm text-slate-500 font-medium">{item.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Background Decorative Flow */}
+            <div className="absolute top-0 right-0 bottom-0 w-1/2 opacity-10 pointer-events-none">
+              <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <motion.path
+                  d="M0,50 Q25,0 50,50 T100,50"
+                  fill="none"
+                  stroke="#0000EE"
+                  strokeWidth="0.5"
+                  animate={{ d: ["M0,50 Q25,0 50,50 T100,50", "M0,50 Q25,100 50,50 T100,50", "M0,50 Q25,0 50,50 T100,50"] }}
+                  transition={{ duration: 10, repeat: Infinity }}
+                />
+              </svg>
+            </div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="order-1 lg:order-2 space-y-6"
+          >
+            <div className="inline-flex items-center px-3 py-1 bg-emerald-100 text-emerald-600 rounded-lg text-[11px] font-black uppercase tracking-wider">How it works</div>
+            <h2 className="text-[44px] font-bold text-[#111] leading-tight tracking-tight">The mechanics of <br /> high-velocity sales</h2>
+            <p className="text-[17px] text-slate-500 font-medium leading-relaxed">
+              Our parallel dialer isn't just fast; it's intelligent. It handles the manual grunt work of dialing, ringing, and navigating phone trees so you only ever hear "Hello?".
+            </p>
+            <div className="grid grid-cols-2 gap-6 pt-4">
+              <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                <div className="text-2xl font-black text-[#0000EE] mb-1">0s</div>
+                <div className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Wait Time</div>
+              </div>
+              <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                <div className="text-2xl font-black text-[#0000EE] mb-1">5x</div>
+                <div className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Efficiency</div>
               </div>
             </div>
           </motion.div>
