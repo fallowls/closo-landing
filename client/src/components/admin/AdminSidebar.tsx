@@ -36,7 +36,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 
-import closoLogo from "../../assets/closo_new_logo.png";
+import closoLogo from "../../assets/closo_logo.png";
 
 interface SidebarProps {
   className?: string;

@@ -23,7 +23,7 @@ import {
   Globe,
   GitBranch
 } from "lucide-react";
-import closoLogo from "@assets/closo_logo_png_1768558486274.png";
+import closoLogo from "../assets/closo_logo.png";
 import { EnterpriseFooter } from "@/components/EnterpriseFooter";
 
 const blogPosts = [

@@ -25,7 +25,7 @@ import {
   Download
 } from "lucide-react";
 import { Link } from "wouter";
-import fallOwlLogo from "@assets/FallOwl_logo_1759280190715.png";
+import fallOwlLogo from "../assets/closo_logo.png";
 import { EnterpriseFooter } from "@/components/EnterpriseFooter";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
@@ -518,7 +518,7 @@ export default function ApiDocs() {
                 <a className="flex items-center cursor-pointer" data-testid="link-home">
                   <img 
                     src={fallOwlLogo} 
-                    alt="FallOwl" 
+                    alt="Closo" 
                     className="h-10 w-auto object-contain"
                   />
                 </a>
@@ -549,7 +549,7 @@ export default function ApiDocs() {
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 via-purple-500 to-teal-500 bg-clip-text text-transparent">
-              FallOwl API Reference
+              Closo API Reference
             </h1>
             
             <p className="text-xl text-slate-600 mb-8 leading-relaxed">

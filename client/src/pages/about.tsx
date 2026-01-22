@@ -21,7 +21,7 @@ import {
   Cpu
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import closoLogo from "@assets/closo_logo_png_1768558486274.png";
+import closoLogo from "../assets/closo_logo.png";
 import { EnterpriseFooter } from "@/components/EnterpriseFooter";
 import { SEO } from "@/components/SEO";
 
