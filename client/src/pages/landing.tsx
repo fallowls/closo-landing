@@ -121,7 +121,7 @@ export default function Landing() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white text-[#111] selection:bg-[#E1B2FF]/30 font-sans tracking-tight overflow-x-hidden">
+    <div className="min-h-screen bg-[#F8FAFC] text-[#1e293b] selection:bg-blue-100 font-sans tracking-tight overflow-x-hidden">
       <SEO 
         title="Closo | The phone platform for B2B commerce" 
         description="Engage with your customers profitably on the phone with parallel dialing, AI intelligence, and deep CRM automation."
@@ -129,14 +129,13 @@ export default function Landing() {
       
       {/* Background Decorative Elements */}
       <div className="fixed inset-0 z-[-1] pointer-events-none">
-        <div className="absolute inset-0 opacity-[0.4]" 
+        <div className="absolute inset-0 opacity-[0.6] bg-gradient-to-tr from-blue-50 via-white to-slate-50" />
+        <div className="absolute top-0 left-0 w-full h-full" 
           style={{ 
-            backgroundImage: `radial-gradient(circle, #E2E8F0 1px, transparent 1px)`, 
-            backgroundSize: '32px 32px' 
+            backgroundImage: `radial-gradient(circle at 2px 2px, #e2e8f0 1px, transparent 0)`,
+            backgroundSize: '40px 40px'
           }} 
         />
-        <div className="absolute top-0 left-0 w-1/3 h-full bg-gradient-to-r from-slate-50/50 to-transparent pointer-events-none" />
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-slate-50/50 to-transparent pointer-events-none" />
       </div>
 
       <motion.div 
@@ -169,19 +168,19 @@ export default function Landing() {
             <motion.h1 
               {...fadeIn}
               transition={{ delay: 0.3 }}
-              className="text-[48px] md:text-[72px] font-black tracking-tighter mb-8 leading-[0.9] text-[#111]"
+              className="text-[52px] md:text-[80px] font-extrabold tracking-tight mb-8 leading-[0.9] text-slate-900"
             >
               The phone <br /> 
               platform for <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#111] via-[#333] to-[#555]">B2B commerce</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">B2B commerce</span>
             </motion.h1>
             
             <motion.p 
               {...fadeIn}
               transition={{ delay: 0.4 }}
-              className="text-[18px] text-slate-500/90 mb-12 max-w-lg leading-relaxed font-medium"
+              className="text-[19px] text-slate-600/90 mb-12 max-w-lg leading-relaxed font-medium"
             >
-              Engage with your customers profitably on the phone with parallel dialing, AI intelligence, and deep CRM automation.
+              Empower your sales team with parallel dialing, real-time AI insights, and seamless CRM synchronization.
             </motion.p>
             
             <motion.div 
@@ -189,19 +188,24 @@ export default function Landing() {
               transition={{ delay: 0.5 }}
               className="flex flex-col sm:flex-row gap-4 mb-12"
             >
-              <Button size="lg" className="bg-[#111] hover:bg-[#000] text-white px-8 h-14 text-sm font-bold rounded-2xl shadow-xl transition-all hover:scale-[1.02]" onClick={() => window.location.href='/dashboard'}>Start for free</Button>
-              <Button variant="outline" size="lg" className="px-8 h-14 text-sm border-slate-200/80 text-[#111] bg-white rounded-2xl hover:bg-slate-50 transition-all">Book a demo</Button>
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 h-14 text-sm font-bold rounded-2xl shadow-xl shadow-blue-500/20 transition-all hover:scale-[1.02]" onClick={() => window.location.href='/dashboard'}>Start for free</Button>
+              <Button variant="outline" size="lg" className="px-8 h-14 text-sm border-slate-200 text-slate-700 bg-white rounded-2xl hover:bg-slate-50 hover:border-slate-300 transition-all">Book a demo</Button>
             </motion.div>
           </div>
 
           <motion.div 
-            initial={{ scale: 0.8, opacity: 0 }}
+            initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="relative w-full aspect-square flex items-center justify-center"
           >
-            <div className="scale-125 lg:scale-150">
-              <AbstractHub />
+            <div className="relative w-full h-full rounded-[3rem] overflow-hidden shadow-2xl border border-white/50">
+              <img 
+                src="/src/assets/hero-main.jpg" 
+                alt="Closo Platform" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent" />
             </div>
             
             <motion.div 
