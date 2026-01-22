@@ -156,7 +156,7 @@ export default function Landing() {
             </div>
           </div>
           <div className="flex items-center gap-6">
-            <Link href="https://app.thecloso.com" className="text-[13px] font-semibold text-slate-500 hover:text-[#111] transition-colors">Log in</Link>
+            <a href="https://app.thecloso.com" className="text-[13px] font-semibold text-slate-500 hover:text-[#111] transition-colors">Log in</a>
             <Button className="bg-[#111] hover:bg-[#000] text-white px-6 h-10 text-[13px] font-bold rounded-xl shadow-lg transition-all hover:scale-[1.02]" onClick={() => window.location.href='https://app.thecloso.com'}>Get Started</Button>
           </div>
         </nav>
