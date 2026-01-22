@@ -201,7 +201,7 @@ export default function Landing() {
           >
             <div className="relative w-full h-full rounded-[3rem] overflow-hidden shadow-2xl border border-white/50">
               <img 
-                src="/src/assets/hero-main.jpg" 
+                src="/src/assets/hero-main.png" 
                 alt="Closo Platform" 
                 className="w-full h-full object-cover"
               />
