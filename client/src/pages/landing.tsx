@@ -54,7 +54,7 @@ const AbstractHub = () => (
         scale: [1, 1.02, 1],
       }}
       transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      className="w-28 h-28 rounded-[2.5rem] bg-gradient-to-br from-[#0000EE] to-[#E1B2FF] shadow-2xl shadow-[#0000EE]/10 flex items-center justify-center z-10 transform-gpu backface-hidden"
+      className="w-28 h-28 rounded-[2.5rem] bg-gradient-to-br from-[#111] to-[#444] shadow-2xl shadow-black/10 flex items-center justify-center z-10 transform-gpu backface-hidden"
     >
       <PhoneCall className="w-10 h-10 text-white stroke-[1.5] transform-gpu" />
     </motion.div>
@@ -88,7 +88,7 @@ const AbstractHub = () => (
         className={`absolute ${node.pos} w-8 h-8 rounded-xl ${node.color} flex items-center justify-center z-20 overflow-hidden backface-hidden perspective-1000 transform-gpu`}
         style={{ WebkitBackfaceVisibility: 'hidden', WebkitFontSmoothing: 'antialiased' }}
       >
-        <node.icon className="w-4 h-4 text-[#0000EE] transform-gpu" />
+        <node.icon className="w-4 h-4 text-[#111] transform-gpu" />
       </motion.div>
     ))}
 
@@ -102,8 +102,8 @@ const AbstractHub = () => (
        />
        <defs>
          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-           <stop offset="0%" stopColor="#0000EE" stopOpacity="0.2" />
-           <stop offset="100%" stopColor="#E1B2FF" stopOpacity="0.2" />
+           <stop offset="0%" stopColor="#111" stopOpacity="0.2" />
+           <stop offset="100%" stopColor="#666" stopOpacity="0.2" />
          </linearGradient>
        </defs>
     </svg>
@@ -158,7 +158,7 @@ export default function Landing() {
           </div>
           <div className="flex items-center gap-6">
             <Link href="/login" className="text-[13px] font-semibold text-slate-500 hover:text-[#111] transition-colors">Log in</Link>
-            <Button className="bg-[#0000EE] hover:bg-[#0000EE]/90 text-white px-6 h-10 text-[13px] font-bold rounded-xl shadow-lg shadow-[#0000EE]/10 transition-all hover:scale-[1.02]" onClick={() => window.location.href='/dashboard'}>Get Started</Button>
+            <Button className="bg-[#111] hover:bg-[#000] text-white px-6 h-10 text-[13px] font-bold rounded-xl shadow-lg transition-all hover:scale-[1.02]" onClick={() => window.location.href='/dashboard'}>Get Started</Button>
           </div>
         </nav>
       </motion.div>
@@ -169,17 +169,17 @@ export default function Landing() {
             <motion.h1 
               {...fadeIn}
               transition={{ delay: 0.3 }}
-              className="text-[48px] md:text-[64px] font-black tracking-tighter mb-6 leading-[0.95] text-[#111]"
+              className="text-[48px] md:text-[72px] font-black tracking-tighter mb-8 leading-[0.9] text-[#111]"
             >
               The phone <br /> 
               platform for <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0000EE] via-[#0000EE] to-[#E1B2FF]">B2B commerce</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#111] via-[#333] to-[#555]">B2B commerce</span>
             </motion.h1>
             
             <motion.p 
               {...fadeIn}
               transition={{ delay: 0.4 }}
-              className="text-[17px] text-slate-500/80 mb-10 max-w-md leading-relaxed font-medium"
+              className="text-[18px] text-slate-500/90 mb-12 max-w-lg leading-relaxed font-medium"
             >
               Engage with your customers profitably on the phone with parallel dialing, AI intelligence, and deep CRM automation.
             </motion.p>
@@ -187,10 +187,10 @@ export default function Landing() {
             <motion.div 
               {...fadeIn}
               transition={{ delay: 0.5 }}
-              className="flex flex-col sm:flex-row gap-3 mb-12"
+              className="flex flex-col sm:flex-row gap-4 mb-12"
             >
-              <Button size="lg" className="bg-[#0000EE] hover:bg-[#0000EE]/90 text-white px-8 h-12 text-sm font-bold rounded-xl shadow-lg shadow-[#0000EE]/10 transition-all hover:scale-[1.02]" onClick={() => window.location.href='/dashboard'}>Start for free</Button>
-              <Button variant="outline" size="lg" className="px-8 h-12 text-sm border-slate-200/60 text-[#111] bg-white rounded-xl hover:bg-slate-50 transition-all">Book a demo</Button>
+              <Button size="lg" className="bg-[#111] hover:bg-[#000] text-white px-8 h-14 text-sm font-bold rounded-2xl shadow-xl transition-all hover:scale-[1.02]" onClick={() => window.location.href='/dashboard'}>Start for free</Button>
+              <Button variant="outline" size="lg" className="px-8 h-14 text-sm border-slate-200/80 text-[#111] bg-white rounded-2xl hover:bg-slate-50 transition-all">Book a demo</Button>
             </motion.div>
           </div>
 
@@ -215,7 +215,7 @@ export default function Landing() {
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Voicemail dropped</span>
               </div>
-              <div className="text-2xl font-black text-[#111] tracking-tight transform-gpu">$18,600</div>
+              <div className="text-2xl font-black text-[#111] tracking-tight transform-gpu">$24,850</div>
               <div className="text-[9px] text-slate-400 font-bold transform-gpu">Total revenue</div>
             </motion.div>
 
@@ -231,7 +231,7 @@ export default function Landing() {
                  <div className="text-left">
                    <div className="text-[12px] font-black text-[#111]">Charlie Hawkins</div>
                    <div className="flex gap-1 mt-0.5">
-                      <div className="px-2 py-0.5 bg-[#E1B2FF]/20 text-[#E1B2FF] rounded text-[8px] font-black uppercase tracking-wider">In progress</div>
+                      <div className="px-2 py-0.5 bg-emerald-100 text-emerald-600 rounded text-[8px] font-black uppercase tracking-wider">Active</div>
                    </div>
                  </div>
                </div>
@@ -429,7 +429,7 @@ export default function Landing() {
               ))}
               
               {/* Center Connection Node */}
-              <div className="absolute w-20 h-20 rounded-full bg-[#0000EE] shadow-2xl shadow-[#0000EE]/20 flex items-center justify-center z-10">
+              <div className="absolute w-20 h-20 rounded-full bg-[#111] shadow-2xl shadow-black/20 flex items-center justify-center z-10">
                 <Users className="w-8 h-8 text-white" />
                 <motion.div 
                   className="absolute inset-0 rounded-full border-2 border-white/20"
