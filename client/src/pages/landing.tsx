@@ -29,7 +29,7 @@ import {
   Target
 } from "lucide-react";
 import { useLocation, Link } from "wouter";
-import closoLogo from "@assets/closo_full_logo.png";
+import closoLogo from "../assets/closo_full_logo.png";
 import { EnterpriseFooter } from "@/components/EnterpriseFooter";
 import { SEO } from "@/components/SEO";
 import { motion, AnimatePresence } from "framer-motion";

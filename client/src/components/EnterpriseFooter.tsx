@@ -26,7 +26,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { setAuthenticated } from "@/lib/auth";
-import closoLogo from "@assets/closo_full_logo.png";
+import closoLogo from "../assets/closo_full_logo.png";
 
 export function EnterpriseFooter() {
   const [email, setEmail] = useState("");
