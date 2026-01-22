@@ -201,8 +201,8 @@ export default function Landing() {
           >
             <div className="relative w-full h-full rounded-[3rem] overflow-hidden shadow-2xl border border-white/50">
               <img 
-                src="/src/assets/hero-v2.png" 
-                alt="Closo Platform" 
+                src="/src/assets/hero-dashboard-skeleton.png" 
+                alt="Closo Platform Dashboard" 
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent" />
