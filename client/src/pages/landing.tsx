@@ -165,16 +165,6 @@ export default function Landing() {
       <section className="relative pt-48 pb-32 px-6">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10">
           <div className="text-left">
-            <motion.div 
-              {...fadeIn}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-100 shadow-sm text-[11px] font-bold text-slate-500 mb-8"
-            >
-              <span className="text-[#0000EE]">📣</span>
-              <span className="font-bold">Closo raises $3.3M</span>
-              <Link href="/blog" className="flex items-center gap-1 ml-1 text-slate-400 border-l pl-2 border-slate-200">Read <ArrowUpRight className="w-3 h-3" /></Link>
-            </motion.div>
-            
             <motion.h1 
               {...fadeIn}
               transition={{ delay: 0.3 }}
@@ -247,15 +237,6 @@ export default function Landing() {
         </div>
 
         <div className="max-w-7xl mx-auto">
-          <motion.div 
-            {...fadeIn}
-            transition={{ delay: 0.6 }}
-            className="pt-16 border-t border-slate-100 flex flex-wrap justify-between items-center gap-x-12 gap-y-10 opacity-30 grayscale hover:opacity-50 transition-opacity"
-          >
-            {['MICHAEL TODD', 'Polysleep', 'JAXXON', 'BATTLEX', 'H-ARNY', 'Audien Hearing', 'Z-Link'].map(brand => (
-              <div key={brand} className="text-lg font-black tracking-tighter text-[#111]">{brand}</div>
-            ))}
-          </motion.div>
         </div>
       </section>
 
@@ -490,7 +471,7 @@ export default function Landing() {
           <div className="grid lg:grid-cols-2 gap-16 items-center border-t border-slate-50 pt-24">
             <motion.div {...fadeIn} className="space-y-6">
               <div className="inline-flex items-center px-2 py-0.5 bg-[#0000EE]/5 text-[#0000EE] rounded text-[10px] font-black uppercase tracking-wider">Parallel Dialing</div>
-              <h2 className="text-[32px] md:text-[44px] font-black text-[#111] leading-[1.1] tracking-tighter">Dial 10 lines at once. <br />Talk to only humans.</h2>
+              <h2 className="text-[32px] md:text-[44px] font-black text-[#111] leading-[1.1] tracking-tighter">Dial multiple lines at once. <br />Talk to only humans.</h2>
               <p className="text-[15px] text-slate-500 font-medium leading-relaxed max-w-md">Our parallel dialer automatically detects voicemails and busy signals, only connecting your agents when a live person answers.</p>
               <div className="grid grid-cols-2 gap-4 pt-4">
                 {[
@@ -547,7 +528,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-6 text-center">
           <motion.div {...fadeIn} className="space-y-6">
             <h2 className="text-[32px] md:text-[48px] font-black text-[#111] leading-[1.1] tracking-tighter">Plugs into your <br /> existing tech stack.</h2>
-            <p className="text-[15px] text-slate-500 font-medium leading-relaxed max-w-xl mx-auto">Native integrations with Salesforce, HubSpot, and 100+ commerce tools.</p>
+            <p className="text-[15px] text-slate-500 font-medium leading-relaxed max-w-xl mx-auto">Native integrations with major CRM and commerce tools.</p>
             <div className="flex flex-wrap justify-center gap-8 pt-12">
                {['Salesforce', 'HubSpot', 'Shopify', 'Klaviyo', 'Zendesk', 'Slack'].map((integration, i) => (
                  <div key={i} className="px-6 py-3 bg-slate-50 rounded-xl text-[12px] font-black text-slate-400 tracking-widest">{integration}</div>
