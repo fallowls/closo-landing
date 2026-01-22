@@ -134,7 +134,7 @@ export function EnterpriseFooter() {
               <img 
                 src={closoLogo} 
                 alt="Closo" 
-                className="h-10 w-auto object-contain mb-6"
+                className="h-12 w-auto object-contain mb-6 invert brightness-200"
                 data-testid="img-footer-logo"
               />
               <p className="text-base text-slate-400 leading-relaxed max-w-sm">

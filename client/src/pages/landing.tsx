@@ -146,7 +146,7 @@ export default function Landing() {
       >
         <nav className={`flex items-center justify-between px-8 py-3 rounded-2xl border transition-all duration-500 ${showHeader ? 'bg-white/80 backdrop-blur-xl border-slate-200/60 shadow-[0_8px_32px_rgba(0,0,0,0.04)] w-full max-w-[900px]' : 'bg-transparent border-transparent w-full max-w-[1200px]'}`}>
           <div className="flex items-center gap-12">
-            <Link href="/"><img src={closoLogo} alt="Closo" className="h-7 w-auto cursor-pointer object-contain" /></Link>
+            <Link href="/"><img src={closoLogo} alt="Closo" className="h-10 w-auto cursor-pointer object-contain transition-transform hover:scale-105" /></Link>
             <div className="hidden lg:flex items-center gap-8">
               {['Features', 'Intelligence', 'Pricing'].map(item => (
                 <div key={item} className="flex items-center gap-1 cursor-pointer group">
