@@ -178,7 +178,7 @@ export default function Landing() {
             <motion.h1 
               {...fadeIn}
               transition={{ delay: 0.3 }}
-              className="text-[64px] md:text-[88px] font-black tracking-tighter mb-8 leading-[1] text-[#111]"
+              className="text-[48px] md:text-[64px] font-black tracking-tighter mb-6 leading-[0.95] text-[#111]"
             >
               The phone <br /> 
               platform for <br />
@@ -188,7 +188,7 @@ export default function Landing() {
             <motion.p 
               {...fadeIn}
               transition={{ delay: 0.4 }}
-              className="text-[21px] text-slate-500/80 mb-12 max-w-lg leading-relaxed font-medium"
+              className="text-[17px] text-slate-500/80 mb-10 max-w-md leading-relaxed font-medium"
             >
               Engage with your customers profitably on the phone with parallel dialing, AI intelligence, and deep CRM automation.
             </motion.p>
@@ -196,10 +196,10 @@ export default function Landing() {
             <motion.div 
               {...fadeIn}
               transition={{ delay: 0.5 }}
-              className="flex flex-col sm:flex-row gap-4 mb-16"
+              className="flex flex-col sm:flex-row gap-3 mb-12"
             >
-              <Button size="lg" className="bg-[#0000EE] hover:bg-[#0000EE]/90 text-white px-10 h-14 text-base font-bold rounded-2xl shadow-xl shadow-[#0000EE]/20 transition-all hover:scale-[1.02]" onClick={() => window.location.href='/dashboard'}>Start for free</Button>
-              <Button variant="outline" size="lg" className="px-10 h-14 text-base border-slate-200/60 text-[#111] bg-white rounded-2xl hover:bg-slate-50 transition-all">Book a demo</Button>
+              <Button size="lg" className="bg-[#0000EE] hover:bg-[#0000EE]/90 text-white px-8 h-12 text-sm font-bold rounded-xl shadow-lg shadow-[#0000EE]/10 transition-all hover:scale-[1.02]" onClick={() => window.location.href='/dashboard'}>Start for free</Button>
+              <Button variant="outline" size="lg" className="px-8 h-12 text-sm border-slate-200/60 text-[#111] bg-white rounded-xl hover:bg-slate-50 transition-all">Book a demo</Button>
             </motion.div>
           </div>
 
@@ -250,10 +250,10 @@ export default function Landing() {
           <motion.div 
             {...fadeIn}
             transition={{ delay: 0.6 }}
-            className="pt-24 border-t border-slate-100 flex flex-wrap justify-between items-center gap-x-12 gap-y-10 opacity-30 grayscale hover:opacity-50 transition-opacity"
+            className="pt-16 border-t border-slate-100 flex flex-wrap justify-between items-center gap-x-12 gap-y-10 opacity-30 grayscale hover:opacity-50 transition-opacity"
           >
             {['MICHAEL TODD', 'Polysleep', 'JAXXON', 'BATTLEX', 'H-ARNY', 'Audien Hearing', 'Z-Link'].map(brand => (
-              <div key={brand} className="text-xl font-black tracking-tighter text-[#111]">{brand}</div>
+              <div key={brand} className="text-lg font-black tracking-tighter text-[#111]">{brand}</div>
             ))}
           </motion.div>
         </div>
@@ -271,17 +271,17 @@ export default function Landing() {
            <motion.h2 variants={fadeIn} className="text-[48px] md:text-[64px] font-black text-[#111] mb-6 leading-[1.1] tracking-tighter">A voice platform <br /> built for high-growth</motion.h2>
            <motion.p variants={fadeIn} className="text-[20px] text-slate-500/80 mb-20 max-w-3xl mx-auto font-medium leading-relaxed">Everything you need to turn every phone interaction into a measurable revenue driver.</motion.p>
            
-           <div className="grid md:grid-cols-3 gap-10">
+           <div className="grid md:grid-cols-3 gap-8">
               {[
                 { title: "Power Dialer", icon: PhoneCall, color: "text-[#0000EE]", bg: "bg-[#0000EE]/5", desc: "Scale outbound volume without the manual friction. Connect with up to 3x more prospects." },
                 { title: "Voice Agents", icon: Mic, color: "text-[#0000EE]", bg: "bg-[#0000EE]/5", desc: "Automate intake and qualification with human-like AI. Handle 24/7 high-volume leads." },
                 { title: "Phone Hub", icon: Layers, color: "text-[#0000EE]", bg: "bg-[#0000EE]/5", desc: "Unified data intelligence synced to your entire stack. No more manual CRM data entry." }
               ].map((item, i) => (
                 <motion.div key={i} variants={fadeIn}>
-                  <Card className="bg-white border border-slate-100 rounded-[3rem] p-12 text-left hover:shadow-2xl hover:shadow-[#0000EE]/5 transition-all cursor-pointer group h-full">
-                    <div className={`w-14 h-14 rounded-2xl ${item.bg} flex items-center justify-center mb-8 group-hover:scale-110 transition-transform`}><item.icon className={`w-7 h-7 ${item.color} stroke-[1.5]`} /></div>
-                    <h3 className="text-3xl font-black text-[#111] mb-4 tracking-tight">{item.title}</h3>
-                    <p className="text-[16px] text-slate-400 font-medium leading-relaxed">{item.desc}</p>
+                  <Card className="bg-white border border-slate-100 rounded-[2.5rem] p-10 text-left hover:shadow-2xl hover:shadow-[#0000EE]/5 transition-all cursor-pointer group h-full">
+                    <div className={`w-12 h-12 rounded-2xl ${item.bg} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}><item.icon className={`w-6 h-6 ${item.color} stroke-[1.5]`} /></div>
+                    <h3 className="text-2xl font-black text-[#111] mb-3 tracking-tight">{item.title}</h3>
+                    <p className="text-[14px] text-slate-400 font-medium leading-relaxed">{item.desc}</p>
                   </Card>
                 </motion.div>
               ))}
@@ -484,8 +484,81 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Platform Features Section */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-16 items-center border-t border-slate-50 pt-24">
+            <motion.div {...fadeIn} className="space-y-6">
+              <div className="inline-flex items-center px-2 py-0.5 bg-[#0000EE]/5 text-[#0000EE] rounded text-[10px] font-black uppercase tracking-wider">Parallel Dialing</div>
+              <h2 className="text-[32px] md:text-[44px] font-black text-[#111] leading-[1.1] tracking-tighter">Dial 10 lines at once. <br />Talk to only humans.</h2>
+              <p className="text-[15px] text-slate-500 font-medium leading-relaxed max-w-md">Our parallel dialer automatically detects voicemails and busy signals, only connecting your agents when a live person answers.</p>
+              <div className="grid grid-cols-2 gap-4 pt-4">
+                {[
+                  { label: "Connectivity", val: "3x", desc: "Agent efficiency" },
+                  { label: "Voicemail", val: "100%", desc: "Accurate detection" }
+                ].map((stat, i) => (
+                  <div key={i} className="p-4 bg-slate-50 rounded-2xl">
+                    <div className="text-2xl font-black text-[#0000EE]">{stat.val}</div>
+                    <div className="text-[10px] font-bold text-slate-400 uppercase">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+            <motion.div {...fadeIn} className="bg-slate-50 rounded-[2.5rem] p-12 aspect-[4/3] flex items-center justify-center relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#0000EE]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <PhoneCall className="w-24 h-24 text-[#0000EE] opacity-20" />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Intelligence & Summary */}
+      <section className="py-24 bg-[#F9F9FB] border-y border-slate-100/50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div {...fadeIn} className="order-2 lg:order-1 bg-white rounded-[2.5rem] p-12 shadow-sm aspect-[4/3] flex flex-col justify-center">
+              <div className="space-y-6">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="flex gap-4 items-center">
+                    <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center"><CheckCircle2 className="w-4 h-4 text-[#0000EE]" /></div>
+                    <div className="h-2 bg-slate-100 rounded-full flex-1" style={{ width: `${100 - (i * 15)}%` }} />
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+            <motion.div {...fadeIn} className="order-1 lg:order-2 space-y-6">
+              <div className="inline-flex items-center px-2 py-0.5 bg-purple-100 text-purple-600 rounded text-[10px] font-black uppercase tracking-wider">AI Intelligence</div>
+              <h2 className="text-[32px] md:text-[44px] font-black text-[#111] leading-[1.1] tracking-tighter">Post-call work <br /> done in seconds.</h2>
+              <p className="text-[15px] text-slate-500 font-medium leading-relaxed max-w-md">AI automatically summarizes every call, identifies next steps, and updates your CRM fields without any manual entry.</p>
+              <ul className="space-y-3">
+                {["Sentiment scoring", "Topic categorization", "Action item extraction"].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-[13px] font-bold text-slate-600">
+                    <div className="w-1 h-1 rounded-full bg-[#0000EE]" /> {item}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Integration Wall */}
+      <section className="py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <motion.div {...fadeIn} className="space-y-6">
+            <h2 className="text-[32px] md:text-[48px] font-black text-[#111] leading-[1.1] tracking-tighter">Plugs into your <br /> existing tech stack.</h2>
+            <p className="text-[15px] text-slate-500 font-medium leading-relaxed max-w-xl mx-auto">Native integrations with Salesforce, HubSpot, and 100+ commerce tools.</p>
+            <div className="flex flex-wrap justify-center gap-8 pt-12">
+               {['Salesforce', 'HubSpot', 'Shopify', 'Klaviyo', 'Zendesk', 'Slack'].map((integration, i) => (
+                 <div key={i} className="px-6 py-3 bg-slate-50 rounded-xl text-[12px] font-black text-slate-400 tracking-widest">{integration}</div>
+               ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Case Studies */}
-      <section className="py-32 bg-[#F9F9FB] overflow-hidden">
+      <section className="py-32 bg-[#F9F9FB]">
          <motion.div 
           initial="initial"
           whileInView="whileInView"
