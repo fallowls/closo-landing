@@ -26,7 +26,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { setAuthenticated } from "@/lib/auth";
-import closoLogo from "@assets/closo_logo_png_1768558486274.png";
+import closoLogo from "@assets/closo_full_logo.png";
 
 export function EnterpriseFooter() {
   const [email, setEmail] = useState("");
@@ -134,7 +134,7 @@ export function EnterpriseFooter() {
               <img 
                 src={closoLogo} 
                 alt="Closo" 
-                className="h-10 w-auto object-contain brightness-0 invert mb-6"
+                className="h-10 w-auto object-contain mb-6"
                 data-testid="img-footer-logo"
               />
               <p className="text-base text-slate-400 leading-relaxed max-w-sm">
