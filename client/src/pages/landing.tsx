@@ -29,8 +29,7 @@ import {
   Target
 } from "lucide-react";
 import { useLocation, Link } from "wouter";
-import closoLogo from "@assets/closo_logo_png_1768558486274.png";
-import heroImg from "@assets/stock_images/happy_professional_d_3abe973d.jpg";
+import closoLogo from "@assets/closo_full_logo_1769041160904.png";
 import { EnterpriseFooter } from "@/components/EnterpriseFooter";
 import { SEO } from "@/components/SEO";
 import { motion, AnimatePresence } from "framer-motion";
@@ -46,6 +45,73 @@ const staggerContainer = {
   initial: {},
   whileInView: { transition: { staggerChildren: 0.1 } }
 };
+
+const AbstractHub = () => (
+  <div className="relative w-full h-full flex items-center justify-center">
+    {/* Central Core */}
+    <motion.div
+      animate={{ 
+        scale: [1, 1.05, 1],
+        rotate: [0, 5, 0]
+      }}
+      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      className="w-32 h-32 rounded-3xl bg-gradient-to-br from-[#0000EE] to-[#E1B2FF] shadow-2xl shadow-[#0000EE]/20 flex items-center justify-center z-10"
+    >
+      <PhoneCall className="w-12 h-12 text-white" />
+    </motion.div>
+
+    {/* Orbital Rings */}
+    {[1, 2, 3].map((i) => (
+      <motion.div
+        key={i}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 15 + i * 5, repeat: Infinity, ease: "linear" }}
+        className="absolute border border-slate-100 rounded-full"
+        style={{ 
+          width: `${160 + i * 60}px`, 
+          height: `${160 + i * 60}px`,
+          opacity: 0.5 - i * 0.1
+        }}
+      />
+    ))}
+
+    {/* Floating Data Nodes */}
+    {[
+      { icon: Mic, pos: "top-0 left-1/4", color: "bg-rose-500" },
+      { icon: Activity, pos: "bottom-4 right-0", color: "bg-emerald-500" },
+      { icon: MessageSquare, pos: "top-12 -right-8", color: "bg-amber-500" },
+      { icon: ShieldCheck, pos: "-bottom-4 left-12", color: "bg-[#0000EE]" }
+    ].map((node, i) => (
+      <motion.div
+        key={i}
+        animate={{ 
+          y: [0, -15, 0],
+          x: [0, 10, 0]
+        }}
+        transition={{ duration: 3 + i, repeat: Infinity, ease: "easeInOut" }}
+        className={`absolute ${node.pos} w-10 h-10 rounded-xl ${node.color} shadow-lg flex items-center justify-center z-20`}
+      >
+        <node.icon className="w-5 h-5 text-white" />
+      </motion.div>
+    ))}
+
+    {/* Connection Lines (Visual Decor) */}
+    <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible" style={{ zIndex: 5 }}>
+       <motion.circle 
+         cx="50%" cy="50%" r="100" 
+         fill="none" stroke="url(#gradient)" strokeWidth="0.5" strokeDasharray="4 4"
+         animate={{ rotate: -360 }}
+         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+       />
+       <defs>
+         <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+           <stop offset="0%" stopColor="#0000EE" stopOpacity="0.2" />
+           <stop offset="100%" stopColor="#E1B2FF" stopOpacity="0.2" />
+         </linearGradient>
+       </defs>
+    </svg>
+  </div>
+);
 
 export default function Landing() {
   const [showHeader, setShowHeader] = useState(false);
@@ -79,7 +145,7 @@ export default function Landing() {
       >
         <nav className={`flex items-center justify-between px-6 py-2 rounded-xl border transition-all duration-300 shadow-sm ${showHeader ? 'bg-white/90 backdrop-blur-md border-slate-200 w-[1000px]' : 'bg-white/40 backdrop-blur-sm border-slate-100 w-[1100px]'}`}>
           <div className="flex items-center gap-10">
-            <Link href="/"><img src={closoLogo} alt="Closo" className="h-4 cursor-pointer" /></Link>
+            <Link href="/"><img src={closoLogo} alt="Closo" className="h-5 cursor-pointer" /></Link>
             <div className="hidden lg:flex items-center gap-6">
               {['Product', 'Resources', 'Pricing'].map(item => (
                 <div key={item} className="flex items-center gap-1 cursor-pointer group">
@@ -105,16 +171,15 @@ export default function Landing() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-[300px] h-[300px] mx-auto mb-12"
+            className="relative w-[340px] h-[340px] mx-auto mb-12 flex items-center justify-center"
           >
-            <div className="absolute inset-0 rounded-full overflow-hidden border-4 border-white shadow-xl z-10">
-              <img src={heroImg} alt="Hero" className="w-full h-full object-cover" />
-            </div>
+            <AbstractHub />
+            
             <motion.div 
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="absolute -left-8 top-1/4 bg-white p-2 rounded-lg shadow-xl border border-slate-50 z-20 animate-bounce-slow"
+              className="absolute -left-12 top-1/4 bg-white p-2 rounded-lg shadow-xl border border-slate-50 z-30 animate-bounce-slow"
             >
               <div className="flex items-center gap-2 mb-0.5">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
@@ -123,11 +188,12 @@ export default function Landing() {
               <div className="text-lg font-black text-[#111] tracking-tight">$18,600</div>
               <div className="text-[8px] text-slate-400 font-bold">Total revenue</div>
             </motion.div>
+
             <motion.div 
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.7, duration: 0.8 }}
-              className="absolute -right-12 top-1/2 bg-white p-2 rounded-lg shadow-xl border border-slate-50 z-20 animate-float"
+              className="absolute -right-16 top-1/2 bg-white p-2 rounded-lg shadow-xl border border-slate-50 z-30 animate-float"
             >
                <div className="flex items-center gap-2">
                  <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-white text-[10px] font-bold">CH</div>
