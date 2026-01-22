@@ -51,47 +51,43 @@ const AbstractHub = () => (
     {/* Central Core */}
     <motion.div
       animate={{ 
-        scale: [1, 1.05, 1],
-        rotate: [0, 5, 0]
+        scale: [1, 1.02, 1],
       }}
-      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-      className="w-32 h-32 rounded-3xl bg-gradient-to-br from-[#0000EE] to-[#E1B2FF] shadow-2xl shadow-[#0000EE]/20 flex items-center justify-center z-10"
+      transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      className="w-28 h-28 rounded-[2.5rem] bg-gradient-to-br from-[#0000EE] to-[#E1B2FF] shadow-2xl shadow-[#0000EE]/10 flex items-center justify-center z-10"
     >
-      <PhoneCall className="w-12 h-12 text-white" />
+      <PhoneCall className="w-10 h-10 text-white stroke-[1.5]" />
     </motion.div>
 
-    {/* Orbital Rings */}
-    {[1, 2, 3].map((i) => (
+    {/* Orbital Rings - Thinner and more subtle */}
+    {[1, 2].map((i) => (
       <motion.div
         key={i}
         animate={{ rotate: 360 }}
-        transition={{ duration: 15 + i * 5, repeat: Infinity, ease: "linear" }}
-        className="absolute border border-slate-100 rounded-full"
+        transition={{ duration: 25 + i * 10, repeat: Infinity, ease: "linear" }}
+        className="absolute border border-slate-200/40 rounded-full"
         style={{ 
-          width: `${160 + i * 60}px`, 
-          height: `${160 + i * 60}px`,
-          opacity: 0.5 - i * 0.1
+          width: `${180 + i * 80}px`, 
+          height: `${180 + i * 80}px`,
+          opacity: 0.3 - i * 0.1
         }}
       />
     ))}
 
-    {/* Floating Data Nodes */}
+    {/* Floating Data Nodes - Reduced count and smaller */}
     {[
-      { icon: Mic, pos: "top-0 left-1/4", color: "bg-rose-500" },
-      { icon: Activity, pos: "bottom-4 right-0", color: "bg-emerald-500" },
-      { icon: MessageSquare, pos: "top-12 -right-8", color: "bg-amber-500" },
-      { icon: ShieldCheck, pos: "-bottom-4 left-12", color: "bg-[#0000EE]" }
+      { icon: Mic, pos: "top-4 left-1/4", color: "bg-white border border-slate-100 shadow-sm" },
+      { icon: Activity, pos: "bottom-8 right-4", color: "bg-white border border-slate-100 shadow-sm" },
     ].map((node, i) => (
       <motion.div
         key={i}
         animate={{ 
-          y: [0, -15, 0],
-          x: [0, 10, 0]
+          y: [0, -10, 0],
         }}
-        transition={{ duration: 3 + i, repeat: Infinity, ease: "easeInOut" }}
-        className={`absolute ${node.pos} w-10 h-10 rounded-xl ${node.color} shadow-lg flex items-center justify-center z-20`}
+        transition={{ duration: 5 + i, repeat: Infinity, ease: "easeInOut" }}
+        className={`absolute ${node.pos} w-8 h-8 rounded-xl ${node.color} flex items-center justify-center z-20`}
       >
-        <node.icon className="w-5 h-5 text-white" />
+        <node.icon className="w-4 h-4 text-[#0000EE]" />
       </motion.div>
     ))}
 
@@ -141,26 +137,22 @@ export default function Landing() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-4 left-0 right-0 z-50 flex justify-center transition-all duration-300`}
+        className={`fixed top-6 left-0 right-0 z-50 flex justify-center px-6`}
       >
-        <nav className={`flex items-center justify-between px-6 py-2 rounded-xl border transition-all duration-300 shadow-sm ${showHeader ? 'bg-white/90 backdrop-blur-md border-slate-200 w-[1000px]' : 'bg-white/40 backdrop-blur-sm border-slate-100 w-[1100px]'}`}>
-          <div className="flex items-center gap-10">
-            <Link href="/"><img src={closoLogo} alt="Closo" className="h-8 w-auto cursor-pointer object-contain" /></Link>
-            <div className="hidden lg:flex items-center gap-6">
-              {['Product', 'Resources', 'Pricing'].map(item => (
+        <nav className={`flex items-center justify-between px-8 py-3 rounded-2xl border transition-all duration-500 ${showHeader ? 'bg-white/80 backdrop-blur-xl border-slate-200/60 shadow-[0_8px_32px_rgba(0,0,0,0.04)] w-full max-w-[900px]' : 'bg-transparent border-transparent w-full max-w-[1200px]'}`}>
+          <div className="flex items-center gap-12">
+            <Link href="/"><img src={closoLogo} alt="Closo" className="h-7 w-auto cursor-pointer object-contain" /></Link>
+            <div className="hidden lg:flex items-center gap-8">
+              {['Features', 'Intelligence', 'Pricing'].map(item => (
                 <div key={item} className="flex items-center gap-1 cursor-pointer group">
-                  <span className="text-[13px] font-medium text-slate-600 group-hover:text-[#111] transition-colors">{item}</span>
-                  <ChevronRight className="w-3 h-3 rotate-90 text-slate-300" />
+                  <span className="text-[13px] font-semibold text-slate-500 group-hover:text-[#111] transition-colors">{item}</span>
                 </div>
               ))}
             </div>
           </div>
-          <div className="flex items-center gap-5">
-            <Link href="/login" className="text-[13px] font-medium text-slate-600 hover:text-[#111]">Log in</Link>
-            <div className="flex items-center gap-2">
-              <Button variant="ghost" className="text-[13px] font-medium hover:bg-slate-50 px-3 h-8 rounded-lg border border-slate-100">Sign up free</Button>
-              <Button className="bg-[#111] hover:bg-black text-white px-4 h-8 text-[13px] font-medium rounded-lg shadow-sm" onClick={() => window.location.href='/dashboard'}>Book a demo</Button>
-            </div>
+          <div className="flex items-center gap-6">
+            <Link href="/login" className="text-[13px] font-semibold text-slate-500 hover:text-[#111] transition-colors">Log in</Link>
+            <Button className="bg-[#0000EE] hover:bg-[#0000EE]/90 text-white px-6 h-10 text-[13px] font-bold rounded-xl shadow-lg shadow-[#0000EE]/10 transition-all hover:scale-[1.02]" onClick={() => window.location.href='/dashboard'}>Get Started</Button>
           </div>
         </nav>
       </motion.div>
@@ -220,64 +212,64 @@ export default function Landing() {
           <motion.h1 
             {...fadeIn}
             transition={{ delay: 0.3 }}
-            className="text-[48px] md:text-[68px] font-bold tracking-tight mb-8 leading-[1.1] text-[#111] max-w-3xl mx-auto"
+            className="text-[56px] md:text-[84px] font-black tracking-tight mb-8 leading-[1.05] text-[#111] max-w-4xl mx-auto"
           >
             The phone platform for <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E1B2FF] to-[#0000EE]">B2B commerce</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0000EE] via-[#0000EE] to-[#E1B2FF]">B2B commerce</span>
           </motion.h1>
           
           <motion.p 
             {...fadeIn}
             transition={{ delay: 0.4 }}
-            className="text-[18px] text-slate-500 mb-10 max-w-lg mx-auto leading-relaxed"
+            className="text-[20px] text-slate-500/80 mb-12 max-w-2xl mx-auto leading-relaxed font-medium"
           >
-            Drive new sales and discover unique insights by engaging with your customers profitably on the phone.
+            Engage with your customers profitably on the phone with parallel dialing, AI intelligence, and deep CRM automation.
           </motion.p>
           
           <motion.div 
             {...fadeIn}
             transition={{ delay: 0.5 }}
-            className="flex gap-3 justify-center mb-20"
+            className="flex flex-col sm:flex-row gap-4 justify-center mb-24"
           >
-            <Button size="lg" className="bg-[#111] hover:bg-black text-white px-8 h-12 text-sm font-bold rounded-xl" onClick={() => window.location.href='/dashboard'}>Start for free</Button>
-            <Button variant="outline" size="lg" className="px-8 h-12 text-sm border-slate-200 text-[#111] bg-white rounded-xl">Book a demo</Button>
+            <Button size="lg" className="bg-[#0000EE] hover:bg-[#0000EE]/90 text-white px-10 h-14 text-base font-bold rounded-2xl shadow-xl shadow-[#0000EE]/20 transition-all hover:scale-[1.02]" onClick={() => window.location.href='/dashboard'}>Start for free</Button>
+            <Button variant="outline" size="lg" className="px-10 h-14 text-base border-slate-200/60 text-[#111] bg-white rounded-2xl hover:bg-slate-50 transition-all">Book a demo</Button>
           </motion.div>
 
           <motion.div 
             {...fadeIn}
             transition={{ delay: 0.6 }}
-            className="pt-10 border-t border-slate-100 flex flex-wrap justify-center items-center gap-x-12 gap-y-8 opacity-40 grayscale"
+            className="pt-12 border-t border-slate-100 flex flex-wrap justify-center items-center gap-x-16 gap-y-10 opacity-30 grayscale hover:opacity-50 transition-opacity"
           >
             {['MICHAEL TODD', 'Polysleep', 'JAXXON', 'BATTLEX', 'H-ARNY', 'Audien Hearing', 'Z-Link'].map(brand => (
-              <div key={brand} className="text-xl font-bold text-[#111]">{brand}</div>
+              <div key={brand} className="text-lg font-black tracking-widest text-[#111]">{brand}</div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      <section className="py-24 bg-white text-center overflow-hidden">
+      <section className="py-32 bg-white text-center overflow-hidden">
         <motion.div 
           initial="initial"
           whileInView="whileInView"
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
-          className="max-w-4xl mx-auto px-6"
+          className="max-w-5xl mx-auto px-6"
         >
-           <motion.div variants={fadeIn} className="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-[11px] font-bold mb-6">Introducing Closo</motion.div>
-           <motion.h2 variants={fadeIn} className="text-[36px] md:text-[48px] font-bold text-[#111] mb-4 leading-tight tracking-tight">A voice platform <br /> built for growth</motion.h2>
-           <motion.p variants={fadeIn} className="text-[17px] text-slate-500 mb-16 max-w-xl mx-auto">Everything you need to turn phone calls into revenue.</motion.p>
+           <motion.div variants={fadeIn} className="inline-flex items-center px-4 py-1.5 rounded-full bg-slate-50 text-slate-500 text-[11px] font-black uppercase tracking-[0.2em] mb-8 border border-slate-100/50">Introducing Closo</motion.div>
+           <motion.h2 variants={fadeIn} className="text-[48px] md:text-[64px] font-black text-[#111] mb-6 leading-[1.1] tracking-tight">A voice platform <br /> built for high-growth</motion.h2>
+           <motion.p variants={fadeIn} className="text-[19px] text-slate-500/80 mb-20 max-w-2xl mx-auto font-medium leading-relaxed">Everything you need to turn every phone interaction into a measurable revenue driver.</motion.p>
            
-           <div className="grid md:grid-cols-3 gap-6">
+           <div className="grid md:grid-cols-3 gap-8">
               {[
-                { title: "Power Dialer", icon: PhoneCall, color: "text-purple-500", bg: "bg-purple-50", desc: "Scale outbound without manual dialing." },
-                { title: "Voice Agents", icon: Mic, color: "text-rose-500", bg: "bg-rose-50", desc: "Automate intake and qualification." },
-                { title: "Phone Hub", icon: Layers, color: "text-amber-500", bg: "bg-amber-50", desc: "Sync all call data to your CRM." }
+                { title: "Power Dialer", icon: PhoneCall, color: "text-[#0000EE]", bg: "bg-[#0000EE]/5", desc: "Scale outbound volume without the manual friction." },
+                { title: "Voice Agents", icon: Mic, color: "text-[#0000EE]", bg: "bg-[#0000EE]/5", desc: "Automate intake and qualification with human-like AI." },
+                { title: "Phone Hub", icon: Layers, color: "text-[#0000EE]", bg: "bg-[#0000EE]/5", desc: "Unified data intelligence synced to your entire stack." }
               ].map((item, i) => (
                 <motion.div key={i} variants={fadeIn}>
-                  <Card className="bg-[#F9F9FB] border-none rounded-[2rem] p-8 text-left hover:shadow-lg transition-all cursor-pointer group h-full">
-                    <div className={`w-10 h-10 rounded-xl ${item.bg} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}><item.icon className={`w-6 h-6 ${item.color}`} /></div>
-                    <h3 className="text-xl font-bold text-[#111] mb-2">{item.title}</h3>
-                    <p className="text-sm text-slate-400 font-medium">{item.desc}</p>
+                  <Card className="bg-white border border-slate-100 rounded-[2.5rem] p-10 text-left hover:shadow-2xl hover:shadow-[#0000EE]/5 transition-all cursor-pointer group h-full">
+                    <div className={`w-12 h-12 rounded-2xl ${item.bg} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}><item.icon className={`w-6 h-6 ${item.color} stroke-[1.5]`} /></div>
+                    <h3 className="text-2xl font-black text-[#111] mb-3">{item.title}</h3>
+                    <p className="text-[15px] text-slate-400 font-medium leading-relaxed">{item.desc}</p>
                   </Card>
                 </motion.div>
               ))}
