@@ -156,8 +156,8 @@ export default function Landing() {
             </div>
           </div>
           <div className="flex items-center gap-6">
-            <Link href="/login" className="text-[13px] font-semibold text-slate-500 hover:text-[#111] transition-colors">Log in</Link>
-            <Button className="bg-[#111] hover:bg-[#000] text-white px-6 h-10 text-[13px] font-bold rounded-xl shadow-lg transition-all hover:scale-[1.02]" onClick={() => window.location.href='/dashboard'}>Get Started</Button>
+            <Link href="https://app.thecloso.com" className="text-[13px] font-semibold text-slate-500 hover:text-[#111] transition-colors">Log in</Link>
+            <Button className="bg-[#111] hover:bg-[#000] text-white px-6 h-10 text-[13px] font-bold rounded-xl shadow-lg transition-all hover:scale-[1.02]" onClick={() => window.location.href='https://app.thecloso.com'}>Get Started</Button>
           </div>
         </nav>
       </motion.div>
@@ -188,7 +188,7 @@ export default function Landing() {
               transition={{ delay: 0.5 }}
               className="flex flex-col sm:flex-row gap-4 mb-12"
             >
-              <Button size="lg" className="bg-[#111] hover:bg-[#000] text-white px-8 h-14 text-sm font-bold rounded-2xl shadow-xl transition-all hover:scale-[1.02]" onClick={() => window.location.href='/dashboard'}>Start for free</Button>
+              <Button size="lg" className="bg-[#111] hover:bg-[#000] text-white px-8 h-14 text-sm font-bold rounded-2xl shadow-xl transition-all hover:scale-[1.02]" onClick={() => window.location.href='https://app.thecloso.com'}>Start for free</Button>
               <Button variant="outline" size="lg" className="px-8 h-14 text-sm border-slate-200 text-slate-700 bg-white rounded-2xl hover:bg-slate-50 hover:border-slate-300 transition-all">Book a demo</Button>
             </motion.div>
           </div>
@@ -293,7 +293,7 @@ export default function Landing() {
                <li className="flex gap-2"><span className="text-purple-500 font-bold">•</span><span>Automatically drop personalized voicemails to missed calls.</span></li>
                <li className="flex gap-2"><span className="text-purple-500 font-bold">•</span><span>Run campaigns on high-value segments like abandoned carts.</span></li>
             </ul>
-            <Button className="bg-[#111] text-white px-8 h-12 rounded-xl font-bold text-sm shadow-lg">Tour the platform</Button>
+            <Button className="bg-[#111] text-white px-8 h-12 rounded-xl font-bold text-sm shadow-lg" onClick={() => window.location.href='https://app.thecloso.com'}>Tour the platform</Button>
           </motion.div>
           <motion.div 
             initial={{ opacity: 0, x: 50 }}

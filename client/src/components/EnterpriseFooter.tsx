@@ -44,12 +44,7 @@ export function EnterpriseFooter() {
     },
     onSuccess: (data: any) => {
       setAuthenticated(true);
-      const redirectPath = data.role === 'admin' ? '/admin' : '/dashboard';
-      toast({ 
-        title: "Access granted", 
-        description: `Welcome to the ${data.role === 'admin' ? 'admin' : 'campaign'} dashboard!` 
-      });
-      setLocation(redirectPath);
+      window.location.href = 'https://app.thecloso.com';
     },
     onError: () => {
       toast({ title: "Access denied", description: "Invalid credentials", variant: "destructive" });
