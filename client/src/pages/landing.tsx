@@ -342,6 +342,107 @@ export default function Landing() {
       </section>
 
       {/* Intelligence Section */}
+      <section className="py-32 bg-white">
+        <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-6"
+          >
+            <div className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-600 rounded-lg text-[11px] font-black uppercase tracking-wider">Parallel Dialing</div>
+            <h2 className="text-[44px] font-bold text-[#111] leading-tight tracking-tight">Triple your <br /> connect rates</h2>
+            <p className="text-[17px] text-slate-500 font-medium leading-relaxed">
+              Stop wasting time on ringing tones and busy signals. Our parallel dialer calls multiple prospects simultaneously and instantly connects you only when a human answers.
+            </p>
+            <div className="space-y-4">
+              {[
+                { title: "3x Productivity", desc: "Spend more time talking, less time waiting." },
+                { title: "Smart Detection", desc: "Instantly skips voicemails and busy signals." },
+                { title: "CRM Integration", desc: "Automated logging for every call attempt." }
+              ].map((item, i) => (
+                <div key={i} className="flex gap-4">
+                  <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0 mt-1">
+                    <CheckCircle2 className="w-3 h-3 text-blue-600" />
+                  </div>
+                  <div>
+                    <div className="text-[15px] font-bold text-[#111]">{item.title}</div>
+                    <div className="text-[13px] text-slate-400 font-medium">{item.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative bg-blue-50/50 rounded-[3rem] p-8 aspect-square flex items-center justify-center overflow-hidden"
+          >
+            <div className="relative w-full h-full flex items-center justify-center">
+              {/* Animated Parallel Dialing Visualization */}
+              {[0, 1, 2].map((i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-64 h-24 bg-white rounded-2xl shadow-xl border border-blue-100 p-4 flex items-center gap-4"
+                  initial={{ x: 100, opacity: 0 }}
+                  animate={{ 
+                    x: [100, 0, 0, -100],
+                    opacity: [0, 1, 1, 0],
+                    y: (i - 1) * 110
+                  }}
+                  transition={{ 
+                    duration: 4, 
+                    repeat: Infinity, 
+                    delay: i * 1.3,
+                    ease: "easeInOut" 
+                  }}
+                >
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${i === 1 ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                    {i === 1 ? <PhoneCall className="w-5 h-5" /> : <RefreshCw className="w-5 h-5 animate-spin-slow" />}
+                  </div>
+                  <div className="flex-1">
+                    <div className="h-3 w-24 bg-slate-100 rounded-full mb-2 overflow-hidden">
+                      <motion.div 
+                        className={`h-full ${i === 1 ? 'bg-emerald-500' : 'bg-blue-400'}`}
+                        animate={{ width: ["0%", "100%"] }}
+                        transition={{ duration: 1.5, delay: i * 1.3 }}
+                      />
+                    </div>
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                      {i === 1 ? "Connected" : "Dialing..."}
+                    </div>
+                  </div>
+                  {i === 1 && (
+                    <motion.div 
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center"
+                    >
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                    </motion.div>
+                  )}
+                </motion.div>
+              ))}
+              
+              {/* Center Connection Node */}
+              <div className="absolute w-20 h-20 rounded-full bg-[#0000EE] shadow-2xl shadow-[#0000EE]/20 flex items-center justify-center z-10">
+                <Users className="w-8 h-8 text-white" />
+                <motion.div 
+                  className="absolute inset-0 rounded-full border-2 border-white/20"
+                  animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Intelligence Section */}
       <section className="py-24 bg-[#F9F9FB] border-y border-slate-100">
         <motion.div 
           initial="initial"
