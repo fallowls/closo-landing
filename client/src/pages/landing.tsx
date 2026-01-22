@@ -123,15 +123,20 @@ export default function Landing() {
     <div className="min-h-screen bg-white text-[#111] selection:bg-[#E1B2FF]/30 font-sans tracking-tight overflow-x-hidden">
       <SEO 
         title="Closo | The phone platform for B2B commerce" 
-        description="Drive new sales and discover unique insights by engaging with your customers profitably on the phone."
+        description="Engage with your customers profitably on the phone with parallel dialing, AI intelligence, and deep CRM automation."
       />
       
-      <div className="fixed inset-0 z-[-1] pointer-events-none opacity-[0.4]" 
-        style={{ 
-          backgroundImage: `radial-gradient(circle, #E2E8F0 1.5px, transparent 1.5px)`, 
-          backgroundSize: '32px 32px' 
-        }} 
-      />
+      {/* Background Decorative Elements */}
+      <div className="fixed inset-0 z-[-1] pointer-events-none">
+        <div className="absolute inset-0 opacity-[0.4]" 
+          style={{ 
+            backgroundImage: `radial-gradient(circle, #E2E8F0 1px, transparent 1px)`, 
+            backgroundSize: '32px 32px' 
+          }} 
+        />
+        <div className="absolute top-0 left-0 w-1/3 h-full bg-gradient-to-r from-slate-50/50 to-transparent pointer-events-none" />
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-slate-50/50 to-transparent pointer-events-none" />
+      </div>
 
       <motion.div 
         initial={{ y: -100 }}
@@ -157,91 +162,98 @@ export default function Landing() {
         </nav>
       </motion.div>
 
-      <section className="relative pt-40 pb-24 px-6">
-        <div className="max-w-4xl mx-auto text-center relative z-10">
+      <section className="relative pt-48 pb-32 px-6">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10">
+          <div className="text-left">
+            <motion.div 
+              {...fadeIn}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-100 shadow-sm text-[11px] font-bold text-slate-500 mb-8"
+            >
+              <span className="text-[#0000EE]">📣</span>
+              <span className="font-bold">Closo raises $3.3M</span>
+              <Link href="/blog" className="flex items-center gap-1 ml-1 text-slate-400 border-l pl-2 border-slate-200">Read <ArrowUpRight className="w-3 h-3" /></Link>
+            </motion.div>
+            
+            <motion.h1 
+              {...fadeIn}
+              transition={{ delay: 0.3 }}
+              className="text-[64px] md:text-[88px] font-black tracking-tighter mb-8 leading-[1] text-[#111]"
+            >
+              The phone <br /> 
+              platform for <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0000EE] via-[#0000EE] to-[#E1B2FF]">B2B commerce</span>
+            </motion.h1>
+            
+            <motion.p 
+              {...fadeIn}
+              transition={{ delay: 0.4 }}
+              className="text-[21px] text-slate-500/80 mb-12 max-w-lg leading-relaxed font-medium"
+            >
+              Engage with your customers profitably on the phone with parallel dialing, AI intelligence, and deep CRM automation.
+            </motion.p>
+            
+            <motion.div 
+              {...fadeIn}
+              transition={{ delay: 0.5 }}
+              className="flex flex-col sm:flex-row gap-4 mb-16"
+            >
+              <Button size="lg" className="bg-[#0000EE] hover:bg-[#0000EE]/90 text-white px-10 h-14 text-base font-bold rounded-2xl shadow-xl shadow-[#0000EE]/20 transition-all hover:scale-[1.02]" onClick={() => window.location.href='/dashboard'}>Start for free</Button>
+              <Button variant="outline" size="lg" className="px-10 h-14 text-base border-slate-200/60 text-[#111] bg-white rounded-2xl hover:bg-slate-50 transition-all">Book a demo</Button>
+            </motion.div>
+          </div>
+
           <motion.div 
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-[340px] h-[340px] mx-auto mb-12 flex items-center justify-center"
+            className="relative w-full aspect-square flex items-center justify-center"
           >
-            <AbstractHub />
+            <div className="scale-125 lg:scale-150">
+              <AbstractHub />
+            </div>
             
             <motion.div 
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="absolute -left-12 top-1/4 bg-white p-2 rounded-lg shadow-xl border border-slate-50 z-30 animate-bounce-slow"
+              className="absolute -left-4 top-1/4 bg-white p-4 rounded-2xl shadow-2xl border border-slate-100 z-30 animate-bounce-slow min-w-[180px]"
             >
-              <div className="flex items-center gap-2 mb-0.5">
+              <div className="flex items-center gap-2 mb-1">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Voicemail dropped</span>
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Voicemail dropped</span>
               </div>
-              <div className="text-lg font-black text-[#111] tracking-tight">$18,600</div>
-              <div className="text-[8px] text-slate-400 font-bold">Total revenue</div>
+              <div className="text-2xl font-black text-[#111] tracking-tight">$18,600</div>
+              <div className="text-[9px] text-slate-400 font-bold">Total revenue</div>
             </motion.div>
 
             <motion.div 
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.7, duration: 0.8 }}
-              className="absolute -right-16 top-1/2 bg-white p-2 rounded-lg shadow-xl border border-slate-50 z-30 animate-float"
+              className="absolute -right-4 top-2/3 bg-white p-4 rounded-2xl shadow-2xl border border-slate-100 z-30 animate-float min-w-[200px]"
             >
-               <div className="flex items-center gap-2">
-                 <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-white text-[10px] font-bold">CH</div>
+               <div className="flex items-center gap-3">
+                 <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-white text-[12px] font-black">CH</div>
                  <div className="text-left">
-                   <div className="text-[10px] font-bold text-[#111]">Charlie Hawkins</div>
+                   <div className="text-[12px] font-black text-[#111]">Charlie Hawkins</div>
                    <div className="flex gap-1 mt-0.5">
-                      <div className="px-1.5 py-0.5 bg-[#E1B2FF]/20 text-[#E1B2FF] rounded text-[7px] font-black uppercase tracking-wider">In progress</div>
+                      <div className="px-2 py-0.5 bg-[#E1B2FF]/20 text-[#E1B2FF] rounded text-[8px] font-black uppercase tracking-wider">In progress</div>
                    </div>
                  </div>
                </div>
             </motion.div>
           </motion.div>
+        </div>
 
-          <motion.div 
-            {...fadeIn}
-            transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-100 shadow-sm text-[11px] font-medium text-slate-600 mb-8"
-          >
-            <span className="text-[#0000EE]">📣</span>
-            <span className="font-semibold">Closo raises $3.3M</span>
-            <Link href="/blog" className="flex items-center gap-1 ml-1 text-slate-400 border-l pl-2 border-slate-200">Read <ArrowUpRight className="w-3 h-3" /></Link>
-          </motion.div>
-          
-          <motion.h1 
-            {...fadeIn}
-            transition={{ delay: 0.3 }}
-            className="text-[56px] md:text-[84px] font-black tracking-tight mb-8 leading-[1.05] text-[#111] max-w-4xl mx-auto"
-          >
-            The phone platform for <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0000EE] via-[#0000EE] to-[#E1B2FF]">B2B commerce</span>
-          </motion.h1>
-          
-          <motion.p 
-            {...fadeIn}
-            transition={{ delay: 0.4 }}
-            className="text-[20px] text-slate-500/80 mb-12 max-w-2xl mx-auto leading-relaxed font-medium"
-          >
-            Engage with your customers profitably on the phone with parallel dialing, AI intelligence, and deep CRM automation.
-          </motion.p>
-          
-          <motion.div 
-            {...fadeIn}
-            transition={{ delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-24"
-          >
-            <Button size="lg" className="bg-[#0000EE] hover:bg-[#0000EE]/90 text-white px-10 h-14 text-base font-bold rounded-2xl shadow-xl shadow-[#0000EE]/20 transition-all hover:scale-[1.02]" onClick={() => window.location.href='/dashboard'}>Start for free</Button>
-            <Button variant="outline" size="lg" className="px-10 h-14 text-base border-slate-200/60 text-[#111] bg-white rounded-2xl hover:bg-slate-50 transition-all">Book a demo</Button>
-          </motion.div>
-
+        <div className="max-w-7xl mx-auto">
           <motion.div 
             {...fadeIn}
             transition={{ delay: 0.6 }}
-            className="pt-12 border-t border-slate-100 flex flex-wrap justify-center items-center gap-x-16 gap-y-10 opacity-30 grayscale hover:opacity-50 transition-opacity"
+            className="pt-24 border-t border-slate-100 flex flex-wrap justify-between items-center gap-x-12 gap-y-10 opacity-30 grayscale hover:opacity-50 transition-opacity"
           >
             {['MICHAEL TODD', 'Polysleep', 'JAXXON', 'BATTLEX', 'H-ARNY', 'Audien Hearing', 'Z-Link'].map(brand => (
-              <div key={brand} className="text-lg font-black tracking-widest text-[#111]">{brand}</div>
+              <div key={brand} className="text-xl font-black tracking-tighter text-[#111]">{brand}</div>
             ))}
           </motion.div>
         </div>
@@ -253,23 +265,23 @@ export default function Landing() {
           whileInView="whileInView"
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
-          className="max-w-5xl mx-auto px-6"
+          className="max-w-7xl mx-auto px-6"
         >
            <motion.div variants={fadeIn} className="inline-flex items-center px-4 py-1.5 rounded-full bg-slate-50 text-slate-500 text-[11px] font-black uppercase tracking-[0.2em] mb-8 border border-slate-100/50">Introducing Closo</motion.div>
-           <motion.h2 variants={fadeIn} className="text-[48px] md:text-[64px] font-black text-[#111] mb-6 leading-[1.1] tracking-tight">A voice platform <br /> built for high-growth</motion.h2>
-           <motion.p variants={fadeIn} className="text-[19px] text-slate-500/80 mb-20 max-w-2xl mx-auto font-medium leading-relaxed">Everything you need to turn every phone interaction into a measurable revenue driver.</motion.p>
+           <motion.h2 variants={fadeIn} className="text-[48px] md:text-[64px] font-black text-[#111] mb-6 leading-[1.1] tracking-tighter">A voice platform <br /> built for high-growth</motion.h2>
+           <motion.p variants={fadeIn} className="text-[20px] text-slate-500/80 mb-20 max-w-3xl mx-auto font-medium leading-relaxed">Everything you need to turn every phone interaction into a measurable revenue driver.</motion.p>
            
-           <div className="grid md:grid-cols-3 gap-8">
+           <div className="grid md:grid-cols-3 gap-10">
               {[
-                { title: "Power Dialer", icon: PhoneCall, color: "text-[#0000EE]", bg: "bg-[#0000EE]/5", desc: "Scale outbound volume without the manual friction." },
-                { title: "Voice Agents", icon: Mic, color: "text-[#0000EE]", bg: "bg-[#0000EE]/5", desc: "Automate intake and qualification with human-like AI." },
-                { title: "Phone Hub", icon: Layers, color: "text-[#0000EE]", bg: "bg-[#0000EE]/5", desc: "Unified data intelligence synced to your entire stack." }
+                { title: "Power Dialer", icon: PhoneCall, color: "text-[#0000EE]", bg: "bg-[#0000EE]/5", desc: "Scale outbound volume without the manual friction. Connect with up to 3x more prospects." },
+                { title: "Voice Agents", icon: Mic, color: "text-[#0000EE]", bg: "bg-[#0000EE]/5", desc: "Automate intake and qualification with human-like AI. Handle 24/7 high-volume leads." },
+                { title: "Phone Hub", icon: Layers, color: "text-[#0000EE]", bg: "bg-[#0000EE]/5", desc: "Unified data intelligence synced to your entire stack. No more manual CRM data entry." }
               ].map((item, i) => (
                 <motion.div key={i} variants={fadeIn}>
-                  <Card className="bg-white border border-slate-100 rounded-[2.5rem] p-10 text-left hover:shadow-2xl hover:shadow-[#0000EE]/5 transition-all cursor-pointer group h-full">
-                    <div className={`w-12 h-12 rounded-2xl ${item.bg} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}><item.icon className={`w-6 h-6 ${item.color} stroke-[1.5]`} /></div>
-                    <h3 className="text-2xl font-black text-[#111] mb-3">{item.title}</h3>
-                    <p className="text-[15px] text-slate-400 font-medium leading-relaxed">{item.desc}</p>
+                  <Card className="bg-white border border-slate-100 rounded-[3rem] p-12 text-left hover:shadow-2xl hover:shadow-[#0000EE]/5 transition-all cursor-pointer group h-full">
+                    <div className={`w-14 h-14 rounded-2xl ${item.bg} flex items-center justify-center mb-8 group-hover:scale-110 transition-transform`}><item.icon className={`w-7 h-7 ${item.color} stroke-[1.5]`} /></div>
+                    <h3 className="text-3xl font-black text-[#111] mb-4 tracking-tight">{item.title}</h3>
+                    <p className="text-[16px] text-slate-400 font-medium leading-relaxed">{item.desc}</p>
                   </Card>
                 </motion.div>
               ))}
