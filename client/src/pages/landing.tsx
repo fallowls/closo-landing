@@ -188,7 +188,7 @@ export default function Landing() {
               transition={{ delay: 0.5 }}
               className="flex flex-col sm:flex-row gap-4 mb-12"
             >
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 h-14 text-sm font-bold rounded-2xl shadow-xl shadow-blue-500/20 transition-all hover:scale-[1.02]" onClick={() => window.location.href='/dashboard'}>Start for free</Button>
+              <Button size="lg" className="bg-[#111] hover:bg-[#000] text-white px-8 h-14 text-sm font-bold rounded-2xl shadow-xl transition-all hover:scale-[1.02]" onClick={() => window.location.href='/dashboard'}>Start for free</Button>
               <Button variant="outline" size="lg" className="px-8 h-14 text-sm border-slate-200 text-slate-700 bg-white rounded-2xl hover:bg-slate-50 hover:border-slate-300 transition-all">Book a demo</Button>
             </motion.div>
           </div>
@@ -201,7 +201,7 @@ export default function Landing() {
           >
             <div className="relative w-full h-full rounded-[3rem] overflow-hidden shadow-2xl border border-white/50">
               <img 
-                src="/src/assets/hero-main.png" 
+                src="/src/assets/hero-v2.png" 
                 alt="Closo Platform" 
                 className="w-full h-full object-cover"
               />
