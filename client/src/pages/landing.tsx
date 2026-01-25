@@ -142,159 +142,151 @@ export default function Landing() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-6 left-0 right-0 z-50 flex justify-center px-6`}
+        className={`fixed top-0 left-0 right-0 z-50 flex justify-center px-6 pt-4`}
       >
-        <nav className={`flex items-center justify-between px-8 py-3 rounded-2xl border transition-all duration-500 ${showHeader ? 'bg-white/80 backdrop-blur-xl border-slate-200/60 shadow-[0_8px_32px_rgba(0,0,0,0.04)] w-full max-w-[900px]' : 'bg-transparent border-transparent w-full max-w-[1200px]'}`}>
-          <div className="flex items-center gap-12">
-            <Link href="/"><img src={closoLogo} alt="Closo" className="h-10 w-auto cursor-pointer object-contain transition-transform hover:scale-105" /></Link>
-            <div className="hidden lg:flex items-center gap-8">
+        <nav className={`flex items-center justify-between px-6 py-2 rounded-xl border transition-all duration-500 ${showHeader ? 'bg-white/80 backdrop-blur-xl border-slate-200/60 shadow-sm w-full max-w-[800px]' : 'bg-transparent border-transparent w-full max-w-[1000px]'}`}>
+          <div className="flex items-center gap-10">
+            <Link href="/"><img src={closoLogo} alt="Closo" className="h-8 w-auto cursor-pointer object-contain" /></Link>
+            <div className="hidden lg:flex items-center gap-6">
               {['Features', 'Intelligence', 'Pricing'].map(item => (
-                <div key={item} className="flex items-center gap-1 cursor-pointer group">
-                  <span className="text-[13px] font-semibold text-slate-500 group-hover:text-[#111] transition-colors">{item}</span>
+                <div key={item} className="cursor-pointer group">
+                  <span className="text-[12px] font-medium text-slate-500 group-hover:text-[#111] transition-colors">{item}</span>
                 </div>
               ))}
             </div>
           </div>
-          <div className="flex items-center gap-6">
-            <a href="https://app.thecloso.com" className="text-[13px] font-semibold text-slate-500 hover:text-[#111] transition-colors">Log in</a>
-            <Button className="bg-[#111] hover:bg-[#000] text-white px-6 h-10 text-[13px] font-bold rounded-xl shadow-lg transition-all hover:scale-[1.02]" onClick={() => window.location.href='https://app.thecloso.com'}>Get Started</Button>
+          <div className="flex items-center gap-4">
+            <a href="https://app.thecloso.com" className="text-[12px] font-medium text-slate-500 hover:text-[#111] transition-colors">Log in</a>
+            <Button className="bg-[#111] hover:bg-[#000] text-white px-4 h-8 text-[12px] font-medium rounded-lg shadow-sm" onClick={() => window.location.href='https://app.thecloso.com'}>Get Started</Button>
           </div>
         </nav>
       </motion.div>
 
-      <section className="relative pt-48 pb-32 px-6">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10">
-          <div className="text-left">
-            <motion.h1 
-              {...fadeIn}
-              transition={{ delay: 0.3 }}
-              className="text-[52px] md:text-[80px] font-extrabold tracking-tight mb-8 leading-[0.9] text-slate-900"
-            >
-              The phone <br /> 
-              platform for <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">B2B commerce</span>
-            </motion.h1>
-            
-            <motion.p 
-              {...fadeIn}
-              transition={{ delay: 0.4 }}
-              className="text-[19px] text-slate-600/90 mb-12 max-w-lg leading-relaxed font-medium"
-            >
-              Empower your sales team with parallel dialing, real-time AI insights, and seamless CRM synchronization.
-            </motion.p>
-            
-            <motion.div 
-              {...fadeIn}
-              transition={{ delay: 0.5 }}
-              className="flex flex-col sm:flex-row gap-4 mb-12"
-            >
-              <Button size="lg" className="bg-[#111] hover:bg-[#000] text-white px-8 h-14 text-sm font-bold rounded-2xl shadow-xl transition-all hover:scale-[1.02]" onClick={() => window.location.href='https://app.thecloso.com'}>Start for free</Button>
-              <Button variant="outline" size="lg" className="px-8 h-14 text-sm border-slate-200 text-slate-700 bg-white rounded-2xl hover:bg-slate-50 hover:border-slate-300 transition-all">Book a demo</Button>
-            </motion.div>
-          </div>
+      <section className="relative pt-40 pb-20 px-6">
+        <div className="max-w-5xl mx-auto flex flex-col items-center text-center relative z-10">
+          <motion.h1 
+            {...fadeIn}
+            transition={{ delay: 0.3 }}
+            className="text-[40px] md:text-[56px] font-bold tracking-tight mb-6 leading-[1.1] text-slate-900"
+          >
+            The phone platform for <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">B2B commerce</span>
+          </motion.h1>
+          
+          <motion.p 
+            {...fadeIn}
+            transition={{ delay: 0.4 }}
+            className="text-[16px] text-slate-500 mb-10 max-w-lg leading-relaxed font-normal"
+          >
+            Empower your sales team with parallel dialing, real-time AI insights, and seamless CRM synchronization.
+          </motion.p>
+          
+          <motion.div 
+            {...fadeIn}
+            transition={{ delay: 0.5 }}
+            className="flex flex-col sm:flex-row gap-3 mb-16"
+          >
+            <Button className="bg-[#111] hover:bg-[#000] text-white px-6 h-11 text-sm font-medium rounded-xl shadow-md" onClick={() => window.location.href='https://app.thecloso.com'}>Start for free</Button>
+            <Button variant="outline" className="px-6 h-11 text-sm border-slate-200 text-slate-600 bg-white rounded-xl hover:bg-slate-50">Book a demo</Button>
+          </motion.div>
 
           <motion.div 
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full aspect-square flex items-center justify-center"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            className="relative w-full max-w-4xl"
           >
-            <div className="relative w-full h-full rounded-[3rem] overflow-hidden shadow-2xl border border-white/50">
+            <div className="relative w-full rounded-2xl overflow-hidden shadow-xl border border-slate-100 bg-white">
               <img 
                 src="/src/assets/hero-dashboard-skeleton.png" 
-                alt="Closo Platform Dashboard" 
-                className="w-full h-full object-cover"
+                alt="Closo Dashboard" 
+                className="w-full h-auto object-contain p-2"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent" />
             </div>
-            
-            <motion.div 
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="absolute -left-4 top-1/4 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-2xl border border-slate-100 z-30 animate-bounce-slow min-w-[180px] backface-hidden perspective-1000 transform-gpu"
-              style={{ WebkitBackfaceVisibility: 'hidden', WebkitFontSmoothing: 'antialiased' }}
-            >
-              <div className="flex items-center gap-2 mb-1 transform-gpu">
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Voicemail dropped</span>
-              </div>
-              <div className="text-2xl font-black text-[#111] tracking-tight transform-gpu">$24,850</div>
-              <div className="text-[9px] text-slate-400 font-bold transform-gpu">Total revenue</div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ x: 20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.7, duration: 0.8 }}
-              className="absolute -right-4 top-2/3 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-2xl border border-slate-100 z-30 animate-float min-w-[200px] backface-hidden perspective-1000 transform-gpu"
-              style={{ WebkitBackfaceVisibility: 'hidden', WebkitFontSmoothing: 'antialiased' }}
-            >
-               <div className="flex items-center gap-3 transform-gpu">
-                 <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-white text-[12px] font-black">CH</div>
-                 <div className="text-left">
-                   <div className="text-[12px] font-black text-[#111]">Charlie Hawkins</div>
-                   <div className="flex gap-1 mt-0.5">
-                      <div className="px-2 py-0.5 bg-emerald-100 text-emerald-600 rounded text-[8px] font-black uppercase tracking-wider">Active</div>
-                   </div>
-                 </div>
-               </div>
-            </motion.div>
           </motion.div>
-        </div>
-
-        <div className="max-w-7xl mx-auto">
         </div>
       </section>
 
-      <section className="py-32 bg-white text-center overflow-hidden">
-        <motion.div 
-          initial="initial"
-          whileInView="whileInView"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={staggerContainer}
-          className="max-w-7xl mx-auto px-6"
-        >
-           <motion.div variants={fadeIn} className="inline-flex items-center px-4 py-1.5 rounded-full bg-slate-50 text-slate-500 text-[11px] font-black uppercase tracking-[0.2em] mb-8 border border-slate-100/50">Introducing Closo</motion.div>
-           <motion.h2 variants={fadeIn} className="text-[48px] md:text-[64px] font-black text-[#111] mb-6 leading-[1.1] tracking-tighter">A voice platform <br /> built for high-growth</motion.h2>
-           <motion.p variants={fadeIn} className="text-[20px] text-slate-500/80 mb-20 max-w-3xl mx-auto font-medium leading-relaxed">Everything you need to turn every phone interaction into a measurable revenue driver.</motion.p>
+      <section className="py-24 bg-white border-y border-slate-50">
+        <div className="max-w-5xl mx-auto px-6">
+           <div className="text-center mb-16">
+             <div className="text-[10px] font-bold text-blue-600 uppercase tracking-[0.2em] mb-4">Core Platform</div>
+             <h2 className="text-[32px] font-bold text-[#111] tracking-tight">Built for high-growth</h2>
+           </div>
            
-           <div className="grid md:grid-cols-3 gap-8">
+           <div className="grid md:grid-cols-3 gap-6">
               {[
-                { title: "Power Dialer", icon: PhoneCall, color: "text-[#0000EE]", bg: "bg-[#0000EE]/5", desc: "Scale outbound volume without the manual friction. Connect with up to 3x more prospects." },
-                { title: "Voice Agents", icon: Mic, color: "text-[#0000EE]", bg: "bg-[#0000EE]/5", desc: "Automate intake and qualification with human-like AI. Handle 24/7 high-volume leads." },
-                { title: "Phone Hub", icon: Layers, color: "text-[#0000EE]", bg: "bg-[#0000EE]/5", desc: "Unified data intelligence synced to your entire stack. No more manual CRM data entry." }
+                { title: "Power Dialer", icon: PhoneCall, desc: "Scale outbound volume without manual friction. Connect with 3x more prospects." },
+                { title: "Voice Agents", icon: Mic, desc: "Automate intake and qualification with human-like AI. Handle 24/7 leads." },
+                { title: "Phone Hub", icon: Layers, desc: "Unified data intelligence synced to your entire stack. No more manual entry." }
               ].map((item, i) => (
-                <motion.div key={i} variants={fadeIn}>
-                  <Card className="bg-white border border-slate-100 rounded-[2.5rem] p-10 text-left hover:shadow-2xl hover:shadow-[#0000EE]/5 transition-all cursor-pointer group h-full">
-                    <div className={`w-12 h-12 rounded-2xl ${item.bg} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}><item.icon className={`w-6 h-6 ${item.color} stroke-[1.5]`} /></div>
-                    <h3 className="text-2xl font-black text-[#111] mb-3 tracking-tight">{item.title}</h3>
-                    <p className="text-[14px] text-slate-400 font-medium leading-relaxed">{item.desc}</p>
-                  </Card>
-                </motion.div>
+                <div key={i} className="p-8 rounded-2xl border border-slate-50 bg-slate-50/30 text-left">
+                  <div className="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center mb-6 shadow-sm"><item.icon className="w-5 h-5 text-blue-600" /></div>
+                  <h3 className="text-lg font-bold text-[#111] mb-2">{item.title}</h3>
+                  <p className="text-[13px] text-slate-500 leading-relaxed font-normal">{item.desc}</p>
+                </div>
               ))}
            </div>
-        </motion.div>
+        </div>
       </section>
 
-      <section className="py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="space-y-6"
-          >
-            <div className="inline-flex items-center px-3 py-1 bg-purple-100 text-purple-600 rounded-lg text-[11px] font-black uppercase tracking-wider">Outbound Phone</div>
-            <h2 className="text-[44px] font-bold text-[#111] leading-tight tracking-tight">Add a new <br /> sales channel</h2>
-            <ul className="space-y-4 text-[17px] text-slate-600 font-medium">
-               <li className="flex gap-2"><span className="text-purple-500 font-bold">•</span><span>Call shoppers at the perfect moment based on intent.</span></li>
-               <li className="flex gap-2"><span className="text-purple-500 font-bold">•</span><span>Automatically drop personalized voicemails to missed calls.</span></li>
-               <li className="flex gap-2"><span className="text-purple-500 font-bold">•</span><span>Run campaigns on high-value segments like abandoned carts.</span></li>
+      <section className="py-24 bg-[#F8FAFC]">
+        <div className="max-w-5xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
+          <div className="lg:w-1/2 space-y-6">
+            <div className="text-[10px] font-bold text-purple-600 uppercase tracking-wider">The Experience</div>
+            <h2 className="text-[32px] font-bold text-[#111] leading-tight tracking-tight">Unified workflow. <br /> Maximum impact.</h2>
+            <p className="text-[15px] text-slate-500 leading-relaxed font-normal">
+              Stop switching tabs. Closo brings your entire sales workflow into a single, compact interface that matches your pace.
+            </p>
+            <ul className="space-y-3">
+              {["Smart intent detection", "Instant CRM sync", "Automated follow-ups"].map(text => (
+                <li key={text} className="flex items-center gap-3 text-[13px] text-slate-600">
+                  <div className="w-4 h-4 rounded-full bg-emerald-50 flex items-center justify-center"><CheckCircle2 className="w-2.5 h-2.5 text-emerald-500" /></div>
+                  {text}
+                </li>
+              ))}
             </ul>
-            <Button className="bg-[#111] text-white px-8 h-12 rounded-xl font-bold text-sm shadow-lg" onClick={() => window.location.href='https://app.thecloso.com'}>Tour the platform</Button>
-          </motion.div>
+          </div>
+          <div className="lg:w-1/2 w-full">
+            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-lg">
+              <div className="h-48 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center">
+                <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Interface Preview</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* New compact sections for long page feel */}
+      <section className="py-24 bg-white">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <div className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider mb-4">AI Intelligence</div>
+          <h2 className="text-[32px] font-bold text-[#111] mb-12 tracking-tight">Real-time insights for every call</h2>
+          <div className="grid md:grid-cols-2 gap-8 text-left">
+            <div className="p-8 rounded-2xl border border-slate-50 bg-slate-50/50">
+              <h3 className="text-lg font-bold mb-3">Live Transcription</h3>
+              <p className="text-[13px] text-slate-500 leading-relaxed">Watch calls turn into data in real-time. Never miss a detail with automated note-taking.</p>
+            </div>
+            <div className="p-8 rounded-2xl border border-slate-50 bg-slate-50/50">
+              <h3 className="text-lg font-bold mb-3">Sentiment Analysis</h3>
+              <p className="text-[13px] text-slate-500 leading-relaxed">Understand customer mood instantly. AI flags high-intent moments for your team.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-[#0F172A] text-white overflow-hidden">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <h2 className="text-[32px] font-bold mb-6 tracking-tight">Ready to scale your commerce?</h2>
+          <p className="text-slate-400 text-[15px] mb-10 max-w-lg mx-auto">Join the high-growth teams already using Closo to dominate their phone sales.</p>
+          <Button className="bg-white text-[#111] hover:bg-slate-100 px-8 h-12 rounded-xl font-bold" onClick={() => window.location.href='https://app.thecloso.com'}>Get Started Now</Button>
+        </div>
+      </section>
+
+      <EnterpriseFooter />
+    </div>
+  );
+}
           <motion.div 
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
