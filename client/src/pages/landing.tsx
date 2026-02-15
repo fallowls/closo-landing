@@ -2,9 +2,12 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { 
   PhoneCall,
+  Users,
   Zap,
   CheckCircle2,
+  Layers,
   Mic,
+  Activity,
   RefreshCw,
   Search,
   Target,
@@ -18,8 +21,6 @@ import {
   Sparkles,
   Database,
   Cloud,
-  Layers,
-  Activity,
   MousePointer2
 } from "lucide-react";
 import { useLocation, Link } from "wouter";
@@ -35,221 +36,22 @@ const fadeIn = {
   transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
 };
 
-const VideoAnimation = () => {
-  const [step, setStep] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setStep((prev) => (prev + 1) % 4);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
-
-  return (
-    <div className="relative w-full aspect-video rounded-3xl overflow-hidden bg-[#0A0A0A] border border-white/10 shadow-2xl group">
-      <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#171717_0%,#000000_100%)]" />
-      
-      <AnimatePresence mode="wait">
-        {step === 0 && (
-          <motion.div 
-            key="crm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 flex items-center justify-center p-12"
-          >
-            <div className="flex items-center gap-12">
-              <motion.div 
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                className="w-24 h-24 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-sm shadow-[0_0_30px_rgba(59,130,246,0.1)]"
-              >
-                <Cloud className="w-12 h-12 text-blue-400" />
-                <div className="absolute -bottom-8 text-blue-400 text-[10px] font-bold uppercase tracking-widest">CRM Source</div>
-              </motion.div>
-              
-              <div className="flex flex-col gap-4">
-                {[0, 1, 2].map((i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ delay: i * 0.2 }}
-                    className="h-1 w-32 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-full origin-left"
-                  />
-                ))}
-              </div>
-
-              <motion.div 
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="w-32 h-32 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center shadow-2xl relative"
-              >
-                <Database className="w-14 h-14 text-white" />
-                <motion.div 
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                  className="absolute inset-0 rounded-3xl border border-blue-500/30 border-dashed"
-                />
-                <div className="absolute -bottom-8 text-white text-[10px] font-bold uppercase tracking-widest">Closo Memory</div>
-              </motion.div>
-            </div>
-            <div className="absolute bottom-12 text-center">
-              <h3 className="text-white text-lg font-bold mb-2">Infinite Context Ingestion</h3>
-              <p className="text-slate-400 text-sm">Every contact interaction, note, and CRM detail synced instantly.</p>
-            </div>
-          </motion.div>
-        )}
-
-        {step === 1 && (
-          <motion.div 
-            key="contact"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 flex items-center justify-center"
-          >
-            <div className="grid grid-cols-2 gap-4 w-full max-w-2xl px-12">
-              {[
-                { name: "Global Account", status: "Indexing", progress: 100 },
-                { name: "Strategic Lead", status: "Indexing", progress: 85 },
-                { name: "Key Stakeholder", status: "Ready", progress: 100 },
-                { name: "Enterprise Hub", status: "Indexing", progress: 92 }
-              ].map((contact, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="bg-white/5 border border-white/10 p-5 rounded-2xl flex flex-col gap-3"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="text-xs font-bold text-white">{contact.name}</div>
-                    <div className="text-[10px] font-bold text-blue-400">{contact.status}</div>
-                  </div>
-                  <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: `${contact.progress}%` }}
-                      transition={{ duration: 2, delay: i * 0.2 }}
-                      className="h-full bg-blue-500"
-                    />
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-            <div className="absolute bottom-12 text-center">
-              <h3 className="text-white text-lg font-bold mb-2">Automated Memory Indexing</h3>
-              <p className="text-slate-400 text-sm">AI-driven extraction of intent, sentiment, and relationship graphs.</p>
-            </div>
-          </motion.div>
-        )}
-
-        {step === 2 && (
-          <motion.div 
-            key="dialer"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 flex items-center justify-center"
-          >
-            <div className="relative w-full max-w-3xl flex justify-center items-center gap-12">
-              <div className="flex flex-col gap-6">
-                {[0, 1, 2, 3].map((i) => (
-                  <motion.div
-                    key={i}
-                    className="flex items-center gap-4"
-                  >
-                    <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
-                      <PhoneCall className={`w-4 h-4 ${i === 1 ? 'text-blue-400' : 'text-white/20'}`} />
-                    </div>
-                    <motion.div 
-                      className={`h-1 rounded-full ${i === 1 ? 'bg-blue-400' : 'bg-white/5'}`}
-                      initial={{ width: 0 }}
-                      animate={{ width: i === 1 ? 200 : 100 }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    />
-                  </motion.div>
-                ))}
-              </div>
-              <motion.div 
-                animate={{ scale: [1, 1.05, 1], rotate: 360 }}
-                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                className="w-24 h-24 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center relative"
-              >
-                <Zap className="w-10 h-10 text-blue-400" />
-                <div className="absolute inset-[-10px] rounded-full border border-blue-500/20 border-dashed" />
-              </motion.div>
-            </div>
-            <div className="absolute bottom-12 text-center">
-              <h3 className="text-white text-lg font-bold mb-2">High-Fidelity Parallel Dialing</h3>
-              <p className="text-slate-400 text-sm">Scaling outbound without sacrificing context or quality.</p>
-            </div>
-          </motion.div>
-        )}
-
-        {step === 3 && (
-          <motion.div 
-            key="success"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 flex items-center justify-center p-12"
-          >
-            <div className="grid grid-cols-2 gap-6">
-              {[
-                { label: "Connect Rate", value: "+400%", icon: TrendingUp },
-                { label: "Data Accuracy", value: "99.9%", icon: ShieldCheck },
-                { label: "Time Saved", value: "12h/wk", icon: Sparkles },
-                { label: "Pipeline Lift", value: "3.2x", icon: BarChart3 }
-              ].map((stat, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col items-center justify-center backdrop-blur-sm"
-                >
-                  <stat.icon className="w-5 h-5 text-blue-400 mb-3" />
-                  <div className="text-2xl font-black text-white mb-1">{stat.value}</div>
-                  <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{stat.label}</div>
-                </motion.div>
-              ))}
-            </div>
-            <div className="absolute bottom-12 text-center">
-              <h3 className="text-white text-lg font-bold mb-2">Enterprise-Grade Performance</h3>
-              <p className="text-slate-400 text-sm">Built on context engineering infrastructure for scale.</p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5">
-        {[0, 1, 2, 3].map((i) => (
-          <div key={i} className="w-8 h-1 bg-white/10 rounded-full overflow-hidden">
-            {step === i && (
-              <motion.div 
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 5, ease: "linear" }}
-                className="h-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"
-              />
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
 export default function Landing() {
   const [showHeader, setShowHeader] = useState(false);
+  const [step, setStep] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => setShowHeader(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    const timer = setInterval(() => {
+      setStep((prev) => (prev + 1) % 4);
+    }, 5000);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearInterval(timer);
+    };
   }, []);
 
   return (
@@ -332,7 +134,200 @@ export default function Landing() {
             transition={{ duration: 1, delay: 0.3 }}
             className="w-full max-w-5xl"
           >
-            <VideoAnimation />
+            <div className="relative w-full aspect-video rounded-3xl overflow-hidden bg-[#0A0A0A] border border-white/10 shadow-2xl group">
+              <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#171717_0%,#000000_100%)]" />
+              
+              <AnimatePresence mode="wait">
+                {step === 0 && (
+                  <motion.div 
+                    key="crm"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 flex items-center justify-center p-12"
+                  >
+                    <div className="flex items-center gap-12">
+                      <motion.div 
+                        initial={{ x: -100, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        className="w-24 h-24 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-sm shadow-[0_0_30px_rgba(59,130,246,0.1)]"
+                      >
+                        <Cloud className="w-12 h-12 text-blue-400" />
+                        <div className="absolute -bottom-8 text-blue-400 text-[10px] font-bold uppercase tracking-widest">CRM Source</div>
+                      </motion.div>
+                      
+                      <div className="flex flex-col gap-4">
+                        {[0, 1, 2].map((i) => (
+                          <motion.div
+                            key={i}
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: 1 }}
+                            transition={{ delay: i * 0.2 }}
+                            className="h-1 w-32 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-full origin-left"
+                          />
+                        ))}
+                      </div>
+
+                      <motion.div 
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="w-32 h-32 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center shadow-2xl relative"
+                      >
+                        <Database className="w-14 h-14 text-white" />
+                        <motion.div 
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                          className="absolute inset-0 rounded-3xl border border-blue-500/30 border-dashed"
+                        />
+                        <div className="absolute -bottom-8 text-white text-[10px] font-bold uppercase tracking-widest">Closo Memory</div>
+                      </motion.div>
+                    </div>
+                    <div className="absolute bottom-12 text-center">
+                      <h3 className="text-white text-lg font-bold mb-2">Infinite Context Ingestion</h3>
+                      <p className="text-slate-400 text-sm">Every contact interaction, note, and CRM detail synced instantly.</p>
+                    </div>
+                  </motion.div>
+                )}
+
+                {step === 1 && (
+                  <motion.div 
+                    key="contact"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 flex items-center justify-center"
+                  >
+                    <div className="grid grid-cols-2 gap-4 w-full max-w-2xl px-12">
+                      {[
+                        { name: "Global Account", status: "Indexing", progress: 100 },
+                        { name: "Strategic Lead", status: "Indexing", progress: 85 },
+                        { name: "Key Stakeholder", status: "Ready", progress: 100 },
+                        { name: "Enterprise Hub", status: "Indexing", progress: 92 }
+                      ].map((contact, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ delay: i * 0.1 }}
+                          className="bg-white/5 border border-white/10 p-5 rounded-2xl flex flex-col gap-3"
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="text-xs font-bold text-white">{contact.name}</div>
+                            <div className="text-[10px] font-bold text-blue-400">{contact.status}</div>
+                          </div>
+                          <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                            <motion.div 
+                              initial={{ width: 0 }}
+                              animate={{ width: `${contact.progress}%` }}
+                              transition={{ duration: 2, delay: i * 0.2 }}
+                              className="h-full bg-blue-500"
+                            />
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                    <div className="absolute bottom-12 text-center">
+                      <h3 className="text-white text-lg font-bold mb-2">Automated Memory Indexing</h3>
+                      <p className="text-slate-400 text-sm">AI-driven extraction of intent, sentiment, and relationship graphs.</p>
+                    </div>
+                  </motion.div>
+                )}
+
+                {step === 2 && (
+                  <motion.div 
+                    key="dialer"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 flex items-center justify-center"
+                  >
+                    <div className="relative w-full max-w-3xl flex justify-center items-center gap-12">
+                      <div className="flex flex-col gap-6">
+                        {[0, 1, 2, 3].map((i) => (
+                          <motion.div
+                            key={i}
+                            className="flex items-center gap-4"
+                          >
+                            <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+                              <PhoneCall className={`w-4 h-4 ${i === 1 ? 'text-blue-400' : 'text-white/20'}`} />
+                            </div>
+                            <motion.div 
+                              className={`h-1 rounded-full ${i === 1 ? 'bg-blue-400' : 'bg-white/5'}`}
+                              initial={{ width: 0 }}
+                              animate={{ width: i === 1 ? 200 : 100 }}
+                              transition={{ duration: 1.5, repeat: Infinity }}
+                            />
+                          </motion.div>
+                        ))}
+                      </div>
+                      <motion.div 
+                        animate={{ scale: [1, 1.05, 1], rotate: 360 }}
+                        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                        className="w-24 h-24 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center relative"
+                      >
+                        <Zap className="w-10 h-10 text-blue-400" />
+                        <div className="absolute inset-[-10px] rounded-full border border-blue-500/20 border-dashed" />
+                      </motion.div>
+                    </div>
+                    <div className="absolute bottom-12 text-center">
+                      <h3 className="text-white text-lg font-bold mb-2">High-Fidelity Parallel Dialing</h3>
+                      <p className="text-slate-400 text-sm">Scaling outbound without sacrificing context or quality.</p>
+                    </div>
+                  </motion.div>
+                )}
+
+                {step === 3 && (
+                  <motion.div 
+                    key="success"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 flex items-center justify-center p-12"
+                  >
+                    <div className="grid grid-cols-2 gap-6">
+                      {[
+                        { label: "Connect Rate", value: "+400%", icon: TrendingUp },
+                        { label: "Data Accuracy", value: "99.9%", icon: ShieldCheck },
+                        { label: "Time Saved", value: "12h/wk", icon: Sparkles },
+                        { label: "Pipeline Lift", value: "3.2x", icon: BarChart3 }
+                      ].map((stat, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ scale: 0.9, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{ delay: i * 0.1 }}
+                          className="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col items-center justify-center backdrop-blur-sm"
+                        >
+                          <stat.icon className="w-5 h-5 text-blue-400 mb-3" />
+                          <div className="text-2xl font-black text-white mb-1">{stat.value}</div>
+                          <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{stat.label}</div>
+                        </motion.div>
+                      ))}
+                    </div>
+                    <div className="absolute bottom-12 text-center">
+                      <h3 className="text-white text-lg font-bold mb-2">Enterprise-Grade Performance</h3>
+                      <p className="text-slate-400 text-sm">Built on context engineering infrastructure for scale.</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5">
+                {[0, 1, 2, 3].map((i) => (
+                  <div key={i} className="w-8 h-1 bg-white/10 rounded-full overflow-hidden">
+                    {step === i && (
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: "100%" }}
+                        transition={{ duration: 5, ease: "linear" }}
+                        className="h-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
