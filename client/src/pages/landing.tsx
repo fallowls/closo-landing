@@ -2,12 +2,9 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { 
   PhoneCall,
-  Users,
   Zap,
   CheckCircle2,
-  Layers,
   Mic,
-  Activity,
   RefreshCw,
   Search,
   Target,
@@ -21,7 +18,11 @@ import {
   Sparkles,
   Database,
   Cloud,
-  MousePointer2
+  Layers,
+  Activity,
+  ArrowRight,
+  ChevronRight,
+  Plus
 } from "lucide-react";
 import { useLocation, Link } from "wouter";
 import closoLogo from "../assets/closo_logo.png";
@@ -30,389 +31,290 @@ import { SEO } from "@/components/SEO";
 import { motion, AnimatePresence } from "framer-motion";
 
 const fadeIn = {
-  initial: { opacity: 0, y: 15 },
+  initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-100px" },
-  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
+  transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+};
+
+const staggerContainer = {
+  initial: {},
+  whileInView: { transition: { staggerChildren: 0.1 } }
 };
 
 export default function Landing() {
   const [showHeader, setShowHeader] = useState(false);
-  const [step, setStep] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => setShowHeader(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
-    
-    const timer = setInterval(() => {
-      setStep((prev) => (prev + 1) % 4);
-    }, 5000);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      clearInterval(timer);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-[#A1A1AA] selection:bg-blue-500/30 font-sans tracking-tight overflow-x-hidden">
+    <div className="min-h-screen bg-black text-[#A1A1AA] selection:bg-blue-500/30 font-sans tracking-tight overflow-x-hidden">
       <SEO 
-        title="Closo | Context Engineering for Modern Sales" 
-        description="The dialer infrastructure for high-growth teams. Automated CRM sync, AI scoring, and parallel dialing in one high-fidelity interface."
+        title="Closo | Intelligent Automation for Modern Businesses" 
+        description="Xtract brings AI automation to your fingertips & streamlines tasks. Built for high-growth teams."
       />
       
-      {/* Dynamic Dark Background */}
+      {/* Background Effects */}
       <div className="fixed inset-0 z-[-1] pointer-events-none">
-        <div className="absolute inset-0 bg-[#050505]" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-[600px] bg-blue-500/5 blur-[120px] rounded-full" />
-        <div className="absolute inset-0 opacity-[0.2] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
+        <div className="absolute inset-0 bg-black" />
+        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-full max-w-6xl h-[800px] bg-purple-500/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[-10%] right-0 w-[600px] h-[600px] bg-blue-500/5 blur-[120px] rounded-full" />
+        <div className="absolute inset-0 opacity-[0.15] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
       </div>
 
+      {/* Navigation */}
       <motion.div 
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.6 }}
         className="fixed top-0 left-0 right-0 z-50 flex justify-center px-6 pt-6"
       >
-        <nav className={`flex items-center justify-between px-6 py-2 rounded-2xl border transition-all duration-500 ${showHeader ? 'bg-white/5 backdrop-blur-xl border-white/10 shadow-2xl w-full max-w-[800px]' : 'bg-transparent border-transparent w-full max-w-[1000px]'}`}>
-          <div className="flex items-center gap-10">
-            <Link href="/"><img src={closoLogo} alt="Closo" className="h-7 w-auto cursor-pointer object-contain brightness-0 invert" /></Link>
-            <div className="hidden lg:flex items-center gap-6">
-              {['Infrastructure', 'Pricing', 'Docs'].map(item => (
+        <nav className={`flex items-center justify-between px-6 py-2.5 rounded-2xl border transition-all duration-500 ${showHeader ? 'bg-black/40 backdrop-blur-xl border-white/10 shadow-2xl w-full max-w-[900px]' : 'bg-transparent border-transparent w-full max-w-[1100px]'}`}>
+          <div className="flex items-center gap-12">
+            <Link href="/"><img src={closoLogo} alt="Closo" className="h-7 w-auto object-contain brightness-0 invert" /></Link>
+            <div className="hidden lg:flex items-center gap-8">
+              {['Services', 'Process', 'Case Studies', 'Pricing'].map(item => (
                 <div key={item} className="cursor-pointer group">
-                  <span className="text-[12px] font-medium text-slate-400 group-hover:text-white transition-colors">{item}</span>
+                  <span className="text-[13px] font-medium text-slate-400 group-hover:text-white transition-colors">{item}</span>
                 </div>
               ))}
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <a href="https://app.thecloso.com" className="text-[12px] font-medium text-slate-400 hover:text-white transition-colors">Log in</a>
-            <Button className="bg-white hover:bg-slate-200 text-black px-4 h-8 text-[12px] font-bold rounded-xl transition-all active:scale-95" onClick={() => window.location.href='https://app.thecloso.com'}>Get Started</Button>
+          <div className="flex items-center gap-6">
+            <a href="https://app.thecloso.com" className="text-[13px] font-medium text-slate-400 hover:text-white transition-colors">Log in</a>
+            <Button className="bg-white hover:bg-slate-200 text-black px-5 h-9 text-[13px] font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)]" onClick={() => window.location.href='https://app.thecloso.com'}>Get Started</Button>
           </div>
         </nav>
       </motion.div>
 
-      <section className="relative pt-48 pb-32 px-6">
+      {/* Hero Section */}
+      <section className="relative pt-56 pb-32 px-6">
         <div className="max-w-5xl mx-auto flex flex-col items-center text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="mb-8 px-3 py-1 rounded-full bg-white/5 border border-white/10 flex items-center gap-2 backdrop-blur-sm"
+            className="mb-8 px-4 py-1 rounded-full bg-white/5 border border-white/10 flex items-center gap-2 backdrop-blur-md"
           >
-            <Sparkles className="w-3 h-3 text-blue-400" />
-            <span className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">Context Infrastructure for Sales</span>
+            <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+            <span className="text-[11px] font-bold text-slate-300 uppercase tracking-[0.2em]">Intelligent Automation</span>
           </motion.div>
 
           <motion.h1 
             {...fadeIn}
-            className="text-[44px] md:text-[72px] font-bold tracking-tight mb-8 leading-[1] text-white"
+            className="text-[48px] md:text-[84px] font-bold tracking-tight mb-8 leading-[0.95] text-white"
           >
-            The dialer infrastructure <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-white to-slate-400">for high-growth teams</span>
+            Intelligent <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-slate-500">Automation for</span> <br />
+            Modern Businesses.
           </motion.h1>
           
           <motion.p 
             {...fadeIn}
-            transition={{ ...fadeIn.transition, delay: 0.1 }}
-            className="text-[17px] text-slate-400 mb-12 max-w-2xl leading-relaxed font-normal"
+            transition={{ delay: 0.1 }}
+            className="text-[18px] text-slate-400 mb-12 max-w-2xl leading-relaxed font-normal"
           >
-            Closo gives your sales team state-of-the-art memory, automated lead scoring, CRM connectors, and parallel dialing - all built in. Extremely low latency.
+            Xtract brings AI automation to your fingertips & streamlines tasks. <br className="hidden md:block" />
+            Empower your business with high-fidelity intelligence.
           </motion.p>
           
           <motion.div 
             {...fadeIn}
-            transition={{ ...fadeIn.transition, delay: 0.2 }}
-            className="flex flex-col sm:flex-row gap-4 mb-24"
+            transition={{ delay: 0.2 }}
+            className="flex flex-col sm:flex-row gap-5 mb-24"
           >
-            <Button className="bg-white hover:bg-slate-200 text-black px-10 h-14 text-[15px] font-bold rounded-2xl shadow-2xl transition-all hover:scale-105" onClick={() => window.location.href='https://app.thecloso.com'}>Setup in 5 mins</Button>
-            <Button variant="outline" className="px-10 h-14 text-[15px] font-bold border-white/10 text-white bg-white/5 hover:bg-white/10 rounded-2xl transition-all">Talk to founder →</Button>
+            <Button className="bg-white hover:bg-slate-200 text-black px-10 h-14 text-[15px] font-bold rounded-2xl shadow-2xl transition-all hover:scale-105" onClick={() => window.location.href='https://app.thecloso.com'}>Get in touch</Button>
+            <Button variant="outline" className="px-10 h-14 text-[15px] font-bold border-white/10 text-white bg-white/5 hover:bg-white/10 rounded-2xl transition-all flex items-center gap-2">View services <ArrowRight className="w-4 h-4" /></Button>
           </motion.div>
 
+          {/* Trusted By */}
           <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="w-full max-w-5xl"
+            {...fadeIn}
+            transition={{ delay: 0.3 }}
+            className="w-full flex flex-col items-center gap-8"
           >
-            <div className="relative w-full aspect-video rounded-3xl overflow-hidden bg-[#0A0A0A] border border-white/10 shadow-2xl group">
-              <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#171717_0%,#000000_100%)]" />
-              
-              <AnimatePresence mode="wait">
-                {step === 0 && (
-                  <motion.div 
-                    key="crm"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute inset-0 flex items-center justify-center p-12"
-                  >
-                    <div className="flex items-center gap-12">
-                      <motion.div 
-                        initial={{ x: -100, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        className="w-24 h-24 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-sm shadow-[0_0_30px_rgba(59,130,246,0.1)]"
-                      >
-                        <Cloud className="w-12 h-12 text-blue-400" />
-                        <div className="absolute -bottom-8 text-blue-400 text-[10px] font-bold uppercase tracking-widest">CRM Source</div>
-                      </motion.div>
-                      
-                      <div className="flex flex-col gap-4">
-                        {[0, 1, 2].map((i) => (
-                          <motion.div
-                            key={i}
-                            initial={{ scaleX: 0 }}
-                            animate={{ scaleX: 1 }}
-                            transition={{ delay: i * 0.2 }}
-                            className="h-1 w-32 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-full origin-left"
-                          />
-                        ))}
-                      </div>
-
-                      <motion.div 
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        className="w-32 h-32 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center shadow-2xl relative"
-                      >
-                        <Database className="w-14 h-14 text-white" />
-                        <motion.div 
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                          className="absolute inset-0 rounded-3xl border border-blue-500/30 border-dashed"
-                        />
-                        <div className="absolute -bottom-8 text-white text-[10px] font-bold uppercase tracking-widest">Closo Memory</div>
-                      </motion.div>
-                    </div>
-                    <div className="absolute bottom-12 text-center">
-                      <h3 className="text-white text-lg font-bold mb-2">Infinite Context Ingestion</h3>
-                      <p className="text-slate-400 text-sm">Every contact interaction, note, and CRM detail synced instantly.</p>
-                    </div>
-                  </motion.div>
-                )}
-
-                {step === 1 && (
-                  <motion.div 
-                    key="contact"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute inset-0 flex items-center justify-center"
-                  >
-                    <div className="grid grid-cols-2 gap-4 w-full max-w-2xl px-12">
-                      {[
-                        { name: "Global Account", status: "Indexing", progress: 100 },
-                        { name: "Strategic Lead", status: "Indexing", progress: 85 },
-                        { name: "Key Stakeholder", status: "Ready", progress: 100 },
-                        { name: "Enterprise Hub", status: "Indexing", progress: 92 }
-                      ].map((contact, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ y: 20, opacity: 0 }}
-                          animate={{ y: 0, opacity: 1 }}
-                          transition={{ delay: i * 0.1 }}
-                          className="bg-white/5 border border-white/10 p-5 rounded-2xl flex flex-col gap-3"
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="text-xs font-bold text-white">{contact.name}</div>
-                            <div className="text-[10px] font-bold text-blue-400">{contact.status}</div>
-                          </div>
-                          <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-                            <motion.div 
-                              initial={{ width: 0 }}
-                              animate={{ width: `${contact.progress}%` }}
-                              transition={{ duration: 2, delay: i * 0.2 }}
-                              className="h-full bg-blue-500"
-                            />
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                    <div className="absolute bottom-12 text-center">
-                      <h3 className="text-white text-lg font-bold mb-2">Automated Memory Indexing</h3>
-                      <p className="text-slate-400 text-sm">AI-driven extraction of intent, sentiment, and relationship graphs.</p>
-                    </div>
-                  </motion.div>
-                )}
-
-                {step === 2 && (
-                  <motion.div 
-                    key="dialer"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute inset-0 flex items-center justify-center"
-                  >
-                    <div className="relative w-full max-w-3xl flex justify-center items-center gap-12">
-                      <div className="flex flex-col gap-6">
-                        {[0, 1, 2, 3].map((i) => (
-                          <motion.div
-                            key={i}
-                            className="flex items-center gap-4"
-                          >
-                            <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
-                              <PhoneCall className={`w-4 h-4 ${i === 1 ? 'text-blue-400' : 'text-white/20'}`} />
-                            </div>
-                            <motion.div 
-                              className={`h-1 rounded-full ${i === 1 ? 'bg-blue-400' : 'bg-white/5'}`}
-                              initial={{ width: 0 }}
-                              animate={{ width: i === 1 ? 200 : 100 }}
-                              transition={{ duration: 1.5, repeat: Infinity }}
-                            />
-                          </motion.div>
-                        ))}
-                      </div>
-                      <motion.div 
-                        animate={{ scale: [1, 1.05, 1], rotate: 360 }}
-                        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                        className="w-24 h-24 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center relative"
-                      >
-                        <Zap className="w-10 h-10 text-blue-400" />
-                        <div className="absolute inset-[-10px] rounded-full border border-blue-500/20 border-dashed" />
-                      </motion.div>
-                    </div>
-                    <div className="absolute bottom-12 text-center">
-                      <h3 className="text-white text-lg font-bold mb-2">High-Fidelity Parallel Dialing</h3>
-                      <p className="text-slate-400 text-sm">Scaling outbound without sacrificing context or quality.</p>
-                    </div>
-                  </motion.div>
-                )}
-
-                {step === 3 && (
-                  <motion.div 
-                    key="success"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute inset-0 flex items-center justify-center p-12"
-                  >
-                    <div className="grid grid-cols-2 gap-6">
-                      {[
-                        { label: "Connect Rate", value: "+400%", icon: TrendingUp },
-                        { label: "Data Accuracy", value: "99.9%", icon: ShieldCheck },
-                        { label: "Time Saved", value: "12h/wk", icon: Sparkles },
-                        { label: "Pipeline Lift", value: "3.2x", icon: BarChart3 }
-                      ].map((stat, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ scale: 0.9, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          transition={{ delay: i * 0.1 }}
-                          className="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col items-center justify-center backdrop-blur-sm"
-                        >
-                          <stat.icon className="w-5 h-5 text-blue-400 mb-3" />
-                          <div className="text-2xl font-black text-white mb-1">{stat.value}</div>
-                          <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{stat.label}</div>
-                        </motion.div>
-                      ))}
-                    </div>
-                    <div className="absolute bottom-12 text-center">
-                      <h3 className="text-white text-lg font-bold mb-2">Enterprise-Grade Performance</h3>
-                      <p className="text-slate-400 text-sm">Built on context engineering infrastructure for scale.</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5">
-                {[0, 1, 2, 3].map((i) => (
-                  <div key={i} className="w-8 h-1 bg-white/10 rounded-full overflow-hidden">
-                    {step === i && (
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: "100%" }}
-                        transition={{ duration: 5, ease: "linear" }}
-                        className="h-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"
-                      />
-                    )}
-                  </div>
-                ))}
-              </div>
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Over 50+ businesses trust us</span>
+            <div className="flex flex-wrap justify-center gap-12 opacity-40 grayscale brightness-200">
+               {['HubSpot', 'Salesforce', 'Slack', 'Intercom', 'Linear'].map(name => (
+                 <span key={name} className="text-xl font-black italic tracking-tighter text-white">{name}</span>
+               ))}
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Bento Grid Features */}
-      <section className="py-32 border-t border-white/5 bg-[#080808]">
+      {/* Services Section - Bento Grid */}
+      <section id="services" className="py-32 border-t border-white/5 relative bg-[#080808]">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-12 gap-6 h-full">
+          <div className="text-center mb-24">
+            <div className="text-[11px] font-bold text-blue-400 uppercase tracking-widest mb-4">Our Services</div>
+            <h2 className="text-[40px] md:text-[56px] font-bold text-white tracking-tight leading-tight">AI Solutions That Take Your <br /> Business to the Next Level</h2>
+            <p className="text-slate-500 mt-6 max-w-2xl mx-auto text-lg">We design, develop, and implement automation tools that help you work smarter, not harder</p>
+          </div>
+
+          <div className="grid md:grid-cols-12 gap-6">
+            {/* Workflow Automation Card */}
             <motion.div 
               {...fadeIn}
-              className="md:col-span-8 p-10 rounded-[2.5rem] bg-white/5 border border-white/10 relative overflow-hidden group h-[400px]"
+              className="md:col-span-7 p-10 rounded-[3rem] bg-white/5 border border-white/10 relative overflow-hidden group min-h-[450px] flex flex-col justify-between"
             >
-               <div className="relative z-10 h-full flex flex-col justify-between">
-                 <div>
-                   <h3 className="text-2xl font-bold text-white mb-4 tracking-tight">Evolving Context Memory</h3>
-                   <p className="text-slate-400 max-w-md text-sm leading-relaxed">Closo infers user intent and adapts facts, profiles, and insights as your CRM data evolves. Your dialer isn't just a phone anymore—it's an intelligent agent.</p>
+               <div className="relative z-10">
+                 <div className="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center mb-8 border border-blue-500/30">
+                   <Zap className="w-6 h-6 text-blue-400" />
                  </div>
-                 <div className="flex gap-4">
-                    <div className="px-4 py-2 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-bold uppercase tracking-widest">Low Latency</div>
-                    <div className="px-4 py-2 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[10px] font-bold uppercase tracking-widest">High Accuracy</div>
-                 </div>
+                 <h3 className="text-3xl font-bold text-white mb-4 tracking-tight">Automate repetitive tasks</h3>
+                 <p className="text-slate-400 max-w-md text-[15px] leading-relaxed">We help you streamline internal operations by automating manual workflows like data entry, reporting, and approval chains saving time and cutting down errors.</p>
                </div>
-               <motion.div 
-                 animate={{ rotate: 360 }}
-                 transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                 className="absolute top-1/2 -right-20 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[80px]"
-               />
+               
+               {/* Visual Element: Task List Animation */}
+               <div className="mt-12 space-y-3 relative z-10">
+                  {[
+                    { label: "Payroll management", status: "Waiting for approval", color: "text-amber-400" },
+                    { label: "Employee Tracking", status: "Due on 2nd july", color: "text-blue-400" },
+                    { label: "Social media post", status: "2 days ago", color: "text-emerald-400" }
+                  ].map((task, i) => (
+                    <motion.div 
+                      key={i}
+                      initial={{ x: 50, opacity: 0 }}
+                      whileInView={{ x: 0, opacity: 1 }}
+                      transition={{ delay: 0.5 + (i * 0.1) }}
+                      className="bg-black/40 border border-white/10 p-4 rounded-xl flex items-center justify-between backdrop-blur-sm"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-2 h-2 rounded-full bg-white/20" />
+                        <span className="text-[13px] font-medium text-white">{task.label}</span>
+                      </div>
+                      <span className={`text-[10px] font-bold uppercase tracking-widest ${task.color}`}>{task.status}</span>
+                    </motion.div>
+                  ))}
+               </div>
+
+               <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-blue-500/10 rounded-full blur-[80px]" />
             </motion.div>
 
+            {/* AI Assistant Card */}
             <motion.div 
               {...fadeIn}
-              className="md:col-span-4 p-10 rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col justify-center items-center text-center h-[400px]"
+              className="md:col-span-5 p-10 rounded-[3rem] bg-white/5 border border-white/10 relative overflow-hidden group min-h-[450px] flex flex-col"
             >
-               <div className="w-20 h-20 rounded-[2rem] bg-blue-500/20 flex items-center justify-center mb-8">
-                 <Zap className="w-10 h-10 text-blue-400" />
+               <div className="w-12 h-12 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-8 border border-purple-500/30">
+                 <Mic className="w-6 h-6 text-purple-400" />
                </div>
-               <h3 className="text-xl font-bold text-white mb-4">50M Tokens</h3>
-               <p className="text-slate-400 text-sm leading-relaxed">Scalable infrastructure built on Postgres for global enterprise scale.</p>
+               <h3 className="text-3xl font-bold text-white mb-4 tracking-tight">Delegate Daily Tasks</h3>
+               <p className="text-slate-400 text-[15px] leading-relaxed mb-8">From managing calendars to drafting emails and summarizing meetings, our AI assistants work around the clock.</p>
+               
+               {/* Chat Interface Preview */}
+               <div className="flex-1 bg-black/40 border border-white/10 rounded-2xl p-6 relative">
+                  <div className="text-[11px] font-bold text-slate-500 mb-4">What can I help with?</div>
+                  <div className="space-y-3">
+                    <div className="bg-white/5 p-3 rounded-lg text-[12px] border border-white/5 text-slate-300">Generate quarterly report...</div>
+                    <div className="bg-blue-500/20 p-3 rounded-lg text-[12px] border border-blue-500/30 text-blue-300 ml-8 italic">Analyzing data points...</div>
+                  </div>
+                  <div className="absolute bottom-4 left-4 right-4 h-10 bg-white/5 border border-white/10 rounded-xl flex items-center px-4 gap-2">
+                    <Plus className="w-4 h-4 text-slate-500" />
+                    <div className="text-[11px] text-slate-600">Give me command...</div>
+                  </div>
+               </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      <section className="py-32 border-t border-white/5">
+      {/* Process Section */}
+      <section className="py-32 border-t border-white/5 bg-black">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-24">
-            <h2 className="text-[36px] font-bold text-white tracking-tight">Context infrastructure that <br /> adapts to every use-case</h2>
+          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
+            <div className="text-left">
+              <div className="text-[11px] font-bold text-purple-400 uppercase tracking-widest mb-4">Our Process</div>
+              <h2 className="text-[40px] md:text-[56px] font-bold text-white tracking-tight leading-tight">Simple, Smart, and <br /> Scalable Process</h2>
+            </div>
+            <p className="text-slate-500 max-w-sm text-lg">We design, develop, and implement automation tools that help you work smarter, not harder</p>
           </div>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: Users, title: "AI Assistants", desc: "Build intelligent sales reps with state-of-the-art memory." },
-              { icon: Target, title: "Education Hubs", desc: "Personalized search and automated qualification." },
-              { icon: ShieldCheck, title: "Healthcare Records", desc: "Bank-level encryption for sensitive medical records." },
-              { icon: Globe, title: "Global Infrastructure", desc: "Low latency dialing built on global server clusters." }
+              { step: "01", title: "Smart Analyzing", desc: "We assess your needs and identify AI solutions to streamline workflows." },
+              { step: "02", title: "AI Development", desc: "Our team builds intelligent automation systems tailored to your business." },
+              { step: "03", title: "Seamless Integration", desc: "We smoothly integrate AI solutions into your existing infrastructure." },
+              { step: "04", title: "Continuous Optimization", desc: "We refine performance, analyze insights, and enhance for long-term growth." }
             ].map((item, i) => (
               <motion.div 
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="p-10 rounded-[2rem] bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-center group"
+                className="p-10 rounded-[2.5rem] bg-white/5 border border-white/10 hover:bg-white/10 transition-all group"
               >
-                <item.icon className="w-8 h-8 text-blue-400 mx-auto mb-6 group-hover:scale-110 transition-transform" />
-                <h4 className="text-white font-bold mb-3">{item.title}</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
+                <div className="text-4xl font-black text-white/10 group-hover:text-blue-500/20 transition-colors mb-8 leading-none">{item.step}</div>
+                <h4 className="text-xl font-bold text-white mb-4 tracking-tight">{item.title}</h4>
+                <p className="text-[14px] text-slate-500 leading-relaxed font-normal">{item.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-32 bg-[#0A0A0A] border-t border-white/5 overflow-hidden relative">
-        <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-          <h2 className="text-[44px] md:text-[64px] font-bold mb-8 tracking-tight leading-[1] text-white">Scale your sales <br /> beyond memory.</h2>
-          <p className="text-slate-400 text-[18px] mb-12 max-w-md mx-auto leading-relaxed">Join the high-growth teams already using Closo context infrastructure to dominate their outreach.</p>
-          <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
-            <Button className="bg-white text-black hover:bg-slate-200 px-10 h-14 rounded-2xl font-bold text-[15px] shadow-2xl transition-all hover:scale-105" onClick={() => window.location.href='https://app.thecloso.com'}>Get Started Now</Button>
-            <Button variant="outline" className="border-white/10 text-white hover:bg-white/5 px-10 h-14 rounded-2xl font-bold text-[15px] transition-all">View Docs</Button>
+      {/* Case Studies / Carousel Mockup */}
+      <section className="py-32 border-t border-white/5 bg-[#080808]">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-24">
+            <h2 className="text-[40px] md:text-[56px] font-bold text-white tracking-tight">Smart AI Automation <br /> Transforms Businesses</h2>
+          </div>
+          
+          <div className="flex gap-6 overflow-hidden pb-12">
+            {[1, 2, 3].map((_, i) => (
+              <motion.div 
+                key={i}
+                className="min-w-[400px] md:min-w-[600px] p-10 rounded-[3rem] bg-white/5 border border-white/10 flex flex-col justify-between"
+              >
+                <div className="mb-12">
+                  <div className="text-blue-400 font-black text-4xl mb-8 leading-none opacity-20">"</div>
+                  <p className="text-2xl font-bold text-white leading-tight italic">
+                    {i === 0 && "AI-driven forecasting cut inventory waste by 40% for TrailForge"}
+                    {i === 1 && "AI-powered workflows reduced error rate by 80% in daily operations"}
+                    {i === 2 && "Automating 50% of operations saved 20% in costs within 2 months"}
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 gap-8 border-t border-white/5 pt-8">
+                   <div>
+                     <div className="text-2xl font-bold text-white mb-1">
+                        {i === 0 && "40%"}
+                        {i === 1 && "80%"}
+                        {i === 2 && "50%"}
+                     </div>
+                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Impact</div>
+                   </div>
+                   <div>
+                     <div className="text-2xl font-bold text-white mb-1">
+                        {i === 0 && "35%"}
+                        {i === 1 && "90%"}
+                        {i === 2 && "2x"}
+                     </div>
+                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Faster Rate</div>
+                   </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
-        <motion.div 
-          animate={{ rotate: 360 }}
-          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] bg-blue-500/5 rounded-full blur-[100px]" 
-        />
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-40 bg-black border-t border-white/5 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
+          <h2 className="text-[48px] md:text-[84px] font-bold mb-8 tracking-tight leading-[0.95] text-white italic underline underline-offset-8 decoration-blue-500/50">Ready to <br /> Scale.</h2>
+          <p className="text-slate-400 text-[18px] mb-12 max-w-md mx-auto leading-relaxed">Join the high-growth teams already using Closo context infrastructure to dominate their outreach.</p>
+          <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
+            <Button className="bg-white text-black hover:bg-slate-200 px-12 h-16 rounded-2xl font-black text-[16px] shadow-[0_0_40px_rgba(255,255,255,0.15)] transition-all hover:scale-105" onClick={() => window.location.href='https://app.thecloso.com'}>Get Started Now</Button>
+            <Button variant="outline" className="border-white/10 text-white hover:bg-white/5 px-12 h-16 rounded-2xl font-black text-[16px] transition-all">View Case Studies</Button>
+          </div>
+        </div>
+        
+        {/* Glow Decor */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[400px] bg-blue-500/10 blur-[150px] rounded-full z-0" />
       </section>
 
       <EnterpriseFooter />
