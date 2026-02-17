@@ -19,7 +19,7 @@ export default function Landing() {
 </head>
 <body>
     <iframe 
-      src="https://xtract.framer.ai/" 
+      src="/xtract/xtract.framer.ai/index.html" 
       style="width:100%; height:100vh; border:none;"
       allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
       sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation"
