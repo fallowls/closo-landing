@@ -130,6 +130,18 @@ interface QueryAnalysis {
  * Intelligently interprets natural language queries and generates appropriate database queries
  */
 export class AdvancedContactSearchService {
+  private forEachPatternMatch(
+    query: string,
+    patterns: RegExp[],
+    onMatch: (match: RegExpMatchArray) => void,
+  ): void {
+    for (const pattern of patterns) {
+      const matches = query.matchAll(pattern);
+      for (const match of matches) {
+        onMatch(match);
+      }
+    }
+  }
   
   /**
    * Analyze natural language query and extract search intent
@@ -148,16 +160,13 @@ export class AdvancedContactSearchService {
       /([a-z0-9\s&.,'"-]+)\s+(?:employees|staff|workers|team)/gi,
     ];
     
-    for (const pattern of companyPatterns) {
-      const matches = query.matchAll(pattern);
-      for (const match of matches) {
-        if (match[1] && match[1].trim().length > 2) {
-          filters.company = match[1].trim();
-          intent = 'company_search';
-          confidence = 85;
-        }
+    this.forEachPatternMatch(query, companyPatterns, (match) => {
+      if (match[1] && match[1].trim().length > 2) {
+        filters.company = match[1].trim();
+        intent = 'company_search';
+        confidence = 85;
       }
-    }
+    });
 
     // Extract job titles
     const titlePatterns = [

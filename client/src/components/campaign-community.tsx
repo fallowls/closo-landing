@@ -188,7 +188,7 @@ export default function CampaignCommunity() {
   };
 
   const isLoading = conversationLoading || messagesLoading;
-  const hasError = conversationError || messagesError;
+  const hasError = Boolean(conversationError || messagesError);
 
   const formatTime = (dateString: string) => {
     const date = new Date(dateString);

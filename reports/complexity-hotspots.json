@@ -1,0 +1,488 @@
+[
+  {
+    "file": "client/src/pages/admin/BlogCategories.tsx",
+    "function": "BlogCategories",
+    "complexity": 41,
+    "maxAllowed": 15,
+    "line": 47,
+    "column": 16,
+    "message": "Function 'BlogCategories' has a complexity of 41. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/contacts-filter.tsx",
+    "function": "ContactsFilter",
+    "complexity": 25,
+    "maxAllowed": 15,
+    "line": 73,
+    "column": 16,
+    "message": "Function 'ContactsFilter' has a complexity of 25. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/components/NLQueryInterface.tsx",
+    "function": "NLQueryInterface",
+    "complexity": 24,
+    "maxAllowed": 15,
+    "line": 37,
+    "column": 16,
+    "message": "Function 'NLQueryInterface' has a complexity of 24. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/components/campaign-community.tsx",
+    "function": "CampaignCommunity",
+    "complexity": 23,
+    "maxAllowed": 15,
+    "line": 37,
+    "column": 16,
+    "message": "Function 'CampaignCommunity' has a complexity of 23. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/admin/ActivityLogs.tsx",
+    "function": "ActivityLogs",
+    "complexity": 22,
+    "maxAllowed": 15,
+    "line": 34,
+    "column": 16,
+    "message": "Function 'ActivityLogs' has a complexity of 22. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/admin/UserChat.tsx",
+    "function": "UserChat",
+    "complexity": 20,
+    "maxAllowed": 15,
+    "line": 49,
+    "column": 16,
+    "message": "Function 'UserChat' has a complexity of 20. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/admin/BlogPostEditor.tsx",
+    "function": "BlogPostEditor",
+    "complexity": 18,
+    "maxAllowed": 15,
+    "line": 110,
+    "column": 16,
+    "message": "Function 'BlogPostEditor' has a complexity of 18. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/admin/EmailTracking.tsx",
+    "function": "EmailTracking",
+    "complexity": 18,
+    "maxAllowed": 15,
+    "line": 23,
+    "column": 16,
+    "message": "Function 'EmailTracking' has a complexity of 18. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/demo-booking.tsx",
+    "function": "DemoBooking",
+    "complexity": 18,
+    "maxAllowed": 15,
+    "line": 55,
+    "column": 16,
+    "message": "Function 'DemoBooking' has a complexity of 18. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/admin-dashboard.tsx",
+    "function": "AdminDashboard",
+    "complexity": 17,
+    "maxAllowed": 15,
+    "line": 33,
+    "column": 16,
+    "message": "Function 'AdminDashboard' has a complexity of 17. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/admin/Alerts.tsx",
+    "function": "Alerts",
+    "complexity": 17,
+    "maxAllowed": 15,
+    "line": 20,
+    "column": 16,
+    "message": "Function 'Alerts' has a complexity of 17. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/admin/SearchQueries.tsx",
+    "function": "SearchQueries",
+    "complexity": 17,
+    "maxAllowed": 15,
+    "line": 20,
+    "column": 16,
+    "message": "Function 'SearchQueries' has a complexity of 17. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/advanced-search.tsx",
+    "function": "AdvancedSearch",
+    "complexity": 17,
+    "maxAllowed": 15,
+    "line": 101,
+    "column": 16,
+    "message": "Function 'AdvancedSearch' has a complexity of 17. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/campaign-view.tsx",
+    "function": "CampaignView",
+    "complexity": 17,
+    "maxAllowed": 15,
+    "line": 46,
+    "column": 16,
+    "message": "Function 'CampaignView' has a complexity of 17. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/admin/AuditTrail.tsx",
+    "function": "AuditTrail",
+    "complexity": 16,
+    "maxAllowed": 15,
+    "line": 23,
+    "column": 16,
+    "message": "Function 'AuditTrail' has a complexity of 16. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/admin/CallLogs.tsx",
+    "function": "CallLogs",
+    "complexity": 16,
+    "maxAllowed": 15,
+    "line": 22,
+    "column": 16,
+    "message": "Function 'CallLogs' has a complexity of 16. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/admin/SecurityLogs.tsx",
+    "function": "SecurityLogs",
+    "complexity": 16,
+    "maxAllowed": 15,
+    "line": 21,
+    "column": 16,
+    "message": "Function 'SecurityLogs' has a complexity of 16. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/admin/UploadHistory.tsx",
+    "function": "UploadHistory",
+    "complexity": 16,
+    "maxAllowed": 15,
+    "line": 22,
+    "column": 16,
+    "message": "Function 'UploadHistory' has a complexity of 16. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/components/contact-cards.tsx",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 87,
+    "column": 85,
+    "message": "Arrow function has a complexity of 19. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/components/modern-contact-canvas.tsx",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 236,
+    "column": 42,
+    "message": "Arrow function has a complexity of 45. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/components/pawmate-enhanced.tsx",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 39,
+    "column": 61,
+    "message": "Arrow function has a complexity of 18. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/components/pawmate-enhanced.tsx",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 394,
+    "column": 38,
+    "message": "Async arrow function has a complexity of 35. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/components/pawmate.tsx",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 179,
+    "column": 38,
+    "message": "Async arrow function has a complexity of 17. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/components/pawmate.tsx",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 326,
+    "column": 59,
+    "message": "Arrow function has a complexity of 25. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/components/ui/chart.tsx",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 136,
+    "column": 43,
+    "message": "Arrow function has a complexity of 16. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/components/ui/chart.tsx",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 188,
+    "column": 38,
+    "message": "Arrow function has a complexity of 20. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/admin/BlogPostEditor.tsx",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 206,
+    "column": 32,
+    "message": "Arrow function has a complexity of 16. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/admin/UserChat.tsx",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 269,
+    "column": 46,
+    "message": "Arrow function has a complexity of 16. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/api-docs.tsx",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 862,
+    "column": 65,
+    "message": "Arrow function has a complexity of 22. Maximum allowed is 15."
+  },
+  {
+    "file": "client/src/pages/contacts-filter.tsx",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 549,
+    "column": 51,
+    "message": "Arrow function has a complexity of 16. Maximum allowed is 15."
+  },
+  {
+    "file": "server/routes.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 519,
+    "column": 70,
+    "message": "Async arrow function has a complexity of 16. Maximum allowed is 15."
+  },
+  {
+    "file": "server/routes.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 3132,
+    "column": 44,
+    "message": "Async arrow function has a complexity of 26. Maximum allowed is 15."
+  },
+  {
+    "file": "server/routes.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 3204,
+    "column": 68,
+    "message": "Arrow function has a complexity of 16. Maximum allowed is 15."
+  },
+  {
+    "file": "server/routes.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 3355,
+    "column": 53,
+    "message": "Async arrow function has a complexity of 27. Maximum allowed is 15."
+  },
+  {
+    "file": "server/routes.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 3505,
+    "column": 48,
+    "message": "Async arrow function has a complexity of 24. Maximum allowed is 15."
+  },
+  {
+    "file": "server/routes.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 3716,
+    "column": 53,
+    "message": "Async arrow function has a complexity of 17. Maximum allowed is 15."
+  },
+  {
+    "file": "server/routes.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 3854,
+    "column": 57,
+    "message": "Async arrow function has a complexity of 25. Maximum allowed is 15."
+  },
+  {
+    "file": "server/routes.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 4013,
+    "column": 50,
+    "message": "Async arrow function has a complexity of 20. Maximum allowed is 15."
+  },
+  {
+    "file": "server/routes.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 4300,
+    "column": 76,
+    "message": "Async arrow function has a complexity of 19. Maximum allowed is 15."
+  },
+  {
+    "file": "server/services/advancedContactSearchService.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 150,
+    "column": 3,
+    "message": "Method 'analyzeQuery' has a complexity of 51. Maximum allowed is 15."
+  },
+  {
+    "file": "server/services/advancedContactSearchService.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 363,
+    "column": 3,
+    "message": "Method 'buildSearchQuery' has a complexity of 32. Maximum allowed is 15."
+  },
+  {
+    "file": "server/services/advancedSearchService.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 194,
+    "column": 3,
+    "message": "Async method 'buildWhereClause' has a complexity of 25. Maximum allowed is 15."
+  },
+  {
+    "file": "server/services/contactsFilterService.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 225,
+    "column": 3,
+    "message": "Method 'buildSingleFilterCondition' has a complexity of 21. Maximum allowed is 15."
+  },
+  {
+    "file": "server/services/contactsFilterService.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 338,
+    "column": 3,
+    "message": "Method 'buildWhereClause' has a complexity of 33. Maximum allowed is 15."
+  },
+  {
+    "file": "server/services/mockOpenAI_old.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 99,
+    "column": 3,
+    "message": "Async method 'handleDataAnalytics' has a complexity of 35. Maximum allowed is 15."
+  },
+  {
+    "file": "server/services/mockOpenAI_old.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 719,
+    "column": 3,
+    "message": "Async method 'handleDatabaseOperations' has a complexity of 49. Maximum allowed is 15."
+  },
+  {
+    "file": "server/services/mockOpenAI_old.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 1021,
+    "column": 3,
+    "message": "Method 'analyzeIntent' has a complexity of 25. Maximum allowed is 15."
+  },
+  {
+    "file": "server/services/mockOpenAI_old.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 1075,
+    "column": 3,
+    "message": "Method 'generateResponse' has a complexity of 17. Maximum allowed is 15."
+  },
+  {
+    "file": "server/services/realOpenAI.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 50,
+    "column": 3,
+    "message": "Async method 'generateChatCompletion' has a complexity of 38. Maximum allowed is 15."
+  },
+  {
+    "file": "server/services/realOpenAI.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 358,
+    "column": 3,
+    "message": "Async method 'handleDatabaseOperations' has a complexity of 28. Maximum allowed is 15."
+  },
+  {
+    "file": "server/services/realOpenAI.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 471,
+    "column": 3,
+    "message": "Async method 'performAdvancedSearch' has a complexity of 16. Maximum allowed is 15."
+  },
+  {
+    "file": "server/services/realOpenAI.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 623,
+    "column": 3,
+    "message": "Async method 'handleContactCreation' has a complexity of 16. Maximum allowed is 15."
+  },
+  {
+    "file": "server/services/realOpenAI.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 775,
+    "column": 3,
+    "message": "Method 'calculateLeadScore' has a complexity of 25. Maximum allowed is 15."
+  },
+  {
+    "file": "server/utils/dataRecovery.ts",
+    "function": "(anonymous)",
+    "complexity": null,
+    "maxAllowed": null,
+    "line": 33,
+    "column": 8,
+    "message": "Async function 'attemptDataRecovery' has a complexity of 17. Maximum allowed is 15."
+  }
+]

@@ -17,11 +17,27 @@ interface CampaignTableProps {
   campaign: Campaign;
 }
 
+interface CampaignPayload {
+  headers: string[];
+  rows: Record<string, string>[];
+}
+
+interface CampaignResponse {
+  data: CampaignPayload;
+}
+
 export default function CampaignTable({ campaign }: CampaignTableProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const { data: campaignData, isLoading } = useQuery({
     queryKey: [`/api/campaigns/${campaign.id}`],
+    queryFn: async (): Promise<CampaignResponse> => {
+      const response = await fetch(`/api/campaigns/${campaign.id}`, { credentials: "include" });
+      if (!response.ok) {
+        throw new Error(`Failed to load campaign ${campaign.id}`);
+      }
+      return response.json();
+    },
     enabled: isExpanded,
   });
 

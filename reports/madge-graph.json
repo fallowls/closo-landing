@@ -1,0 +1,982 @@
+{
+  "client/src/App.tsx": [
+    "client/src/components/BotpressChatbot.tsx",
+    "client/src/components/NLQueryInterface.tsx",
+    "client/src/components/ui/toaster.tsx",
+    "client/src/components/ui/tooltip.tsx",
+    "client/src/lib/auth.ts",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/BackupImport.tsx",
+    "client/src/pages/about.tsx",
+    "client/src/pages/admin-dashboard.tsx",
+    "client/src/pages/admin/APIUsage.tsx",
+    "client/src/pages/admin/ActivityLogs.tsx",
+    "client/src/pages/admin/Alerts.tsx",
+    "client/src/pages/admin/Analytics.tsx",
+    "client/src/pages/admin/AuditTrail.tsx",
+    "client/src/pages/admin/BlogAnalytics.tsx",
+    "client/src/pages/admin/BlogCategories.tsx",
+    "client/src/pages/admin/BlogDashboard.tsx",
+    "client/src/pages/admin/BlogPostEditor.tsx",
+    "client/src/pages/admin/CallLogs.tsx",
+    "client/src/pages/admin/CampaignAnalytics.tsx",
+    "client/src/pages/admin/CampaignViews.tsx",
+    "client/src/pages/admin/ContactTracking.tsx",
+    "client/src/pages/admin/DatabaseStats.tsx",
+    "client/src/pages/admin/DownloadLogs.tsx",
+    "client/src/pages/admin/EmailTracking.tsx",
+    "client/src/pages/admin/FailedLogins.tsx",
+    "client/src/pages/admin/LoginHistory.tsx",
+    "client/src/pages/admin/Performance.tsx",
+    "client/src/pages/admin/SearchQueries.tsx",
+    "client/src/pages/admin/SecurityEvents.tsx",
+    "client/src/pages/admin/SecurityLogs.tsx",
+    "client/src/pages/admin/Sessions.tsx",
+    "client/src/pages/admin/Settings.tsx",
+    "client/src/pages/admin/SystemLogs.tsx",
+    "client/src/pages/admin/UploadHistory.tsx",
+    "client/src/pages/admin/UserChat.tsx",
+    "client/src/pages/admin/Users.tsx",
+    "client/src/pages/advanced-search.tsx",
+    "client/src/pages/api-docs.tsx",
+    "client/src/pages/blog-post.tsx",
+    "client/src/pages/blog.tsx",
+    "client/src/pages/campaign-view.tsx",
+    "client/src/pages/compliance.tsx",
+    "client/src/pages/contacts-filter.tsx",
+    "client/src/pages/dashboard.tsx",
+    "client/src/pages/demo-booking.tsx",
+    "client/src/pages/features.tsx",
+    "client/src/pages/landing.tsx",
+    "client/src/pages/not-found.tsx",
+    "client/src/pages/privacy.tsx",
+    "client/src/pages/security.tsx",
+    "client/src/pages/terms.tsx",
+    "client/src/pages/twilio-setup.tsx"
+  ],
+  "client/src/assets/closo_logo.png": [],
+  "client/src/assets/xtract/PX9hIOIVM-DQJ57WML.mjs": [
+    "client/src/assets/xtract/chunk-42U43NKG.mjs",
+    "client/src/assets/xtract/chunk-A3IIQ6X3.mjs",
+    "client/src/assets/xtract/chunk-D6UPKNUF.mjs",
+    "client/src/assets/xtract/chunk-HZL4YIMB.mjs",
+    "client/src/assets/xtract/chunk-L26LQTCF.mjs"
+  ],
+  "client/src/assets/xtract/chunk-3L2OZL2H.mjs": [
+    "client/src/assets/xtract/chunk-D6UPKNUF.mjs"
+  ],
+  "client/src/assets/xtract/chunk-42U43NKG.mjs": [],
+  "client/src/assets/xtract/chunk-7EU4VGBW.mjs": [
+    "client/src/assets/xtract/chunk-D6UPKNUF.mjs",
+    "client/src/assets/xtract/chunk-L26LQTCF.mjs"
+  ],
+  "client/src/assets/xtract/chunk-A3IIQ6X3.mjs": [],
+  "client/src/assets/xtract/chunk-D6UPKNUF.mjs": [
+    "client/src/assets/xtract/chunk-A3IIQ6X3.mjs",
+    "client/src/assets/xtract/chunk-HZL4YIMB.mjs",
+    "client/src/assets/xtract/chunk-L26LQTCF.mjs"
+  ],
+  "client/src/assets/xtract/chunk-ETBAFENV.mjs": [
+    "client/src/assets/xtract/chunk-D6UPKNUF.mjs"
+  ],
+  "client/src/assets/xtract/chunk-HQCIG6E6.mjs": [
+    "client/src/assets/xtract/chunk-JJZS2Q2B.mjs"
+  ],
+  "client/src/assets/xtract/chunk-HZL4YIMB.mjs": [],
+  "client/src/assets/xtract/chunk-JJZS2Q2B.mjs": [],
+  "client/src/assets/xtract/chunk-KAMO5QL5.mjs": [
+    "client/src/assets/xtract/chunk-D6UPKNUF.mjs"
+  ],
+  "client/src/assets/xtract/chunk-L26LQTCF.mjs": [
+    "client/src/assets/xtract/chunk-A3IIQ6X3.mjs"
+  ],
+  "client/src/assets/xtract/chunk-MKG2ZIA7.mjs": [
+    "client/src/assets/xtract/chunk-D6UPKNUF.mjs"
+  ],
+  "client/src/assets/xtract/chunk-VLVYFDNG.mjs": [
+    "client/src/assets/xtract/chunk-7EU4VGBW.mjs",
+    "client/src/assets/xtract/chunk-A3IIQ6X3.mjs",
+    "client/src/assets/xtract/chunk-D6UPKNUF.mjs",
+    "client/src/assets/xtract/chunk-L26LQTCF.mjs"
+  ],
+  "client/src/assets/xtract/chunk-VMTP4XB4.mjs": [
+    "client/src/assets/xtract/chunk-7EU4VGBW.mjs",
+    "client/src/assets/xtract/chunk-D6UPKNUF.mjs",
+    "client/src/assets/xtract/chunk-L26LQTCF.mjs"
+  ],
+  "client/src/assets/xtract/chunk-WEBQEJ4Z.mjs": [
+    "client/src/assets/xtract/chunk-A3IIQ6X3.mjs",
+    "client/src/assets/xtract/chunk-D6UPKNUF.mjs",
+    "client/src/assets/xtract/chunk-L26LQTCF.mjs",
+    "client/src/assets/xtract/chunk-VLVYFDNG.mjs",
+    "client/src/assets/xtract/chunk-WO5DTZVU.mjs"
+  ],
+  "client/src/assets/xtract/chunk-WO5DTZVU.mjs": [
+    "client/src/assets/xtract/chunk-D6UPKNUF.mjs"
+  ],
+  "client/src/assets/xtract/script_main.6SWSDVOT.mjs": [
+    "client/src/assets/xtract/PX9hIOIVM-DQJ57WML.mjs",
+    "client/src/assets/xtract/chunk-3L2OZL2H.mjs",
+    "client/src/assets/xtract/chunk-42U43NKG.mjs",
+    "client/src/assets/xtract/chunk-7EU4VGBW.mjs",
+    "client/src/assets/xtract/chunk-A3IIQ6X3.mjs",
+    "client/src/assets/xtract/chunk-D6UPKNUF.mjs",
+    "client/src/assets/xtract/chunk-HZL4YIMB.mjs",
+    "client/src/assets/xtract/chunk-L26LQTCF.mjs",
+    "client/src/assets/xtract/chunk-VMTP4XB4.mjs",
+    "client/src/assets/xtract/chunk-WO5DTZVU.mjs",
+    "client/src/assets/xtract/xELU-3U21kcWe8W5AbSamPid6D4TkCQCHGRNX-qsr84.TJS7USRC.mjs"
+  ],
+  "client/src/assets/xtract/xELU-3U21kcWe8W5AbSamPid6D4TkCQCHGRNX-qsr84.TJS7USRC.mjs": [
+    "client/src/assets/xtract/chunk-42U43NKG.mjs",
+    "client/src/assets/xtract/chunk-7EU4VGBW.mjs",
+    "client/src/assets/xtract/chunk-A3IIQ6X3.mjs",
+    "client/src/assets/xtract/chunk-D6UPKNUF.mjs",
+    "client/src/assets/xtract/chunk-ETBAFENV.mjs",
+    "client/src/assets/xtract/chunk-HQCIG6E6.mjs",
+    "client/src/assets/xtract/chunk-HZL4YIMB.mjs",
+    "client/src/assets/xtract/chunk-JJZS2Q2B.mjs",
+    "client/src/assets/xtract/chunk-KAMO5QL5.mjs",
+    "client/src/assets/xtract/chunk-L26LQTCF.mjs",
+    "client/src/assets/xtract/chunk-MKG2ZIA7.mjs",
+    "client/src/assets/xtract/chunk-VLVYFDNG.mjs",
+    "client/src/assets/xtract/chunk-VMTP4XB4.mjs",
+    "client/src/assets/xtract/chunk-WEBQEJ4Z.mjs",
+    "client/src/assets/xtract/chunk-WO5DTZVU.mjs"
+  ],
+  "client/src/components/BotpressChatbot.tsx": [],
+  "client/src/components/CsvExportModal.tsx": [
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/checkbox.tsx",
+    "client/src/components/ui/dialog.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/label.tsx",
+    "client/src/components/ui/select.tsx",
+    "client/src/hooks/use-toast.ts"
+  ],
+  "client/src/components/CsvImportModal.tsx": [
+    "client/src/components/ui/alert.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/checkbox.tsx",
+    "client/src/components/ui/dialog.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/label.tsx",
+    "client/src/hooks/use-toast.ts"
+  ],
+  "client/src/components/EnterpriseFooter.tsx": [
+    "client/src/assets/closo_logo.png",
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/separator.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/auth.ts",
+    "client/src/lib/queryClient.ts"
+  ],
+  "client/src/components/NLQueryInterface.tsx": [
+    "client/src/components/ui/alert.tsx",
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/components/ui/tabs.tsx",
+    "client/src/components/ui/textarea.tsx",
+    "client/src/hooks/use-toast.ts"
+  ],
+  "client/src/components/SEO.tsx": [],
+  "client/src/components/admin/AdminSidebar.tsx": [
+    "client/src/assets/closo_logo.png",
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/components/ui/separator.tsx",
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/campaign-community.tsx": [
+    "client/src/components/ui/avatar.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/textarea.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/queryClient.ts"
+  ],
+  "client/src/components/campaign-list.tsx": [
+    "client/src/components/csv-upload.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/queryClient.ts"
+  ],
+  "client/src/components/campaign-table.tsx": [
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/table.tsx"
+  ],
+  "client/src/components/chatbot.tsx": [
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/label.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/queryClient.ts"
+  ],
+  "client/src/components/contact-canvas.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/select.tsx"
+  ],
+  "client/src/components/contact-cards.tsx": [
+    "client/src/components/ui/avatar.tsx",
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/components/ui/select.tsx",
+    "client/src/components/ui/tabs.tsx"
+  ],
+  "client/src/components/csv-field-mapper.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/dialog.tsx",
+    "client/src/components/ui/select.tsx",
+    "client/src/hooks/use-toast.ts"
+  ],
+  "client/src/components/csv-upload.tsx": [
+    "client/src/components/campaign-table.tsx",
+    "client/src/components/csv-field-mapper.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/queryClient.ts"
+  ],
+  "client/src/components/enhanced-chatbot.tsx": [
+    "client/src/components/contact-canvas.tsx",
+    "client/src/components/contact-cards.tsx",
+    "client/src/components/modern-contact-canvas.tsx",
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/components/ui/tabs.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/queryClient.ts"
+  ],
+  "client/src/components/modern-contact-canvas.tsx": [
+    "client/src/components/ui/avatar.tsx",
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/dialog.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/queryClient.ts"
+  ],
+  "client/src/components/notes-documents.tsx": [
+    "client/src/components/ui/avatar.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/textarea.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/hooks/use-websocket.ts",
+    "client/src/lib/queryClient.ts"
+  ],
+  "client/src/components/password-modal.tsx": [
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/dialog.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/auth.ts",
+    "client/src/lib/queryClient.ts"
+  ],
+  "client/src/components/pawmate-enhanced.tsx": [
+    "client/src/components/CsvExportModal.tsx",
+    "client/src/components/CsvImportModal.tsx",
+    "client/src/components/ui/avatar.tsx",
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/dialog.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/label.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/components/ui/select.tsx",
+    "client/src/components/ui/tabs.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/queryClient.ts"
+  ],
+  "client/src/components/pawmate.tsx": [
+    "client/src/components/modern-contact-canvas.tsx",
+    "client/src/components/ui/avatar.tsx",
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/dialog.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/label.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/components/ui/select.tsx",
+    "client/src/components/ui/tabs.tsx",
+    "client/src/components/ui/textarea.tsx"
+  ],
+  "client/src/components/ui/accordion.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/alert-dialog.tsx": [
+    "client/src/components/ui/button.tsx",
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/alert.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/aspect-ratio.tsx": [],
+  "client/src/components/ui/avatar.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/badge.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/breadcrumb.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/button.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/calendar.tsx": [
+    "client/src/components/ui/button.tsx",
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/card.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/carousel.tsx": [
+    "client/src/components/ui/button.tsx",
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/chart.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/checkbox.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/collapsible.tsx": [],
+  "client/src/components/ui/command.tsx": [
+    "client/src/components/ui/dialog.tsx",
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/context-menu.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/dialog.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/drawer.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/dropdown-menu.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/form.tsx": [
+    "client/src/components/ui/label.tsx",
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/hover-card.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/input-otp.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/input.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/label.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/menubar.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/navigation-menu.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/pagination.tsx": [
+    "client/src/components/ui/button.tsx",
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/popover.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/progress.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/radio-group.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/resizable.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/scroll-area.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/select.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/separator.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/sheet.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/sidebar.tsx": [
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/separator.tsx",
+    "client/src/components/ui/sheet.tsx",
+    "client/src/components/ui/skeleton.tsx",
+    "client/src/components/ui/tooltip.tsx",
+    "client/src/hooks/use-mobile.tsx",
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/skeleton.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/slider.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/switch.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/table.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/tabs.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/textarea.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/toast.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/toaster.tsx": [
+    "client/src/components/ui/toast.tsx",
+    "client/src/hooks/use-toast.ts"
+  ],
+  "client/src/components/ui/toggle-group.tsx": [
+    "client/src/components/ui/toggle.tsx",
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/toggle.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/ui/tooltip.tsx": [
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/components/unified-chatbot.tsx": [
+    "client/src/components/contact-canvas.tsx",
+    "client/src/components/contact-cards.tsx",
+    "client/src/components/modern-contact-canvas.tsx",
+    "client/src/components/ui/avatar.tsx",
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/components/ui/tabs.tsx"
+  ],
+  "client/src/hooks/use-mobile.tsx": [],
+  "client/src/hooks/use-toast.ts": [],
+  "client/src/hooks/use-websocket.ts": [],
+  "client/src/index.css": [],
+  "client/src/lib/auth.ts": [],
+  "client/src/lib/encryption.ts": [],
+  "client/src/lib/queryClient.ts": [],
+  "client/src/lib/utils.ts": [],
+  "client/src/main.tsx": [
+    "client/src/App.tsx",
+    "client/src/index.css"
+  ],
+  "client/src/pages/BackupImport.tsx": [
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/queryClient.ts"
+  ],
+  "client/src/pages/about.tsx": [
+    "client/src/assets/closo_logo.png",
+    "client/src/components/EnterpriseFooter.tsx",
+    "client/src/components/SEO.tsx",
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx"
+  ],
+  "client/src/pages/admin-dashboard.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/dialog.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/table.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/APIUsage.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/ActivityLogs.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/collapsible.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/select.tsx",
+    "client/src/components/ui/table.tsx",
+    "client/src/lib/queryClient.ts"
+  ],
+  "client/src/pages/admin/AdminLayout.tsx": [
+    "client/src/components/admin/AdminSidebar.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/auth.ts",
+    "client/src/lib/queryClient.ts"
+  ],
+  "client/src/pages/admin/Alerts.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/Analytics.tsx": [
+    "client/src/components/ui/card.tsx",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/AuditTrail.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/table.tsx",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/BlogAnalytics.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/select.tsx",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/BlogCategories.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/dialog.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/label.tsx",
+    "client/src/components/ui/table.tsx",
+    "client/src/components/ui/textarea.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/BlogDashboard.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/select.tsx",
+    "client/src/components/ui/table.tsx",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/BlogPostEditor.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/label.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/components/ui/select.tsx",
+    "client/src/components/ui/separator.tsx",
+    "client/src/components/ui/switch.tsx",
+    "client/src/components/ui/tabs.tsx",
+    "client/src/components/ui/textarea.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/CallLogs.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/table.tsx",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/CampaignAnalytics.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/CampaignViews.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/table.tsx",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/ContactTracking.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/DatabaseStats.tsx": [
+    "client/src/components/ui/card.tsx",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/DownloadLogs.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/table.tsx",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/EmailTracking.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/table.tsx",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/FailedLogins.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/table.tsx",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/LoginHistory.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/Performance.tsx": [
+    "client/src/components/ui/card.tsx",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/SearchQueries.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/table.tsx",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/SecurityEvents.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/SecurityLogs.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/table.tsx",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/Sessions.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/Settings.tsx": [
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/label.tsx",
+    "client/src/components/ui/switch.tsx",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/SystemLogs.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/UploadHistory.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/table.tsx",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/UserChat.tsx": [
+    "client/src/components/ui/avatar.tsx",
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/textarea.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/admin/Users.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/table.tsx",
+    "client/src/lib/queryClient.ts",
+    "client/src/pages/admin/AdminLayout.tsx"
+  ],
+  "client/src/pages/advanced-search.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/checkbox.tsx",
+    "client/src/components/ui/collapsible.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/label.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/components/ui/select.tsx",
+    "client/src/components/ui/slider.tsx",
+    "client/src/components/ui/table.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/queryClient.ts",
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/pages/api-docs.tsx": [
+    "client/src/assets/closo_logo.png",
+    "client/src/components/EnterpriseFooter.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/tabs.tsx",
+    "client/src/components/ui/textarea.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/queryClient.ts"
+  ],
+  "client/src/pages/blog-post.tsx": [
+    "client/src/components/EnterpriseFooter.tsx",
+    "client/src/components/SEO.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx"
+  ],
+  "client/src/pages/blog.tsx": [
+    "client/src/assets/closo_logo.png",
+    "client/src/components/EnterpriseFooter.tsx",
+    "client/src/components/SEO.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx"
+  ],
+  "client/src/pages/campaign-view.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/checkbox.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/table.tsx",
+    "client/src/components/ui/tabs.tsx",
+    "client/src/hooks/use-toast.ts"
+  ],
+  "client/src/pages/compliance.tsx": [
+    "client/src/assets/closo_logo.png",
+    "client/src/components/EnterpriseFooter.tsx",
+    "client/src/components/SEO.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx"
+  ],
+  "client/src/pages/contacts-filter.tsx": [
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/label.tsx",
+    "client/src/components/ui/scroll-area.tsx",
+    "client/src/components/ui/select.tsx",
+    "client/src/components/ui/separator.tsx",
+    "client/src/components/ui/tabs.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/queryClient.ts",
+    "client/src/lib/utils.ts"
+  ],
+  "client/src/pages/dashboard.tsx": [
+    "client/src/components/campaign-community.tsx",
+    "client/src/components/campaign-list.tsx",
+    "client/src/components/pawmate-enhanced.tsx",
+    "client/src/components/ui/badge.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/tabs.tsx",
+    "client/src/hooks/use-toast.ts",
+    "client/src/lib/auth.ts"
+  ],
+  "client/src/pages/demo-booking.tsx": [
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/calendar.tsx",
+    "client/src/components/ui/card.tsx",
+    "client/src/components/ui/input.tsx",
+    "client/src/components/ui/label.tsx",
+    "client/src/components/ui/select.tsx",
+    "client/src/components/ui/textarea.tsx",
+    "client/src/hooks/use-toast.ts"
+  ],
+  "client/src/pages/features.tsx": [
+    "client/src/assets/closo_logo.png",
+    "client/src/components/EnterpriseFooter.tsx",
+    "client/src/components/SEO.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx"
+  ],
+  "client/src/pages/landing.tsx": [],
+  "client/src/pages/not-found.tsx": [
+    "client/src/components/ui/card.tsx"
+  ],
+  "client/src/pages/privacy.tsx": [
+    "client/src/assets/closo_logo.png",
+    "client/src/components/EnterpriseFooter.tsx",
+    "client/src/components/SEO.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx"
+  ],
+  "client/src/pages/security.tsx": [
+    "client/src/assets/closo_logo.png",
+    "client/src/components/EnterpriseFooter.tsx",
+    "client/src/components/SEO.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx"
+  ],
+  "client/src/pages/terms.tsx": [
+    "client/src/assets/closo_logo.png",
+    "client/src/components/EnterpriseFooter.tsx",
+    "client/src/components/SEO.tsx",
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx"
+  ],
+  "client/src/pages/twilio-setup.tsx": [
+    "client/src/components/ui/button.tsx",
+    "client/src/components/ui/card.tsx"
+  ],
+  "server/db.ts": [
+    "shared/schema.ts"
+  ],
+  "server/index.ts": [
+    "server/routes.ts",
+    "server/vite.ts"
+  ],
+  "server/middleware/auth.ts": [],
+  "server/routes.ts": [
+    "server/db.ts",
+    "server/services/advancedContactSearchService.ts",
+    "server/services/advancedSearchService.ts",
+    "server/services/contactsFilterService.ts",
+    "server/services/databaseService.ts",
+    "server/services/dugguChatbotService.ts",
+    "server/services/externalDbInspector.ts",
+    "server/services/externalDugguService.ts",
+    "server/services/fileStorage.ts",
+    "server/services/mockOpenAI.ts",
+    "server/services/nlQueryService.ts",
+    "server/services/realOpenAI.ts",
+    "server/storage.ts",
+    "server/utils/dataRecovery.ts",
+    "server/utils/email.ts",
+    "server/utils/encryption.ts",
+    "server/utils/timezone.ts",
+    "shared/schema.ts"
+  ],
+  "server/services/advancedContactSearchService.ts": [],
+  "server/services/advancedSearchService.ts": [
+    "server/db.ts"
+  ],
+  "server/services/apolloService.ts": [],
+  "server/services/contactsFilterService.ts": [
+    "server/db.ts"
+  ],
+  "server/services/databaseService.ts": [
+    "server/db.ts",
+    "shared/schema.ts"
+  ],
+  "server/services/dugguChatbotService.ts": [
+    "server/db.ts",
+    "shared/schema.ts"
+  ],
+  "server/services/externalDbInspector.ts": [],
+  "server/services/externalDugguService.ts": [],
+  "server/services/fileStorage.ts": [],
+  "server/services/mockOpenAI.ts": [
+    "server/storage.ts"
+  ],
+  "server/services/mockOpenAI_backup.ts": [],
+  "server/services/mockOpenAI_old.ts": [
+    "server/storage.ts"
+  ],
+  "server/services/nlQueryService.ts": [
+    "server/db.ts"
+  ],
+  "server/services/realOpenAI.ts": [
+    "server/services/apolloService.ts",
+    "server/services/databaseService.ts",
+    "server/storage.ts"
+  ],
+  "server/static-server.js": [],
+  "server/storage.ts": [
+    "server/db.ts",
+    "server/utils/encryption.ts",
+    "shared/schema.ts"
+  ],
+  "server/types/session.d.ts": [],
+  "server/utils/dataRecovery.ts": [
+    "server/db.ts",
+    "server/utils/encryption.ts",
+    "shared/schema.ts"
+  ],
+  "server/utils/email.ts": [],
+  "server/utils/encryption.ts": [],
+  "server/utils/repairDocuments.ts": [
+    "server/storage.ts",
+    "server/utils/encryption.ts"
+  ],
+  "server/utils/timezone.ts": [],
+  "server/vite.ts": [
+    "vite.config.ts"
+  ],
+  "shared/schema.ts": [],
+  "vite.config.ts": []
+}

@@ -44,7 +44,7 @@ export function EnterpriseFooter() {
     },
     onSuccess: (data: any) => {
       setAuthenticated(true);
-      window.location.href = 'https://app.thecloso.com';
+      setLocation('/dashboard');
     },
     onError: () => {
       toast({ title: "Access denied", description: "Invalid credentials", variant: "destructive" });
@@ -358,7 +358,7 @@ export function EnterpriseFooter() {
           {/* Copyright */}
           <div className="flex flex-wrap items-center gap-6 text-sm text-slate-400">
             <p data-testid="text-footer-copyright">
-              © <span onClick={handleYearClick} className="cursor-pointer hover:text-white transition-colors" data-testid="text-footer-year">2025</span> Closo, Inc. All rights reserved.
+              © <span onClick={handleYearClick} className="cursor-pointer hover:text-white transition-colors" data-testid="text-footer-year">2026</span> Closo, Inc. All rights reserved.
             </p>
             <div className="flex items-center gap-2">
               <Globe className="w-4 h-4" />

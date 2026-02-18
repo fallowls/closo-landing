@@ -81,18 +81,18 @@ export default function ContactsFilter() {
   const { toast } = useToast();
 
   // Fetch filter templates
-  const { data: templatesData } = useQuery({
+  const { data: templatesData } = useQuery<any>({
     queryKey: ['/api/contacts-filter/templates'],
   });
 
   // Fetch statistics
-  const { data: statistics } = useQuery({
+  const { data: statistics } = useQuery<any>({
     queryKey: ['/api/contacts-filter/statistics'],
     refetchInterval: false,
   });
 
   // Search mutation
-  const searchMutation = useMutation({
+  const searchMutation = useMutation<any, Error, any>({
     mutationFn: async (searchQuery: any) => {
       const response = await apiRequest('POST', '/api/contacts-filter/search', searchQuery);
       return response.json();
@@ -107,7 +107,7 @@ export default function ContactsFilter() {
   });
 
   // Export mutation
-  const exportMutation = useMutation({
+  const exportMutation = useMutation<boolean, Error, any>({
     mutationFn: async (searchQuery: any) => {
       const response = await fetch('/api/contacts-filter/export', {
         method: 'POST',

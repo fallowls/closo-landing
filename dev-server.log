@@ -1,0 +1,196 @@
+
+> rest-express@1.0.0 dev
+> tsx --env-file=.env server/index.ts
+
+Using DATABASE_URL
+Using external Neon database for Duggu chatbot contacts access
+Re-optimizing dependencies because vite config has changed
+8:14:45 AM [express] serving on port 5000
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+Main database connection established successfully
+Read-only database connection for Duggu chatbot established successfully
+Database initialization completed
+Read-only database pool error: Error: Connection terminated unexpectedly
+    at Connection.<anonymous> (c:\Users\Administrator\Downloads\Closo\closo-landing\node_modules\pg\lib\client.js:136:73)
+    at Object.onceWrapper (node:events:622:28)
+    at Connection.emit (node:events:508:28)
+    at Socket.<anonymous> (c:\Users\Administrator\Downloads\Closo\closo-landing\node_modules\pg\lib\connection.js:62:12)
+    at Socket.emit (node:events:520:35)
+    at TCP.<anonymous> (node:net:346:12) {
+  client: Client {
+    _events: [Object: null prototype] { error: [Function (anonymous)] },
+    _eventsCount: 1,
+    _maxListeners: undefined,
+    connectionParameters: ConnectionParameters {
+      user: 'neondb_owner',
+      database: 'neondb',
+      port: 5432,
+      host: 'ep-autumn-mountain-adsofd3b-pooler.c-2.us-east-1.aws.neon.tech',
+      binary: false,
+      options: undefined,
+      ssl: {},
+      client_encoding: '',
+      replication: undefined,
+      isDomainSocket: false,
+      application_name: undefined,
+      fallback_application_name: undefined,
+      statement_timeout: 15000,
+      lock_timeout: false,
+      idle_in_transaction_session_timeout: false,
+      query_timeout: 15000,
+      connect_timeout: 15
+    },
+    user: 'neondb_owner',
+    database: 'neondb',
+    port: 5432,
+    host: 'ep-autumn-mountain-adsofd3b-pooler.c-2.us-east-1.aws.neon.tech',
+    replication: undefined,
+    _Promise: [Function: Promise],
+    _types: TypeOverrides { _types: [Object], text: {}, binary: {} },
+    _ending: true,
+    _ended: true,
+    _connecting: false,
+    _connected: true,
+    _connectionError: false,
+    _queryable: false,
+    enableChannelBinding: false,
+    connection: Connection {
+      _events: [Object: null prototype],
+      _eventsCount: 23,
+      _maxListeners: undefined,
+      stream: [TLSSocket],
+      _keepAlive: false,
+      _keepAliveInitialDelayMillis: 0,
+      lastBuffer: false,
+      parsedStatements: {},
+      ssl: {},
+      _ending: false,
+      _emitMessage: false,
+      _connecting: true,
+      Symbol(shapeMode): false,
+      Symbol(kCapture): false
+    },
+    queryQueue: [],
+    binary: false,
+    processID: -138025253,
+    secretKey: -1018232372,
+    ssl: {},
+    _connectionTimeoutMillis: 15000,
+    _connectionCallback: null,
+    connectionTimeoutHandle: Timeout {
+      _idleTimeout: -1,
+      _idlePrev: null,
+      _idleNext: null,
+      _idleStart: 2588,
+      _onTimeout: null,
+      _timerArgs: undefined,
+      _repeat: null,
+      _destroyed: true,
+      Symbol(refed): false,
+      Symbol(kHasPrimitive): false,
+      Symbol(asyncId): 27,
+      Symbol(triggerId): 0,
+      Symbol(kAsyncContextFrame): undefined
+    },
+    saslSession: null,
+    release: [Function (anonymous)],
+    activeQuery: null,
+    readyForQuery: true,
+    hasExecuted: true,
+    _poolUseCount: 1,
+    Symbol(shapeMode): false,
+    Symbol(kCapture): false
+  }
+}
+Main database pool error: Error: Connection terminated unexpectedly
+    at Connection.<anonymous> (c:\Users\Administrator\Downloads\Closo\closo-landing\node_modules\pg\lib\client.js:136:73)
+    at Object.onceWrapper (node:events:622:28)
+    at Connection.emit (node:events:508:28)
+    at Socket.<anonymous> (c:\Users\Administrator\Downloads\Closo\closo-landing\node_modules\pg\lib\connection.js:62:12)
+    at Socket.emit (node:events:520:35)
+    at TCP.<anonymous> (node:net:346:12) {
+  client: Client {
+    _events: [Object: null prototype] { error: [Function (anonymous)] },
+    _eventsCount: 1,
+    _maxListeners: undefined,
+    connectionParameters: ConnectionParameters {
+      user: 'neondb_owner',
+      database: 'neondb',
+      port: 5432,
+      host: 'ep-old-cell-aehqeep1-pooler.c-2.us-east-2.aws.neon.tech',
+      binary: false,
+      options: undefined,
+      ssl: {},
+      client_encoding: '',
+      replication: undefined,
+      isDomainSocket: false,
+      application_name: undefined,
+      fallback_application_name: undefined,
+      statement_timeout: 30000,
+      lock_timeout: false,
+      idle_in_transaction_session_timeout: false,
+      query_timeout: 30000,
+      connect_timeout: 20
+    },
+    user: 'neondb_owner',
+    database: 'neondb',
+    port: 5432,
+    host: 'ep-old-cell-aehqeep1-pooler.c-2.us-east-2.aws.neon.tech',
+    replication: undefined,
+    _Promise: [Function: Promise],
+    _types: TypeOverrides { _types: [Object], text: {}, binary: {} },
+    _ending: true,
+    _ended: true,
+    _connecting: false,
+    _connected: true,
+    _connectionError: false,
+    _queryable: false,
+    enableChannelBinding: false,
+    connection: Connection {
+      _events: [Object: null prototype],
+      _eventsCount: 23,
+      _maxListeners: undefined,
+      stream: [TLSSocket],
+      _keepAlive: false,
+      _keepAliveInitialDelayMillis: 0,
+      lastBuffer: false,
+      parsedStatements: {},
+      ssl: {},
+      _ending: false,
+      _emitMessage: false,
+      _connecting: true,
+      Symbol(shapeMode): false,
+      Symbol(kCapture): false
+    },
+    queryQueue: [],
+    binary: false,
+    processID: -128513077,
+    secretKey: -1396696554,
+    ssl: {},
+    _connectionTimeoutMillis: 20000,
+    _connectionCallback: null,
+    connectionTimeoutHandle: Timeout {
+      _idleTimeout: -1,
+      _idlePrev: null,
+      _idleNext: null,
+      _idleStart: 2581,
+      _onTimeout: null,
+      _timerArgs: undefined,
+      _repeat: null,
+      _destroyed: true,
+      Symbol(refed): false,
+      Symbol(kHasPrimitive): false,
+      Symbol(asyncId): 22,
+      Symbol(triggerId): 0,
+      Symbol(kAsyncContextFrame): undefined
+    },
+    saslSession: null,
+    release: [Function (anonymous)],
+    activeQuery: null,
+    readyForQuery: true,
+    hasExecuted: true,
+    _poolUseCount: 1,
+    Symbol(shapeMode): false,
+    Symbol(kCapture): false
+  }
+}

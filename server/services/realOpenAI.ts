@@ -446,6 +446,7 @@ What specific analysis would you like me to perform on your data?`;
       }
 
       // Advanced search operations - including job title searches
+      const isJobTitleSearch = /\b(manager|director|analyst|specialist|coordinator|supervisor|executive|officer|lead|head|chief|president|vice|senior|junior|assistant|ceo|cfo|cto|cmo|vp|founder|owner|partner)\b/i.test(message);
       if (message.includes('search') || message.includes('find') || isJobTitleSearch) {
         return await this.performAdvancedSearch(message);
       }
@@ -666,6 +667,7 @@ ${matchingContacts.length > 10 ? `\n*Showing first 10 of ${matchingContacts.leng
 
         // Save to basic contacts table
         await storage.createContact({
+          fullName: `${firstName} ${lastName}`.trim(),
           name: `${firstName} ${lastName}`.trim(),
           email: contactData.email,
           mobile: contactData.mobilePhone || ''
@@ -709,10 +711,10 @@ The contact has been added to your lead database. I can:
           let targetContact = null;
           
           if (emailMatch) {
-            targetContact = contacts.find(c => c.email.toLowerCase() === emailMatch[1].toLowerCase());
+            targetContact = contacts.find(c => (c.email || '').toLowerCase() === emailMatch[1].toLowerCase());
           } else if (nameMatch) {
             const searchName = nameMatch[1].toLowerCase();
-            targetContact = contacts.find(c => c.name.toLowerCase().includes(searchName));
+            targetContact = contacts.find(c => (c.name || '').toLowerCase().includes(searchName));
           }
 
           if (!targetContact) {

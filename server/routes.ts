@@ -1761,7 +1761,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const users = await db.select({
         id: schema.crmUsers.id,
-        username: schema.crmUsers.username,
+        username: schema.crmUsers.name,
         createdAt: schema.crmUsers.createdAt,
       }).from(schema.crmUsers);
 
@@ -1816,7 +1816,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         conversation = await db.insert(schema.adminUserConversations)
           .values({
             userId,
-            title: `Chat with ${user[0].username}`,
+            title: `Chat with ${user[0].name || userId}`,
             isActive: true,
           })
           .returning();
@@ -1861,7 +1861,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         .values({
           conversationId,
           senderType: 'admin',
-          senderId: req.session.userId || 'admin',
+          senderId: String(req.session.userId || 'admin'),
           messageType,
           content,
           attachmentUrl,
@@ -3036,6 +3036,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Store contact in database first
       const contact = await storage.createContact({
+        fullName: name,
         name,
         email,
         mobile,
@@ -3174,9 +3175,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (searchType === 'all' || searchType === 'contacts') {
         const contacts = await storage.getContacts();
         results.contacts = contacts.filter(contact => 
-          contact.name.toLowerCase().includes(searchQuery) ||
-          contact.email.toLowerCase().includes(searchQuery) ||
-          contact.mobile.includes(searchQuery)
+          (contact.name || '').toLowerCase().includes(searchQuery) ||
+          (contact.email || '').toLowerCase().includes(searchQuery) ||
+          (contact.mobile || '').includes(searchQuery)
         ).slice(0, limit);
       }
 
@@ -3367,9 +3368,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (searchType === 'all' || searchType === 'contacts') {
         const contacts = await storage.getContacts();
         const filteredContacts = contacts.filter(contact => 
-          contact.name.toLowerCase().includes(searchQuery) ||
-          contact.email.toLowerCase().includes(searchQuery) ||
-          contact.mobile.includes(searchQuery)
+          (contact.name || '').toLowerCase().includes(searchQuery) ||
+          (contact.email || '').toLowerCase().includes(searchQuery) ||
+          (contact.mobile || '').includes(searchQuery)
         );
 
         if (filteredContacts.length > 0) {
@@ -3517,9 +3518,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (searchType === 'all' || searchType === 'contacts') {
         const contacts = await storage.getContacts();
         const filteredContacts = contacts.filter(contact => 
-          contact.name.toLowerCase().includes(searchQuery) ||
-          contact.email.toLowerCase().includes(searchQuery) ||
-          contact.mobile.includes(searchQuery)
+          (contact.name || '').toLowerCase().includes(searchQuery) ||
+          (contact.email || '').toLowerCase().includes(searchQuery) ||
+          (contact.mobile || '').includes(searchQuery)
         );
 
         if (filteredContacts.length > 0) {
@@ -5474,7 +5475,7 @@ You have access to campaign and contact databases with 263+ records. Your missio
 
       const [updated] = await db
         .update(schema.blogTags)
-        .set({ name, slug, description, color, updatedAt: new Date() })
+        .set({ name, slug, description, color })
         .where(eq(schema.blogTags.id, parseInt(id)))
         .returning();
 
@@ -5580,10 +5581,10 @@ You have access to campaign and contact databases with 263+ records. Your missio
         .limit(1000);
 
       const [totals] = await db.select({
-        totalViews: sql<number>`COALESCE(SUM(${schema.blogAnalytics.pageViews}), 0)`,
-        totalUniqueVisitors: sql<number>`COALESCE(SUM(${schema.blogAnalytics.uniqueVisitors}), 0)`,
+        totalViews: sql<number>`COALESCE(COUNT(*), 0)`,
+        totalUniqueVisitors: sql<number>`COALESCE(COUNT(DISTINCT ${schema.blogAnalytics.sessionId}), 0)`,
         totalTimeOnPage: sql<number>`COALESCE(AVG(${schema.blogAnalytics.timeOnPage}), 0)`,
-        avgBounceRate: sql<number>`COALESCE(AVG(${schema.blogAnalytics.bounceRate}), 0)`
+        avgBounceRate: sql<number>`0`
       }).from(schema.blogAnalytics).where(conditions.length > 0 ? and(...conditions) : undefined);
 
       res.json({

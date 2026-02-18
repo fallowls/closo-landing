@@ -3,6 +3,7 @@ import path from 'path';
 import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { Readable } from 'stream';
+import { pipeline } from 'stream/promises';
 
 export interface FileStorageConfig {
   type: 'local' | 's3';
@@ -78,6 +79,13 @@ export class FileStorageService {
       return this.deleteFromS3(fileKey);
     }
     return this.deleteLocally(fileKey);
+  }
+
+  async storeFile(fileKey: string, stream: Readable, mimetype: string): Promise<StoredFile> {
+    if (this.config.type === 's3') {
+      return this.storeStreamToS3(fileKey, stream, mimetype);
+    }
+    return this.storeStreamLocally(fileKey, stream);
   }
 
   async fileExists(fileKey: string): Promise<boolean> {
@@ -216,6 +224,40 @@ export class FileStorageService {
     const uploadDir = this.config.localConfig?.uploadDir || 'uploads';
     const filePath = path.join(uploadDir, fileKey);
     return fs.existsSync(filePath);
+  }
+
+  private async storeStreamToS3(fileKey: string, stream: Readable, mimetype: string): Promise<StoredFile> {
+    if (!this.s3Client || !this.config.s3Config) {
+      throw new Error('S3 client not configured');
+    }
+
+    const command = new PutObjectCommand({
+      Bucket: this.config.s3Config.bucket,
+      Key: fileKey,
+      Body: stream,
+      ContentType: mimetype || 'application/octet-stream',
+    });
+
+    await this.s3Client.send(command);
+
+    return {
+      path: `s3://${this.config.s3Config.bucket}/${fileKey}`,
+      key: fileKey,
+    };
+  }
+
+  private async storeStreamLocally(fileKey: string, stream: Readable): Promise<StoredFile> {
+    const uploadDir = this.config.localConfig?.uploadDir || 'uploads';
+    const finalPath = path.join(uploadDir, fileKey);
+
+    fs.mkdirSync(path.dirname(finalPath), { recursive: true });
+    const writeStream = fs.createWriteStream(finalPath);
+    await pipeline(stream, writeStream);
+
+    return {
+      path: finalPath,
+      key: fileKey,
+    };
   }
 
   getStorageType(): 'local' | 's3' {
